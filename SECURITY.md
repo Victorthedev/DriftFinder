@@ -11,7 +11,7 @@
 **Do not open a public GitHub issue for security vulnerabilities.**
 
 Report vulnerabilities via GitHub's private security disclosure:
-[Security Advisories](https://github.com/wikiwoo/driftfinder/security/advisories/new)
+[Security Advisories](https://github.com/Victorthedev/driftfinder/security/advisories/new)
 
 Or email: ubahakweemeka@gmail.com with subject `[SECURITY] DriftFinder`.
 

@@ -61,10 +61,10 @@ ai = [
 driftfinder = "driftfinder.cli.main:cli"
 
 [project.urls]
-Homepage = "https://github.com/wikiwoo/driftfinder"
-Repository = "https://github.com/wikiwoo/driftfinder"
-Issues = "https://github.com/wikiwoo/driftfinder/issues"
-Changelog = "https://github.com/wikiwoo/driftfinder/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/Victorthedev/driftfinder"
+Repository = "https://github.com/Victorthedev/driftfinder"
+Issues = "https://github.com/Victorthedev/driftfinder/issues"
+Changelog = "https://github.com/Victorthedev/driftfinder/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/driftfinder"]

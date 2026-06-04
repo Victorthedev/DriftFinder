@@ -3,7 +3,7 @@
 ## Development setup
 
 ```bash
-git clone https://github.com/wikiwoo/driftfinder
+git clone https://github.com/Victorthedev/driftfinder
 cd driftfinder
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
