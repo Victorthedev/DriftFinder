@@ -1,0 +1,103 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "driftfinder"
+version = "1.0.0"
+description = "Open source IaC compliance drift detection for AWS"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Emeka Victor Ubahakwe" }
+]
+keywords = [
+  "iac", "drift-detection", "aws", "terraform",
+  "cloudformation", "pulumi", "compliance", "cis", "devsecops",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Security",
+  "Topic :: System :: Systems Administration",
+]
+requires-python = ">=3.11"
+dependencies = [
+  "click>=8.1.0",
+  "pydantic>=2.5.0",
+  "boto3>=1.34.0",
+  "botocore>=1.34.0",
+  "PyYAML>=6.0.0",
+  "Jinja2>=3.1.0",
+  "tenacity>=8.2.0",
+  "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4.0",
+  "pytest-cov>=4.1.0",
+  "pytest-asyncio>=0.23.0",
+  "moto[s3,ec2,iam,rds,kms,cloudtrail]>=4.2.0",
+  "ruff>=0.1.0",
+  "black>=23.0.0",
+  "isort>=5.12.0",
+  "mypy>=1.7.0",
+  "pip-audit>=2.6.0",
+  "boto3-stubs[s3,ec2,iam,rds,kms,cloudtrail,cloudformation]>=1.34.0",
+]
+ai = [
+  "anthropic>=0.18.0",
+  "openai>=1.0.0",
+]
+
+[project.scripts]
+driftfinder = "driftfinder.cli.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/wikiwoo/driftfinder"
+Repository = "https://github.com/wikiwoo/driftfinder"
+Issues = "https://github.com/wikiwoo/driftfinder/issues"
+Changelog = "https://github.com/wikiwoo/driftfinder/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/driftfinder"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+markers = [
+  "localstack: marks tests requiring LocalStack (deselect with -m 'not localstack')",
+  "slow: marks slow-running tests",
+]
+
+[tool.coverage.run]
+source = ["src/driftfinder"]
+omit = ["*/tests/*", "*/fixtures/*"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "T20"]
+ignore = ["S101"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
