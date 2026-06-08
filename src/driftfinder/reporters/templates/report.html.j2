@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DriftFinder — IaC Drift Report</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f4f6f9;
+      color: #1a202c;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    header {
+      background: #1a202c;
+      color: #fff;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .brand { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    header .brand span { color: #63b3ed; }
+    header .meta { font-size: 12px; color: #a0aec0; text-align: right; }
+    header .meta strong { color: #e2e8f0; display: block; font-size: 13px; margin-bottom: 2px; }
+
+    main { max-width: 1200px; margin: 0 auto; padding: 28px 24px 48px; }
+
+    .status-banner {
+      border-radius: 8px;
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .status-banner.compliant     { background: #c6f6d5; color: #22543d; border: 1px solid #9ae6b4; }
+    .status-banner.non-compliant { background: #fed7d7; color: #742a2a; border: 1px solid #fc8181; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 16px 20px;
+      border: 1px solid #e2e8f0;
+    }
+    .card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: #718096; font-weight: 600; }
+    .card .value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+    .card.critical .value { color: #c53030; }
+    .card.high     .value { color: #c05621; }
+    .card.medium   .value { color: #b7791f; }
+    .card.low      .value { color: #718096; }
+    .card.total    .value { color: #2d3748; }
+    .card.scanned  .value { color: #2b6cb0; }
+    .card.drift    .value { color: #553c9a; }
+    .card.duration .value { font-size: 20px; color: #4a5568; }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .table-wrap { overflow-x: auto; margin-bottom: 32px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
+    thead { background: #2d3748; color: #e2e8f0; }
+    thead th { padding: 10px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid #edf2f7; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f7fafc; }
+    td { padding: 9px 14px; vertical-align: top; font-size: 13px; }
+    td.mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 12px; }
+    td.property { color: #4a5568; }
+    td.value-cell { max-width: 180px; word-break: break-all; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge-CRITICAL { background: #fed7d7; color: #9b2c2c; }
+    .badge-HIGH     { background: #feebc8; color: #7b341e; }
+    .badge-MEDIUM   { background: #fefcbf; color: #744210; }
+    .badge-LOW      { background: #e2e8f0; color: #4a5568; }
+
+    .drift-type {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .drift-MODIFIED  { background: #ebf8ff; color: #2b6cb0; }
+    .drift-DELETED   { background: #fff5f5; color: #c53030; }
+    .drift-UNMANAGED { background: #f0fff4; color: #276749; }
+
+    .cis { font-size: 11px; color: #553c9a; background: #faf5ff; border: 1px solid #d6bcfa; border-radius: 4px; padding: 1px 6px; white-space: nowrap; }
+
+    .empty { text-align: center; padding: 40px 20px; color: #718096; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .empty .check { font-size: 40px; margin-bottom: 8px; }
+
+    .scan-meta { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px 20px; margin-bottom: 28px; }
+    .scan-meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; }
+    .scan-meta dt { color: #718096; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+    .scan-meta dd { color: #2d3748; font-size: 13px; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #a0aec0;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 16px;
+    }
+    footer a { color: #63b3ed; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Drift<span>Finder</span></div>
+  <div class="meta">
+    <strong>IaC Drift Report</strong>
+    Generated {{ result.scan_timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') }}
+  </div>
+</header>
+
+<main>
+
+  {% if result.compliant %}
+  <div class="status-banner compliant">
+    &#10003; All resources are compliant — no drift detected.
+  </div>
+  {% else %}
+  <div class="status-banner non-compliant">
+    &#9888; Drift detected across {{ result.resources_with_drift }} resource(s). Review the findings below.
+  </div>
+  {% endif %}
+
+  <div class="summary-grid">
+    <div class="card scanned">
+      <div class="label">Resources scanned</div>
+      <div class="value">{{ result.resources_scanned }}</div>
+    </div>
+    <div class="card drift">
+      <div class="label">Resources with drift</div>
+      <div class="value">{{ result.resources_with_drift }}</div>
+    </div>
+    <div class="card total">
+      <div class="label">Total findings</div>
+      <div class="value">{{ result.findings | length }}</div>
+    </div>
+    <div class="card critical">
+      <div class="label">Critical</div>
+      <div class="value">{{ result.critical_count }}</div>
+    </div>
+    <div class="card high">
+      <div class="label">High</div>
+      <div class="value">{{ result.high_count }}</div>
+    </div>
+    <div class="card medium">
+      <div class="label">Medium</div>
+      <div class="value">{{ result.medium_count }}</div>
+    </div>
+    <div class="card low">
+      <div class="label">Low</div>
+      <div class="value">{{ result.low_count }}</div>
+    </div>
+    <div class="card duration">
+      <div class="label">Scan duration</div>
+      <div class="value">{{ result.scan_duration_seconds }}s</div>
+    </div>
+  </div>
+
+  <h2>Scan Details</h2>
+  <div class="scan-meta">
+    <dl>
+      <dt>IaC tool</dt>
+      <dd>{{ result.iac_tool }}</dd>
+      <dt>State source</dt>
+      <dd>{{ result.state_source }}</dd>
+      <dt>Scan timestamp</dt>
+      <dd>{{ result.scan_timestamp.strftime('%Y-%m-%dT%H:%M:%SZ') }}</dd>
+      <dt>Benchmark</dt>
+      <dd>CIS AWS Foundations Benchmark v3.0</dd>
+    </dl>
+  </div>
+
+  <h2>Findings</h2>
+
+  {% if result.findings %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Severity</th>
+          <th>Resource type</th>
+          <th>Resource ID</th>
+          <th>Property</th>
+          <th>Declared value</th>
+          <th>Actual value</th>
+          <th>Drift type</th>
+          <th>CIS control</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for f in result.findings | sort(attribute='severity') %}
+        <tr>
+          <td><span class="badge badge-{{ f.severity }}">{{ f.severity }}</span></td>
+          <td class="mono">{{ f.resource_type }}</td>
+          <td class="mono">{{ f.resource_id }}</td>
+          <td class="mono property">{{ f.property_path }}</td>
+          <td class="mono value-cell">{{ f.declared_value }}</td>
+          <td class="mono value-cell">{{ f.actual_value }}</td>
+          <td><span class="drift-type drift-{{ f.drift_type }}">{{ f.drift_type }}</span></td>
+          <td>
+            {% for cid in f.cis_controls %}
+            <span class="cis">{{ cid }}</span>
+            {% endfor %}
+          </td>
+          <td>{{ f.cis_description or '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty">
+    <div class="check">&#10003;</div>
+    <p>No drift findings. All declared properties match live AWS state.</p>
+  </div>
+  {% endif %}
+
+</main>
+
+<footer>
+  DriftFinder v{{ version }} &mdash; Apache 2.0 licence &mdash;
+  <a href="https://github.com/Victorthedev/driftfinder" target="_blank">github.com/Victorthedev/driftfinder</a>
+</footer>
+
+</body>
+</html>
