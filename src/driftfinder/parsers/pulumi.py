@@ -1,18 +1,19 @@
 import json
 import logging
-from typing import Any, Iterator
+from collections.abc import Iterator
+from typing import Any
 
 from driftfinder.models.enums import EncryptionAlgorithm, IaCTool
 from driftfinder.models.nrm import (
+    NRMVPC,
     NRMCloudTrail,
     NRMEBSVolume,
     NRMIAMPolicy,
     NRMKMSKey,
     NRMRDSInstance,
     NRMResource,
-    NRMSecurityGroup,
     NRMS3Bucket,
-    NRMVPC,
+    NRMSecurityGroup,
 )
 from driftfinder.parsers.base import (
     BaseParser,
@@ -75,9 +76,7 @@ class PulumiParser(BaseParser):
         yield from self._parse_vpcs(managed, flow_log_vpcs)
         yield from self._parse_kms_keys(managed)
 
-
     # S3
-
 
     def _parse_s3_buckets(self, resources: list[dict]) -> Iterator[NRMS3Bucket]:  # type: ignore[type-arg]
         for resource in resources:
@@ -95,11 +94,7 @@ class PulumiParser(BaseParser):
             if sse_config is not None:
                 rules = sse_config.get("rules") or []
                 if rules:
-                    alg = (
-                        rules[0]
-                        .get("applyServerSideEncryptionByDefault", {})
-                        .get("sseAlgorithm")
-                    )
+                    alg = rules[0].get("applyServerSideEncryptionByDefault", {}).get("sseAlgorithm")
                     sse_enabled = bool(alg)
                     enc_alg = _parse_enc_algorithm(alg)
                 else:
@@ -139,9 +134,7 @@ class PulumiParser(BaseParser):
                 ssl_requests_only=ssl_only,
             )
 
-
     # Security Groups
-
 
     def _parse_security_groups(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -168,9 +161,7 @@ class PulumiParser(BaseParser):
                 unrestricted_all_traffic_egress=_pulumi_unrestricted_all(egress),
             )
 
-
     # IAM Policies
-
 
     def _parse_iam_policies(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -209,9 +200,7 @@ class PulumiParser(BaseParser):
                 policy_document_hash=analysis["policy_document_hash"],
             )
 
-
     # RDS
-
 
     def _parse_rds_instances(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -238,9 +227,7 @@ class PulumiParser(BaseParser):
                 auto_minor_version_upgrade=_opt_bool(outputs, "autoMinorVersionUpgrade"),
             )
 
-
     # EBS Volumes
-
 
     def _parse_ebs_volumes(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -261,9 +248,7 @@ class PulumiParser(BaseParser):
                 encrypted=_opt_bool(outputs, "encrypted"),
             )
 
-
     # CloudTrail
-
 
     def _parse_cloudtrails(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -289,9 +274,7 @@ class PulumiParser(BaseParser):
                 kms_encryption_enabled=bool(kms_id) if kms_id else None,
             )
 
-
     # VPC
-
 
     def _parse_vpcs(
         self,
@@ -316,9 +299,7 @@ class PulumiParser(BaseParser):
                 flow_logs_enabled=flow_enabled,
             )
 
-
     # KMS Keys
-
 
     def _parse_kms_keys(
         self, resources: list[dict]  # type: ignore[type-arg]

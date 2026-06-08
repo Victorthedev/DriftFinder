@@ -55,9 +55,7 @@ class EBSQuerier(BaseResourceQuerier):
 
     @aws_retry()
     def _get_snapshot_encrypted(self, volume_id: str) -> bool | None:
-        resp = self._ec2.describe_snapshots(
-            Filters=[{"Name": "volume-id", "Values": [volume_id]}]
-        )
+        resp = self._ec2.describe_snapshots(Filters=[{"Name": "volume-id", "Values": [volume_id]}])
         snapshots = resp.get("Snapshots", [])
         if not snapshots:
             return None

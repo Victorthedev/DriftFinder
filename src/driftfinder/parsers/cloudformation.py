@@ -1,26 +1,26 @@
 import json
 import logging
-from typing import Any, Iterator
+from collections.abc import Iterator
+from typing import Any
 
 import boto3
 import yaml
 
 from driftfinder.models.enums import EncryptionAlgorithm, IaCTool
 from driftfinder.models.nrm import (
+    NRMVPC,
     NRMCloudTrail,
     NRMEBSVolume,
     NRMIAMPolicy,
     NRMKMSKey,
     NRMRDSInstance,
     NRMResource,
-    NRMSecurityGroup,
     NRMS3Bucket,
-    NRMVPC,
+    NRMSecurityGroup,
 )
 from driftfinder.parsers.base import (
     BaseParser,
     analyze_iam_policy_document,
-    has_ssl_only_policy,
 )
 
 logger = logging.getLogger(__name__)
@@ -60,7 +60,7 @@ class CloudFormationParser(BaseParser):
                 sts = session.client("sts")
                 self.account_id = sts.get_caller_identity()["Account"]
             except Exception:
-                pass
+                logger.debug("Could not auto-detect account_id via STS", exc_info=True)
 
     def supports_resource_type(self, resource_type: str) -> bool:
         return resource_type in _CF_TYPE_MAP
@@ -89,9 +89,7 @@ class CloudFormationParser(BaseParser):
                 yield nrm
 
     def _get_template(self, stack_name: str) -> dict:  # type: ignore[type-arg]
-        response = self._cfn.get_template(
-            StackName=stack_name, TemplateStage="Original"
-        )
+        response = self._cfn.get_template(StackName=stack_name, TemplateStage="Original")
         body = response["TemplateBody"]
         if isinstance(body, str):
             # Handle both JSON and YAML templates
@@ -103,10 +101,7 @@ class CloudFormationParser(BaseParser):
 
     def _get_physical_ids(self, stack_name: str) -> dict[str, str]:
         response = self._cfn.describe_stack_resources(StackName=stack_name)
-        return {
-            r["LogicalResourceId"]: r["PhysicalResourceId"]
-            for r in response["StackResources"]
-        }
+        return {r["LogicalResourceId"]: r["PhysicalResourceId"] for r in response["StackResources"]}
 
     def _build_nrm(
         self,
@@ -130,9 +125,7 @@ class CloudFormationParser(BaseParser):
             return None
         return builder(logical_id, physical_id, props)  # type: ignore[operator]
 
-
     # Per-type builders
-
 
     def _build_s3(
         self, logical_id: str, physical_id: str, props: dict  # type: ignore[type-arg]
@@ -145,11 +138,7 @@ class CloudFormationParser(BaseParser):
 
         if rules:
             sse_enabled = True
-            alg = (
-                rules[0]
-                .get("ServerSideEncryptionByDefault", {})
-                .get("SSEAlgorithm")
-            )
+            alg = rules[0].get("ServerSideEncryptionByDefault", {}).get("SSEAlgorithm")
             enc_alg = _parse_enc_algorithm(alg)
         elif "BucketEncryption" in props:
             sse_enabled = False
@@ -167,7 +156,12 @@ class CloudFormationParser(BaseParser):
             block_public_policy = bool(pab.get("BlockPublicPolicy"))
             restrict_public_buckets = bool(pab.get("RestrictPublicBuckets"))
             pab_enabled = all(
-                [block_public_acls, ignore_public_acls, block_public_policy, restrict_public_buckets]
+                [
+                    block_public_acls,
+                    ignore_public_acls,
+                    block_public_policy,
+                    restrict_public_buckets,
+                ]
             )
 
         versioning_config = props.get("VersioningConfiguration", {})

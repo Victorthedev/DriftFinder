@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, computed_field
 
@@ -14,18 +14,18 @@ class DriftFinding(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    resource_type: str            # s  — NRM class name e.g. "NRMS3Bucket"
-    resource_id: str              # s  — AWS resource identifier
-    resource_name: str            # s  — human-readable name
-    iac_tool: str                 # terraform | cloudformation | pulumi
-    property_path: str            # p  — NRM property name
-    declared_value: Any           # D(s)[p] — value in IaC state
-    actual_value: Any             # A(s)[p] — value observed in AWS
-    drift_type: DriftType         # τ  — MODIFIED | DELETED | UNMANAGED
-    severity: Severity            # σ  — CRITICAL | HIGH | MEDIUM | LOW
-    cis_controls: list[str]       # C  — CIS control IDs e.g. ["2.1.1"]
-    cis_description: Optional[str] = None
-    detected_at: Optional[datetime] = None
+    resource_type: str  # s  — NRM class name e.g. "NRMS3Bucket"
+    resource_id: str  # s  — AWS resource identifier
+    resource_name: str  # s  — human-readable name
+    iac_tool: str  # terraform | cloudformation | pulumi
+    property_path: str  # p  — NRM property name
+    declared_value: Any  # D(s)[p] — value in IaC state
+    actual_value: Any  # A(s)[p] — value observed in AWS
+    drift_type: DriftType  # τ  — MODIFIED | DELETED | UNMANAGED
+    severity: Severity  # σ  — CRITICAL | HIGH | MEDIUM | LOW
+    cis_controls: list[str]  # C  — CIS control IDs e.g. ["2.1.1"]
+    cis_description: str | None = None
+    detected_at: datetime | None = None
 
 
 class ScanResult(BaseModel):

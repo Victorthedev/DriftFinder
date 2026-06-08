@@ -11,7 +11,6 @@ class CISControl(NamedTuple):
 
 # Key format: "ResourceType.property_name"
 CIS_MAPPINGS: dict[str, CISControl] = {
-
     # S3 Bucket
     "NRMS3Bucket.server_side_encryption_enabled": CISControl(
         "2.1.1",
@@ -68,7 +67,6 @@ CIS_MAPPINGS: dict[str, CISControl] = {
         "Ensure S3 bucket policy requires SSL",
         Severity.HIGH,
     ),
-
     # Security Group
     "NRMSecurityGroup.unrestricted_ssh_ingress": CISControl(
         "5.2",
@@ -85,7 +83,6 @@ CIS_MAPPINGS: dict[str, CISControl] = {
         "Ensure no security groups allow unrestricted access",
         Severity.CRITICAL,
     ),
-
     # IAM Policy
     "NRMIAMPolicy.has_wildcard_action": CISControl(
         "1.16",
@@ -102,7 +99,6 @@ CIS_MAPPINGS: dict[str, CISControl] = {
         "Ensure IAM policies that allow full administrative privileges are not attached",
         Severity.HIGH,
     ),
-
     # RDS Instance
     "NRMRDSInstance.storage_encrypted": CISControl(
         "2.3.1",
@@ -119,14 +115,12 @@ CIS_MAPPINGS: dict[str, CISControl] = {
         "Ensure that RDS clusters have backup enabled",
         Severity.MEDIUM,
     ),
-
     # EBS Volume
     "NRMEBSVolume.encrypted": CISControl(
         "2.2.1",
         "Ensure EBS Volume Encryption is Enabled in all Regions",
         Severity.CRITICAL,
     ),
-
     # CloudTrail
     "NRMCloudTrail.multi_region_enabled": CISControl(
         "3.1",
@@ -153,7 +147,6 @@ CIS_MAPPINGS: dict[str, CISControl] = {
         "Ensure CloudTrail is actively logging",
         Severity.CRITICAL,
     ),
-
     # VPC
     "NRMVPC.flow_logs_enabled": CISControl(
         "5.1",
@@ -165,7 +158,6 @@ CIS_MAPPINGS: dict[str, CISControl] = {
         "Ensure the default security group of every VPC restricts all traffic",
         Severity.CRITICAL,
     ),
-
     # KMS Key
     "NRMKMSKey.key_rotation_enabled": CISControl(
         "3.7",

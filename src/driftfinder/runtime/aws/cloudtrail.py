@@ -43,8 +43,10 @@ class CloudTrailQuerier(BaseResourceQuerier):
         cloudwatch_enabled = bool(trail.get("CloudWatchLogsLogGroupArn"))
         kms_enabled = bool(trail.get("KMSKeyId"))
 
-        # S3 bucket logging: the trail records events to an S3 bucket by definition;
-        # "S3 bucket logging" here means the S3 bucket used by the trail has its own access logging turned on. That requires a separate S3 API call which is out of scope for Phase 1, I will come back to it None (absent from IaC, not False).
+        # S3 bucket logging: the trail records events to an S3 bucket by definition.
+        # "S3 bucket logging" here means the S3 bucket used by the trail has its own
+        # access logging turned on. That requires a separate S3 API call which is out
+        # of scope for Phase 1 — left None (absent from IaC, not False).
         s3_bucket_logging: bool | None = None
 
         return NRMCloudTrail(

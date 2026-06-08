@@ -1,19 +1,18 @@
 import logging
-from typing import Optional
 
 import boto3
 from botocore.config import Config
 
 from driftfinder.models.nrm import (
+    NRMVPC,
     NRMCloudTrail,
     NRMEBSVolume,
     NRMIAMPolicy,
     NRMKMSKey,
     NRMRDSInstance,
     NRMResource,
-    NRMSecurityGroup,
     NRMS3Bucket,
-    NRMVPC,
+    NRMSecurityGroup,
 )
 from driftfinder.runtime.aws.cloudtrail import CloudTrailQuerier
 from driftfinder.runtime.aws.ebs import EBSQuerier
@@ -36,7 +35,7 @@ _BOTO_CONFIG = Config(
 
 
 def create_session(
-    profile: Optional[str] = None,
+    profile: str | None = None,
     region: str = "eu-west-2",
 ) -> boto3.Session:
     return boto3.Session(profile_name=profile, region_name=region)
@@ -51,7 +50,7 @@ class AWSRuntimeQuerier:
     def __init__(
         self,
         region: str = "eu-west-2",
-        profile: Optional[str] = None,
+        profile: str | None = None,
         account_id: str = "",
     ) -> None:
         self.region = region
@@ -66,7 +65,7 @@ class AWSRuntimeQuerier:
             except Exception as exc:
                 logger.warning("Could not determine AWS account ID: %s", exc)
 
-        querier_args = dict(session=self._session, region=region, account_id=self.account_id)
+        querier_args = {"session": self._session, "region": region, "account_id": self.account_id}
 
         self._queriers: dict[type, BaseResourceQuerier] = {
             NRMS3Bucket: S3Querier(**querier_args),

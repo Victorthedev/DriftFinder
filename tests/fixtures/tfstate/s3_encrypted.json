@@ -1,0 +1,42 @@
+{
+  "version": 4,
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "example",
+      "instances": [
+        {
+          "attributes": {
+            "id": "test-encrypted-bucket",
+            "bucket": "test-encrypted-bucket",
+            "region": "eu-west-2"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_server_side_encryption_configuration",
+      "name": "example",
+      "instances": [
+        {
+          "attributes": {
+            "bucket": "test-encrypted-bucket",
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "sse_algorithm": "AES256",
+                    "kms_master_key_id": ""
+                  }
+                ],
+                "bucket_key_enabled": false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

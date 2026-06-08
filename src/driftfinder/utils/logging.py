@@ -11,9 +11,7 @@ def configure_logging(verbose: bool = False) -> None:
 
     handler = logging.StreamHandler(sys.stderr)
     handler.setLevel(level)
-    handler.setFormatter(
-        logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
-    )
+    handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s"))
 
     root = logging.getLogger("driftfinder")
     root.setLevel(level)

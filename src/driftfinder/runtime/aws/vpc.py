@@ -52,9 +52,7 @@ class VPCQuerier(BaseResourceQuerier):
 
     @aws_retry()
     def _get_flow_logs_enabled(self, vpc_id: str) -> bool:
-        resp = self._ec2.describe_flow_logs(
-            Filters=[{"Name": "resource-id", "Values": [vpc_id]}]
-        )
+        resp = self._ec2.describe_flow_logs(Filters=[{"Name": "resource-id", "Values": [vpc_id]}])
         logs = resp.get("FlowLogs", [])
         return any(fl.get("FlowLogStatus") == "ACTIVE" for fl in logs)
 
@@ -76,9 +74,7 @@ class VPCQuerier(BaseResourceQuerier):
 
     @aws_retry()
     def _get_nacl_unrestricted_ingress(self, vpc_id: str) -> bool:
-        resp = self._ec2.describe_network_acls(
-            Filters=[{"Name": "vpc-id", "Values": [vpc_id]}]
-        )
+        resp = self._ec2.describe_network_acls(Filters=[{"Name": "vpc-id", "Values": [vpc_id]}])
         for nacl in resp.get("NetworkAcls", []):
             for entry in nacl.get("Entries", []):
                 if entry.get("Egress"):

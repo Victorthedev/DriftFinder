@@ -1,6 +1,6 @@
 import logging
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from driftfinder.core.config import DriftFinderConfig
 from driftfinder.mappers.cis_mapper import CISMapper
@@ -36,9 +36,7 @@ class DriftFinderEngine:
         )
         self.cis_mapper = CISMapper()
 
-
     # Public API
-
 
     def scan(self) -> ScanResult:
         start = time.monotonic()
@@ -55,14 +53,18 @@ class DriftFinderEngine:
             try:
                 actual = self.runtime.query(declared)
             except ResourceNotFoundError as exc:
-                logger.warning("Resource not found in AWS: %s/%s", exc.resource_type, exc.resource_id)
+                logger.warning(
+                    "Resource not found in AWS: %s/%s", exc.resource_type, exc.resource_id
+                )
                 findings.append(self._deleted_resource_finding(declared))
                 resources_with_drift.add(declared.resource_id)
                 continue
             except Exception as exc:
                 logger.error(
                     "Unexpected error querying %s %s: %s",
-                    type(declared).__name__, declared.resource_id, exc,
+                    type(declared).__name__,
+                    declared.resource_id,
+                    exc,
                 )
                 continue
 
@@ -74,12 +76,14 @@ class DriftFinderEngine:
         duration = time.monotonic() - start
         logger.info(
             "Scan complete: %d resources, %d findings, %.2fs",
-            len(declared_resources), len(findings), duration,
+            len(declared_resources),
+            len(findings),
+            duration,
         )
 
         return ScanResult(
             findings=findings,
-            scan_timestamp=datetime.now(tz=timezone.utc),
+            scan_timestamp=datetime.now(tz=UTC),
             iac_tool=self.config.iac_tool.value,
             state_source=source,
             resources_scanned=len(declared_resources),
@@ -88,13 +92,9 @@ class DriftFinderEngine:
             scan_duration_seconds=round(duration, 3),
         )
 
-
     # Internal helpers
 
-
-    def _detect_drift(
-        self, declared: NRMResource, actual: NRMResource
-    ) -> list[DriftFinding]:
+    def _detect_drift(self, declared: NRMResource, actual: NRMResource) -> list[DriftFinding]:
         """
         Property-by-property comparison implementing:
             Drift(s) = { p in P(s) | D(s)[p] != A(s)[p] }
@@ -123,9 +123,11 @@ class DriftFinderEngine:
                     resource_type=resource_type,
                     resource_id=declared.resource_id,
                     resource_name=declared.resource_name,
-                    iac_tool=declared.iac_tool.value
-                    if hasattr(declared.iac_tool, "value")
-                    else str(declared.iac_tool),
+                    iac_tool=(
+                        declared.iac_tool.value
+                        if hasattr(declared.iac_tool, "value")
+                        else str(declared.iac_tool)
+                    ),
                     property_path=field_name,
                     declared_value=declared_value,
                     actual_value=actual_value,
@@ -133,7 +135,7 @@ class DriftFinderEngine:
                     severity=cis.severity if cis else Severity.LOW,
                     cis_controls=[cis.control_id] if cis else [],
                     cis_description=cis.description if cis else None,
-                    detected_at=datetime.now(tz=timezone.utc),
+                    detected_at=datetime.now(tz=UTC),
                 )
             )
 
@@ -146,9 +148,11 @@ class DriftFinderEngine:
             resource_type=resource_type,
             resource_id=declared.resource_id,
             resource_name=declared.resource_name,
-            iac_tool=declared.iac_tool.value
-            if hasattr(declared.iac_tool, "value")
-            else str(declared.iac_tool),
+            iac_tool=(
+                declared.iac_tool.value
+                if hasattr(declared.iac_tool, "value")
+                else str(declared.iac_tool)
+            ),
             property_path="*",
             declared_value="<exists>",
             actual_value=None,
@@ -156,7 +160,7 @@ class DriftFinderEngine:
             severity=Severity.CRITICAL,
             cis_controls=[],
             cis_description="Resource declared in IaC no longer exists in AWS",
-            detected_at=datetime.now(tz=timezone.utc),
+            detected_at=datetime.now(tz=UTC),
         )
 
     @staticmethod

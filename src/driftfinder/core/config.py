@@ -1,5 +1,3 @@
-from typing import Optional
-
 import yaml
 from pydantic import BaseModel, model_validator
 
@@ -11,17 +9,17 @@ CONFIG_FILE_NAME = ".driftfinder.yml"
 class DriftFinderConfig(BaseModel):
     # Required
     iac_tool: IaCTool
-    aws_profile: Optional[str] = None
+    aws_profile: str | None = None
     aws_region: str = "eu-west-2"
 
     # IaC source — exactly one must be set per iac_tool
-    state_file: Optional[str] = None     # Terraform: local path or s3://...
-    stack_name: Optional[str] = None     # CloudFormation: stack name
-    pulumi_stack: Optional[str] = None   # Pulumi: stack export JSON path
+    state_file: str | None = None  # Terraform: local path or s3://...
+    stack_name: str | None = None  # CloudFormation: stack name
+    pulumi_stack: str | None = None  # Pulumi: stack export JSON path
 
     # Scan options
     output_format: OutputFormat = OutputFormat.BOTH
-    output_path: Optional[str] = None
+    output_path: str | None = None
     fail_on: FailOn = FailOn.CRITICAL
     mode: ScanMode = ScanMode.DEFAULT
 

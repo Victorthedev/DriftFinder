@@ -1,0 +1,19 @@
+{
+  "version": 4,
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "example",
+      "instances": [
+        {
+          "attributes": {
+            "id": "test-plain-bucket",
+            "bucket": "test-plain-bucket",
+            "region": "eu-west-2"
+          }
+        }
+      ]
+    }
+  ]
+}

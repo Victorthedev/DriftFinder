@@ -80,9 +80,7 @@ class IAMQuerier(BaseResourceQuerier):
             resp = self._iam.get_role_policy(RoleName=role_name, PolicyName=policy_name)
         except ClientError as exc:
             if exc.response["Error"]["Code"] == "NoSuchEntity":
-                raise ResourceNotFoundError(
-                    "NRMIAMPolicy", f"{role_name}:{policy_name}"
-                ) from exc
+                raise ResourceNotFoundError("NRMIAMPolicy", f"{role_name}:{policy_name}") from exc
             raise
 
         policy_doc = resp["PolicyDocument"]

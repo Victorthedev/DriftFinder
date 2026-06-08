@@ -22,7 +22,7 @@ class CISMapper:
         """Return all mappings for a given resource type keyed by field name."""
         prefix = f"{resource_type}."
         return {
-            key[len(prefix):]: control
+            key[len(prefix) :]: control
             for key, control in CIS_MAPPINGS.items()
             if key.startswith(prefix)
         }

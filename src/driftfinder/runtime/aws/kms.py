@@ -36,7 +36,8 @@ class KMSQuerier(BaseResourceQuerier):
         key_enabled = key_state == "Enabled"
         key_spec = meta.get("KeySpec", "")
 
-        # Rotation is only meaningful for symmetric CMKs; left None for asymmetric keys so the engine does not flag false drift on key types that cannot rotate.
+        # Rotation is only meaningful for symmetric CMKs; left None for asymmetric keys
+        # so the engine does not flag false drift on key types that cannot rotate.
         rotation_enabled: bool | None = None
         if key_spec == _SYMMETRIC_KEY_SPEC:
             rotation_enabled = self._get_rotation_enabled(declared.resource_id)
@@ -60,7 +61,10 @@ class KMSQuerier(BaseResourceQuerier):
             resp = self._kms.get_key_rotation_status(KeyId=key_id)
             return bool(resp.get("KeyRotationEnabled"))
         except ClientError as exc:
-            if exc.response["Error"]["Code"] in ("NotFoundException", "UnsupportedOperationException"):
+            if exc.response["Error"]["Code"] in (
+                "NotFoundException",
+                "UnsupportedOperationException",
+            ):
                 return None
             raise
 
@@ -84,6 +88,8 @@ class KMSQuerier(BaseResourceQuerier):
                 return True
             if isinstance(principal, dict):
                 aws_principal = principal.get("AWS", "")
-                if aws_principal == "*" or (isinstance(aws_principal, list) and "*" in aws_principal):
+                if aws_principal == "*" or (
+                    isinstance(aws_principal, list) and "*" in aws_principal
+                ):
                     return True
         return False

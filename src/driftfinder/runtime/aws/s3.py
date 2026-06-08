@@ -1,4 +1,3 @@
-import json
 import logging
 
 from botocore.exceptions import ClientError
@@ -32,10 +31,23 @@ class S3Querier(BaseResourceQuerier):
             self._get_public_access_block(bucket)
         )
         pab_enabled: bool | None = None
-        if any(v is not None for v in [block_public_acls, ignore_public_acls,
-                                        block_public_policy, restrict_public_buckets]):
-            pab_enabled = all([block_public_acls, ignore_public_acls,
-                               block_public_policy, restrict_public_buckets])
+        if any(
+            v is not None
+            for v in [
+                block_public_acls,
+                ignore_public_acls,
+                block_public_policy,
+                restrict_public_buckets,
+            ]
+        ):
+            pab_enabled = all(
+                [
+                    block_public_acls,
+                    ignore_public_acls,
+                    block_public_policy,
+                    restrict_public_buckets,
+                ]
+            )
 
         # --- Versioning ---
         versioning_enabled, mfa_delete = self._get_versioning(bucket)
@@ -81,8 +93,7 @@ class S3Querier(BaseResourceQuerier):
             code = exc.response["Error"]["Code"]
             if code in ("NoSuchBucket",):
                 raise ResourceNotFoundError("NRMS3Bucket", bucket) from exc
-            if code in ("ServerSideEncryptionConfigurationNotFoundError",
-                        "NoSuchConfiguration"):
+            if code in ("ServerSideEncryptionConfigurationNotFoundError", "NoSuchConfiguration"):
                 return False, None
             raise
 

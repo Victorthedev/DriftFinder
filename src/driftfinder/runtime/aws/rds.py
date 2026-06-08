@@ -27,9 +27,7 @@ class RDSQuerier(BaseResourceQuerier):
     @aws_retry()
     def _build(self, declared: NRMRDSInstance) -> NRMRDSInstance:
         try:
-            resp = self._rds.describe_db_instances(
-                DBInstanceIdentifier=declared.resource_id
-            )
+            resp = self._rds.describe_db_instances(DBInstanceIdentifier=declared.resource_id)
         except ClientError as exc:
             code = exc.response["Error"]["Code"]
             if code == "DBInstanceNotFound":

@@ -2,7 +2,8 @@ import functools
 import logging
 import random
 import time
-from typing import Callable, Type, TypeVar
+from collections.abc import Callable
+from typing import TypeVar
 
 from botocore.exceptions import ClientError
 
@@ -27,7 +28,7 @@ def aws_retry(
     max_attempts: int = 3,
     base_delay: float = 1.0,
     max_delay: float = 30.0,
-    exceptions: tuple[Type[Exception], ...] = (ClientError,),
+    exceptions: tuple[type[Exception], ...] = (ClientError,),
 ) -> Callable[[Callable[..., T]], Callable[..., T]]:
     """
     Decorator for AWS API calls with jittered exponential backoff.
@@ -57,7 +58,7 @@ def aws_retry(
                         break
 
                     delay = min(
-                        base_delay * (2**attempt) + random.uniform(0, 1),
+                        base_delay * (2**attempt) + random.uniform(0, 1),  # noqa: S311
                         max_delay,
                     )
                     logger.warning(

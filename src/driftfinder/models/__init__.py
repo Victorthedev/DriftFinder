@@ -10,6 +10,7 @@ from driftfinder.models.enums import (
 from driftfinder.models.findings import DriftFinding, ScanResult
 from driftfinder.models.nrm import (
     NRM_METADATA_FIELDS,
+    NRMVPC,
     NRMBase,
     NRMCloudTrail,
     NRMEBSVolume,
@@ -17,9 +18,8 @@ from driftfinder.models.nrm import (
     NRMKMSKey,
     NRMRDSInstance,
     NRMResource,
-    NRMSecurityGroup,
     NRMS3Bucket,
-    NRMVPC,
+    NRMSecurityGroup,
 )
 
 __all__ = [

@@ -1,18 +1,19 @@
 import json
 import logging
-from typing import Any, Iterator
+from collections.abc import Iterator
+from typing import Any
 
 from driftfinder.models.enums import EncryptionAlgorithm, IaCTool
 from driftfinder.models.nrm import (
+    NRMVPC,
     NRMCloudTrail,
     NRMEBSVolume,
     NRMIAMPolicy,
     NRMKMSKey,
     NRMRDSInstance,
     NRMResource,
-    NRMSecurityGroup,
     NRMS3Bucket,
-    NRMVPC,
+    NRMSecurityGroup,
 )
 from driftfinder.parsers.base import (
     BaseParser,
@@ -56,9 +57,7 @@ class TerraformParser(BaseParser):
 
         version = state.get("version")
         if version != 4:
-            raise ValueError(
-                f"Unsupported Terraform state version {version!r}. Expected 4."
-            )
+            raise ValueError(f"Unsupported Terraform state version {version!r}. Expected 4.")
 
         managed = [r for r in state.get("resources", []) if r.get("mode") == "managed"]
 
@@ -70,7 +69,6 @@ class TerraformParser(BaseParser):
         yield from self._parse_cloudtrails(managed)
         yield from self._parse_vpcs(managed)
         yield from self._parse_kms_keys(managed)
-
 
     # S3 — two-phase accumulate-then-build for split resource format
 
@@ -129,8 +127,13 @@ class TerraformParser(BaseParser):
         enc_algorithm: EncryptionAlgorithm | None = None
 
         legacy_rule = _get_nested(
-            base, "server_side_encryption_configuration", 0, "rule", 0,
-            "apply_server_side_encryption_by_default", 0,
+            base,
+            "server_side_encryption_configuration",
+            0,
+            "rule",
+            0,
+            "apply_server_side_encryption_by_default",
+            0,
         )
         if legacy_rule is not None:
             alg = legacy_rule.get("sse_algorithm")
@@ -138,8 +141,11 @@ class TerraformParser(BaseParser):
             enc_algorithm = _parse_enc_algorithm(alg)
         elif data["sse"] is not None:
             rule = _get_nested(
-                data["sse"], "rule", 0,
-                "apply_server_side_encryption_by_default", 0,
+                data["sse"],
+                "rule",
+                0,
+                "apply_server_side_encryption_by_default",
+                0,
             )
             if rule is not None:
                 alg = rule.get("sse_algorithm")
@@ -162,7 +168,12 @@ class TerraformParser(BaseParser):
             block_public_policy = bool(pab.get("block_public_policy"))
             restrict_public_buckets = bool(pab.get("restrict_public_buckets"))
             pab_enabled = all(
-                [block_public_acls, ignore_public_acls, block_public_policy, restrict_public_buckets]
+                [
+                    block_public_acls,
+                    ignore_public_acls,
+                    block_public_policy,
+                    restrict_public_buckets,
+                ]
             )
 
         # Versioning
@@ -206,9 +217,7 @@ class TerraformParser(BaseParser):
             ssl_requests_only=ssl_only,
         )
 
-
     # Security Groups
-
 
     def _parse_security_groups(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -231,9 +240,7 @@ class TerraformParser(BaseParser):
                 unrestricted_all_traffic_egress=_tf_unrestricted_all(egress),
             )
 
-
     # IAM Policies
-
 
     def _parse_iam_policies(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -269,9 +276,7 @@ class TerraformParser(BaseParser):
                     policy_document_hash=analysis["policy_document_hash"],
                 )
 
-
     # RDS Instances
-
 
     def _parse_rds_instances(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -294,9 +299,7 @@ class TerraformParser(BaseParser):
                 auto_minor_version_upgrade=_opt_bool(instance, "auto_minor_version_upgrade"),
             )
 
-
     # EBS Volumes
-
 
     def _parse_ebs_volumes(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -313,9 +316,7 @@ class TerraformParser(BaseParser):
                 encrypted=_opt_bool(instance, "encrypted"),
             )
 
-
     # CloudTrail
-
 
     def _parse_cloudtrails(
         self, resources: list[dict]  # type: ignore[type-arg]
@@ -337,13 +338,9 @@ class TerraformParser(BaseParser):
                 kms_encryption_enabled=bool(kms_id) if kms_id else None,
             )
 
-
     # VPC — flow logs and default SG come from separate resources
 
-
-    def _parse_vpcs(
-        self, resources: list[dict]  # type: ignore[type-arg]
-    ) -> Iterator[NRMVPC]:
+    def _parse_vpcs(self, resources: list[dict]) -> Iterator[NRMVPC]:  # type: ignore[type-arg]
         flow_log_vpcs: set[str] = set()
         for instance, _ in _iter_instances(resources, "aws_flow_log"):
             vid = instance.get("vpc_id") or ""
@@ -376,18 +373,15 @@ class TerraformParser(BaseParser):
                 default_sg_has_no_rules=default_sg_no_rules,
             )
 
-
     # KMS Keys
-
 
     def _parse_kms_keys(
         self, resources: list[dict]  # type: ignore[type-arg]
     ) -> Iterator[NRMKMSKey]:
         for instance, resource in _iter_instances(resources, "aws_kms_key"):
             key_id = instance.get("key_id") or instance.get("id", "")
-            key_spec = (
-                instance.get("customer_master_key_spec")
-                or instance.get("key_spec", "SYMMETRIC_DEFAULT")
+            key_spec = instance.get("customer_master_key_spec") or instance.get(
+                "key_spec", "SYMMETRIC_DEFAULT"
             )
 
             # Rotation only applies to symmetric CMKs; None for asymmetric keys
