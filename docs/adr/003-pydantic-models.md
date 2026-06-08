@@ -24,5 +24,5 @@ declare (relying on defaults), which they may have done intentionally.
 - Requires parsers to be precise: only set a property to `False` when the IaC
   source explicitly sets it to a falsy value, not when the property is absent
 - A WARNING-level finding type (`DriftType.UNMANAGED`) is used when a property
-  is `None` in declared state but non-compliant in actual state — this surfaces
+  is `None` in declared state but non-compliant in actual state, this surfaces
   the risk without calling it drift

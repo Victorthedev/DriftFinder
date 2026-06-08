@@ -18,6 +18,6 @@ not a wrapper around the Python CLI.
 ## Consequences
 
 - Phase 1 ships faster with a single language
-- TypeScript SDK must duplicate the NRM and detection engine — this is intentional,
+- TypeScript SDK must duplicate the NRM and detection engine. This is intentional
   as it proves the NRM schema is language-portable (a dissertation contribution)
 - Python 3.11+ minimum gives us modern union types and frozen dataclasses

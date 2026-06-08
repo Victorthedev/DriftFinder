@@ -12,7 +12,7 @@ class NRMBase:
     resource_name: str
     iac_tool: IaCTool
     region: str
-    account_id: str
+    account_id: str = ""  # Not compared during drift detection; engine populates via STS
 
 
 @dataclass(frozen=True)
