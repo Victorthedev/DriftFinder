@@ -1,0 +1,5 @@
+iac_tool: pulumi
+pulumi_stack: experiment/pulumi_stack_export.json
+aws_region: eu-west-1
+fail_on: LOW
+output_format: json

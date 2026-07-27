@@ -1,0 +1,47 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-pulumi",
+      "resource_name": "driftfinder-rds-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "backup_retention_days",
+      "declared_value": 7,
+      "actual_value": 0,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "2.3.3"
+      ],
+      "cis_description": "Ensure that RDS clusters have backup enabled",
+      "detected_at": "2026-07-04T14:51:58.994971Z"
+    },
+    {
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "arn:aws:cloudtrail:eu-west-1:450284263989:trail/driftfinder-trail-test-pulumi",
+      "resource_name": "driftfinder-trail-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "log_file_validation_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "3.2"
+      ],
+      "cis_description": "Ensure CloudTrail log file validation is enabled",
+      "detected_at": "2026-07-04T14:51:59.481637Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-04T14:52:00.028233Z",
+  "iac_tool": "pulumi",
+  "state_source": "experiment/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 2,
+  "compliant": false,
+  "scan_duration_seconds": 2.634,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 1,
+  "low_count": 0
+}

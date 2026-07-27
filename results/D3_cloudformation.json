@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "resource_name": "DriftFinderS3Bucket",
+      "iac_tool": "cloudformation",
+      "property_path": "access_logging_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "2.1.5"
+      ],
+      "cis_description": "Ensure that S3 Buckets have Object-level logging enabled with CloudTrail",
+      "detected_at": "2026-07-03T07:56:47.163739Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T07:56:49.195044Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.534,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

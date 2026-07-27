@@ -75,11 +75,22 @@ class VPCQuerier(BaseResourceQuerier):
     @aws_retry()
     def _get_nacl_unrestricted_ingress(self, vpc_id: str) -> bool:
         resp = self._ec2.describe_network_acls(Filters=[{"Name": "vpc-id", "Values": [vpc_id]}])
-        for nacl in resp.get("NetworkAcls", []):
+        nacls = resp.get("NetworkAcls", [])
+        # Only check NACLs actively associated with at least one subnet.
+        # When subnets are moved to a non-default NACL the default NACL's
+        # Associations list becomes empty, so it is correctly excluded.
+        active = [n for n in nacls if n.get("Associations")]
+        if not active:
+            active = nacls  # Fallback: check all if no associations found
+        for nacl in active:
             for entry in nacl.get("Entries", []):
                 if entry.get("Egress"):
                     continue
                 if entry.get("RuleAction") != "allow":
+                    continue
+                # Only flag all-traffic rules (protocol -1); port-restricted rules
+                # like HTTPS are compliant even when CIDR is 0.0.0.0/0.
+                if str(entry.get("Protocol", "")) not in ("-1", "all"):
                     continue
                 cidr = entry.get("CidrBlock", "")
                 ipv6 = entry.get("Ipv6CidrBlock", "")

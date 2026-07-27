@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f4acc41e5e6b0fdf",
+      "resource_name": "driftfinder-sg-test",
+      "iac_tool": "terraform",
+      "property_path": "unrestricted_rdp_ingress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "5.3"
+      ],
+      "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to port 3389",
+      "detected_at": "2026-07-03T00:56:19.374487Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T00:56:21.534520Z",
+  "iac_tool": "terraform",
+  "state_source": "experiment/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 2.976,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

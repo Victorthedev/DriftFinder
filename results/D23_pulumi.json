@@ -1,0 +1,47 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-pulumi",
+      "resource_name": "driftfinder-rds-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "backup_retention_days",
+      "declared_value": 7,
+      "actual_value": 0,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "2.3.3"
+      ],
+      "cis_description": "Ensure that RDS clusters have backup enabled",
+      "detected_at": "2026-07-04T14:53:01.920262Z"
+    },
+    {
+      "resource_type": "NRMKMSKey",
+      "resource_id": "a53c127e-4e4d-4ad9-acb1-dbc6d6b52d77",
+      "resource_name": "DriftFinder experiment KMS key",
+      "iac_tool": "pulumi",
+      "property_path": "key_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "3.7"
+      ],
+      "cis_description": "Ensure KMS key is not disabled",
+      "detected_at": "2026-07-04T14:53:03.142417Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-04T14:53:03.142636Z",
+  "iac_tool": "pulumi",
+  "state_source": "experiment/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 2,
+  "compliant": false,
+  "scan_duration_seconds": 2.697,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

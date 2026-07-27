@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-tf",
+      "resource_name": "driftfinder-s3-test-450284263989-tf",
+      "iac_tool": "terraform",
+      "property_path": "access_logging_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "2.1.5"
+      ],
+      "cis_description": "Ensure that S3 Buckets have Object-level logging enabled with CloudTrail",
+      "detected_at": "2026-07-03T00:51:12.530744Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T00:51:15.161571Z",
+  "iac_tool": "terraform",
+  "state_source": "experiment/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.235,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

@@ -1,0 +1,91 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "resource_name": "DriftFinderIAMPolicy",
+      "iac_tool": "cloudformation",
+      "property_path": "has_wildcard_action",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "1.16"
+      ],
+      "cis_description": "Ensure IAM policies that allow full administrative privileges are not attached",
+      "detected_at": "2026-07-03T08:00:21.503007Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "resource_name": "DriftFinderIAMPolicy",
+      "iac_tool": "cloudformation",
+      "property_path": "has_wildcard_resource",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "1.16"
+      ],
+      "cis_description": "Ensure IAM policies that allow full administrative privileges are not attached",
+      "detected_at": "2026-07-03T08:00:21.503122Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "resource_name": "DriftFinderIAMPolicy",
+      "iac_tool": "cloudformation",
+      "property_path": "has_admin_access",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "1.16"
+      ],
+      "cis_description": "Ensure IAM policies that allow full administrative privileges are not attached",
+      "detected_at": "2026-07-03T08:00:21.503151Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "resource_name": "DriftFinderIAMPolicy",
+      "iac_tool": "cloudformation",
+      "property_path": "has_explicit_deny",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "LOW",
+      "cis_controls": [],
+      "cis_description": null,
+      "detected_at": "2026-07-03T08:00:21.503172Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "resource_name": "DriftFinderIAMPolicy",
+      "iac_tool": "cloudformation",
+      "property_path": "policy_document_hash",
+      "declared_value": "2760a4641403269274f182fc0a8e859b049a03344769acab596a98d3766aaac1",
+      "actual_value": "512d22ccdcd85f41237a67f3c0159b66d232110fb6691e0dd4753dcd4c3b070f",
+      "drift_type": "MODIFIED",
+      "severity": "LOW",
+      "cis_controls": [],
+      "cis_description": null,
+      "detected_at": "2026-07-03T08:00:21.503194Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T08:00:22.125745Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.463,
+  "critical_count": 1,
+  "high_count": 2,
+  "medium_count": 0,
+  "low_count": 2
+}

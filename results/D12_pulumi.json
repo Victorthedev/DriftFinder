@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-pulumi",
+      "resource_name": "driftfinder-rds-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "backup_retention_days",
+      "declared_value": 7,
+      "actual_value": 0,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "2.3.3"
+      ],
+      "cis_description": "Ensure that RDS clusters have backup enabled",
+      "detected_at": "2026-07-04T15:06:35.753250Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-04T15:06:37.517395Z",
+  "iac_tool": "pulumi",
+  "state_source": "experiment/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.518,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

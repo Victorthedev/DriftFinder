@@ -1,0 +1,2052 @@
+{
+  "entries": [
+    {
+      "scenario_id": "D1",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:45:05.173048+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-tf",
+      "property_path": "server_side_encryption_enabled",
+      "before": {
+        "server_side_encryption_enabled": true,
+        "encryption_algorithm": "AES256"
+      },
+      "after": {
+        "server_side_encryption_enabled": false,
+        "encryption_algorithm": null
+      },
+      "mechanism": "External automation (boto3 delete_bucket_encryption)",
+      "cis_control": "2.1.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D2",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:48:16.464556+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-tf",
+      "property_path": "public_access_block_enabled",
+      "before": {
+        "public_access_block_enabled": true,
+        "block_public_acls": true,
+        "block_public_policy": true
+      },
+      "after": {
+        "public_access_block_enabled": false,
+        "block_public_acls": false,
+        "block_public_policy": false
+      },
+      "mechanism": "Emergency console change (boto3 put_bucket_public_access_block)",
+      "cis_control": "2.1.4",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "2.1.4"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D3",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:50:40.600421+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-tf",
+      "property_path": "access_logging_enabled",
+      "before": {
+        "access_logging_enabled": true
+      },
+      "after": {
+        "access_logging_enabled": false
+      },
+      "mechanism": "External automation (boto3 put_bucket_logging with empty status)",
+      "cis_control": "2.1.5",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.1.5"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D4",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:54:59.864695+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f4acc41e5e6b0fdf",
+      "property_path": "unrestricted_ssh_ingress",
+      "before": {
+        "unrestricted_ssh_ingress": false
+      },
+      "after": {
+        "unrestricted_ssh_ingress": true
+      },
+      "mechanism": "Emergency console change (boto3 authorize_security_group_ingress)",
+      "cis_control": "5.2",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "5.2"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D5",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:55:55.973986+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f4acc41e5e6b0fdf",
+      "property_path": "unrestricted_rdp_ingress",
+      "before": {
+        "unrestricted_rdp_ingress": false
+      },
+      "after": {
+        "unrestricted_rdp_ingress": true
+      },
+      "mechanism": "Emergency console change (boto3 authorize_security_group_ingress)",
+      "cis_control": "5.3",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "5.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D6",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:56:37.444856+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f4acc41e5e6b0fdf",
+      "property_path": "unrestricted_all_traffic_egress",
+      "before": {
+        "unrestricted_all_traffic_egress": false
+      },
+      "after": {
+        "unrestricted_all_traffic_egress": true
+      },
+      "mechanism": "External automation (boto3 authorize_security_group_egress)",
+      "cis_control": "5.4",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D7",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:59:04.197095+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test",
+      "property_path": "has_wildcard_action",
+      "before": {
+        "has_wildcard_action": false
+      },
+      "after": {
+        "has_wildcard_action": true
+      },
+      "mechanism": "Emergency console change (boto3 create_policy_version with wildcard)",
+      "cis_control": "1.16",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "1.16"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D8",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T00:59:34.666295+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test",
+      "property_path": "has_admin_access",
+      "before": {
+        "has_admin_access": false,
+        "has_wildcard_action": false
+      },
+      "after": {
+        "has_admin_access": true,
+        "has_wildcard_action": true
+      },
+      "mechanism": "External automation (boto3 create_policy_version with admin equivalent)",
+      "cis_control": "1.16",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "1.16"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D9",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T01:00:44.995316+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test",
+      "property_path": "has_explicit_deny",
+      "before": {
+        "has_explicit_deny": true
+      },
+      "after": {
+        "has_explicit_deny": false
+      },
+      "mechanism": "Emergency console change (boto3 create_policy_version without deny)",
+      "cis_control": "1.17",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D10",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T01:01:29.776552+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test",
+      "property_path": "storage_encrypted",
+      "before": {
+        "storage_encrypted": true
+      },
+      "after": {
+        "storage_encrypted": false
+      },
+      "mechanism": "IMMUTABLE_PROPERTY - Simulated via state declaration mismatch. See dissertation notes.",
+      "cis_control": "2.3.1",
+      "severity": "CRITICAL",
+      "notes": "RDS storage_encrypted is immutable after instance creation. Current actual value: True. DriftFinder detection tested via declared vs actual state mismatch analysis. This is documented as a detection capability boundary in the dissertation.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D11",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T01:03:39.640549+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test",
+      "property_path": "publicly_accessible",
+      "before": {
+        "publicly_accessible": false
+      },
+      "after": {
+        "publicly_accessible": true
+      },
+      "mechanism": "INJECTION_FAILED - AWS prevents PubliclyAccessible=True in VPC without internet gateway.",
+      "cis_control": "2.3.2",
+      "severity": "HIGH",
+      "notes": "InvalidVPCNetworkStateFault: VPC has no internet gateway. AWS enforces VPC-level constraint. Detection boundary documented.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D12",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T01:04:02.283182+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test",
+      "property_path": "backup_retention_days",
+      "before": {
+        "backup_retention_days": 7
+      },
+      "after": {
+        "backup_retention_days": 0
+      },
+      "mechanism": "External automation (boto3 modify_db_instance BackupRetentionPeriod=0)",
+      "cis_control": "2.3.3",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D13",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T01:06:26.530421+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-00e5b5bb0355e012e",
+      "property_path": "encrypted",
+      "before": {
+        "encrypted": true
+      },
+      "after": {
+        "encrypted": false
+      },
+      "mechanism": "IMMUTABLE_PROPERTY - EBS encryption cannot be changed. See dissertation notes.",
+      "cis_control": "2.2.1",
+      "severity": "CRITICAL",
+      "notes": "EBS volume encryption is immutable after creation. Current actual value: True. Detection boundary documented in dissertation.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D14",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T01:07:13.868053+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-00e5b5bb0355e012e",
+      "property_path": "snapshot_created_unencrypted",
+      "before": {
+        "snapshot_encrypted": true
+      },
+      "after": {
+        "snapshot_id": "snap-06570f231ca3bf850",
+        "volume_encrypted": true
+      },
+      "mechanism": "Emergency console change (boto3 create_snapshot)",
+      "cis_control": "2.2.1",
+      "severity": "HIGH",
+      "notes": "Snapshot created from encrypted volume. DriftFinder checks volume encryption state.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D15",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T07:47:32.286211+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-00e5b5bb0355e012e",
+      "property_path": "delete_on_termination",
+      "before": {
+        "delete_on_termination": true
+      },
+      "after": {
+        "delete_on_termination": null
+      },
+      "mechanism": "Third-party tool (volume detached - property undeterminable without attachment)",
+      "cis_control": "2.2.1",
+      "severity": "MEDIUM",
+      "notes": "Volume attachment count: 0. delete_on_termination is None when volume is not attached. DriftFinder handles this as a detection limitation for attachment-dependent properties.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D16",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T07:47:54.370322+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test",
+      "property_path": "multi_region_enabled",
+      "before": {
+        "multi_region_enabled": true
+      },
+      "after": {
+        "multi_region_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 update_trail IsMultiRegionTrail=False)",
+      "cis_control": "3.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.1"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D17",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T07:48:22.205977+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test",
+      "property_path": "log_file_validation_enabled",
+      "before": {
+        "log_file_validation_enabled": true
+      },
+      "after": {
+        "log_file_validation_enabled": false
+      },
+      "mechanism": "External automation (boto3 update_trail EnableLogFileValidation=False)",
+      "cis_control": "3.2",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.2"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D18",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T07:48:41.148244+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test",
+      "property_path": "cloudwatch_logs_enabled",
+      "before": {
+        "cloudwatch_logs_enabled": true
+      },
+      "after": {
+        "cloudwatch_logs_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 update_trail remove CW integration)",
+      "cis_control": "3.4",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "3.4"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D19",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T07:49:15.125803+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-04c7b8ebcc24040ad",
+      "property_path": "flow_logs_enabled",
+      "before": {
+        "flow_logs_enabled": true
+      },
+      "after": {
+        "flow_logs_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 delete_flow_logs)",
+      "cis_control": "5.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "5.1"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D22",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T07:53:28.690804+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "0368f8ae-5c01-4f44-965a-3175e41cecea",
+      "property_path": "key_rotation_enabled",
+      "before": {
+        "key_rotation_enabled": true
+      },
+      "after": {
+        "key_rotation_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 disable_key_rotation)",
+      "cis_control": "3.7",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.7"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D23",
+      "environment": "terraform",
+      "timestamp": "2026-07-03T07:53:51.996650+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "0368f8ae-5c01-4f44-965a-3175e41cecea",
+      "property_path": "key_enabled",
+      "before": {
+        "key_enabled": true
+      },
+      "after": {
+        "key_enabled": false
+      },
+      "mechanism": "External automation (boto3 disable_key)",
+      "cis_control": "3.7",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "3.7"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D1",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T07:55:28.780661+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "property_path": "server_side_encryption_enabled",
+      "before": {
+        "server_side_encryption_enabled": true,
+        "encryption_algorithm": "AES256"
+      },
+      "after": {
+        "server_side_encryption_enabled": false,
+        "encryption_algorithm": null
+      },
+      "mechanism": "External automation (boto3 delete_bucket_encryption)",
+      "cis_control": "2.1.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D2",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T07:56:22.995669+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "property_path": "public_access_block_enabled",
+      "before": {
+        "public_access_block_enabled": true,
+        "block_public_acls": true,
+        "block_public_policy": true
+      },
+      "after": {
+        "public_access_block_enabled": false,
+        "block_public_acls": false,
+        "block_public_policy": false
+      },
+      "mechanism": "Emergency console change (boto3 put_bucket_public_access_block)",
+      "cis_control": "2.1.4",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "2.1.4"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D3",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T07:56:40.161927+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "property_path": "access_logging_enabled",
+      "before": {
+        "access_logging_enabled": true
+      },
+      "after": {
+        "access_logging_enabled": false
+      },
+      "mechanism": "External automation (boto3 put_bucket_logging with empty status)",
+      "cis_control": "2.1.5",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.1.5"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D4",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T07:57:02.688252+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0866609c378180119",
+      "property_path": "unrestricted_ssh_ingress",
+      "before": {
+        "unrestricted_ssh_ingress": false
+      },
+      "after": {
+        "unrestricted_ssh_ingress": true
+      },
+      "mechanism": "Emergency console change (boto3 authorize_security_group_ingress)",
+      "cis_control": "5.2",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "5.2"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D5",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T07:59:29.122739+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0866609c378180119",
+      "property_path": "unrestricted_rdp_ingress",
+      "before": {
+        "unrestricted_rdp_ingress": false
+      },
+      "after": {
+        "unrestricted_rdp_ingress": true
+      },
+      "mechanism": "Emergency console change (boto3 authorize_security_group_ingress)",
+      "cis_control": "5.3",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "5.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D6",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T07:59:49.596104+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0866609c378180119",
+      "property_path": "unrestricted_all_traffic_egress",
+      "before": {
+        "unrestricted_all_traffic_egress": false
+      },
+      "after": {
+        "unrestricted_all_traffic_egress": true
+      },
+      "mechanism": "External automation (boto3 authorize_security_group_egress)",
+      "cis_control": "5.4",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D7",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:00:13.984928+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "property_path": "has_wildcard_action",
+      "before": {
+        "has_wildcard_action": false
+      },
+      "after": {
+        "has_wildcard_action": true
+      },
+      "mechanism": "Emergency console change (boto3 create_policy_version with wildcard)",
+      "cis_control": "1.16",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "1.16"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D8",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:00:44.326862+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "property_path": "has_admin_access",
+      "before": {
+        "has_admin_access": false,
+        "has_wildcard_action": false
+      },
+      "after": {
+        "has_admin_access": true,
+        "has_wildcard_action": true
+      },
+      "mechanism": "External automation (boto3 create_policy_version with admin equivalent)",
+      "cis_control": "1.16",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "1.16"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D9",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:01:09.125388+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-cf",
+      "property_path": "has_explicit_deny",
+      "before": {
+        "has_explicit_deny": true
+      },
+      "after": {
+        "has_explicit_deny": false
+      },
+      "mechanism": "Emergency console change (boto3 create_policy_version without deny)",
+      "cis_control": "1.17",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D10",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:01:40.263366+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-cf",
+      "property_path": "storage_encrypted",
+      "before": {
+        "storage_encrypted": true
+      },
+      "after": {
+        "storage_encrypted": false
+      },
+      "mechanism": "IMMUTABLE_PROPERTY - Simulated via state declaration mismatch. See dissertation notes.",
+      "cis_control": "2.3.1",
+      "severity": "CRITICAL",
+      "notes": "RDS storage_encrypted is immutable after instance creation. Current actual value: True. DriftFinder detection tested via declared vs actual state mismatch analysis. This is documented as a detection capability boundary in the dissertation.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D11",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:02:09.303261+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-cf",
+      "property_path": "publicly_accessible",
+      "before": {
+        "publicly_accessible": false
+      },
+      "after": {
+        "publicly_accessible": true
+      },
+      "mechanism": "INJECTION_FAILED - VPC has no internet gateway (same constraint as Terraform env).",
+      "cis_control": "2.3.2",
+      "severity": "HIGH",
+      "notes": "InvalidVPCNetworkStateFault: CF VPC also private. Detection boundary.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D12",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:02:38.640860+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-cf",
+      "property_path": "backup_retention_days",
+      "before": {
+        "backup_retention_days": 7
+      },
+      "after": {
+        "backup_retention_days": 0
+      },
+      "mechanism": "External automation (boto3 modify_db_instance BackupRetentionPeriod=0)",
+      "cis_control": "2.3.3",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D13",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:10:02.941626+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-0f4439415b3015523",
+      "property_path": "encrypted",
+      "before": {
+        "encrypted": true
+      },
+      "after": {
+        "encrypted": false
+      },
+      "mechanism": "IMMUTABLE_PROPERTY - EBS encryption cannot be changed. See dissertation notes.",
+      "cis_control": "2.2.1",
+      "severity": "CRITICAL",
+      "notes": "EBS volume encryption is immutable after creation. Current actual value: True. Detection boundary documented in dissertation.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D14",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:10:50.045777+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-0f4439415b3015523",
+      "property_path": "snapshot_created_unencrypted",
+      "before": {
+        "snapshot_encrypted": true
+      },
+      "after": {
+        "snapshot_id": "snap-0053638b3cd4ab244",
+        "volume_encrypted": true
+      },
+      "mechanism": "Emergency console change (boto3 create_snapshot)",
+      "cis_control": "2.2.1",
+      "severity": "HIGH",
+      "notes": "Snapshot created from encrypted volume. DriftFinder checks volume encryption state.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D15",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:10:51.090338+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-0f4439415b3015523",
+      "property_path": "delete_on_termination",
+      "before": {
+        "delete_on_termination": true
+      },
+      "after": {
+        "delete_on_termination": null
+      },
+      "mechanism": "Third-party tool (volume detached - property undeterminable without attachment)",
+      "cis_control": "2.2.1",
+      "severity": "MEDIUM",
+      "notes": "Volume attachment count: 0. delete_on_termination is None when volume is not attached. DriftFinder handles this as a detection limitation for attachment-dependent properties.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D16",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:11:44.654712+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-cf",
+      "property_path": "multi_region_enabled",
+      "before": {
+        "multi_region_enabled": true
+      },
+      "after": {
+        "multi_region_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 update_trail IsMultiRegionTrail=False)",
+      "cis_control": "3.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.1"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D17",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:12:13.684068+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-cf",
+      "property_path": "log_file_validation_enabled",
+      "before": {
+        "log_file_validation_enabled": true
+      },
+      "after": {
+        "log_file_validation_enabled": false
+      },
+      "mechanism": "External automation (boto3 update_trail EnableLogFileValidation=False)",
+      "cis_control": "3.2",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.2"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D18",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-03T08:12:35.103337+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-cf",
+      "property_path": "cloudwatch_logs_enabled",
+      "before": {
+        "cloudwatch_logs_enabled": true
+      },
+      "after": {
+        "cloudwatch_logs_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 update_trail remove CW integration)",
+      "cis_control": "3.4",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "3.4"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D20",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T14:39:00.369565+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-0f23ac739714cd5e1",
+      "property_path": "default_sg_has_no_rules",
+      "before": {
+        "default_sg_has_no_rules": true
+      },
+      "after": {
+        "default_sg_has_no_rules": false,
+        "default_sg_id": "sg-0a8992bb7ed515706"
+      },
+      "mechanism": "External automation (boto3 authorize_security_group_ingress on default SG)",
+      "cis_control": "5.5",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D21",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T14:39:25.984380+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-0f23ac739714cd5e1",
+      "property_path": "nacl_unrestricted_ingress",
+      "before": {
+        "nacl_unrestricted_ingress": false
+      },
+      "after": {
+        "nacl_unrestricted_ingress": true,
+        "nacl_id": "acl-06ea12b2710c39e94"
+      },
+      "mechanism": "Emergency console change (boto3 create_network_acl_entry allow all)",
+      "cis_control": "5.1",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D22",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T14:39:52.086345+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "013cd23e-2a9f-4153-a19f-0620d379b5a9",
+      "property_path": "key_rotation_enabled",
+      "before": {
+        "key_rotation_enabled": true
+      },
+      "after": {
+        "key_rotation_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 disable_key_rotation)",
+      "cis_control": "3.7",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.7"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D23",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T14:40:11.493923+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "013cd23e-2a9f-4153-a19f-0620d379b5a9",
+      "property_path": "key_enabled",
+      "before": {
+        "key_enabled": true
+      },
+      "after": {
+        "key_enabled": false
+      },
+      "mechanism": "External automation (boto3 disable_key)",
+      "cis_control": "3.7",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "3.7"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D24",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T14:40:34.261365+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "013cd23e-2a9f-4153-a19f-0620d379b5a9",
+      "property_path": "key_policy_allows_public_access",
+      "before": {
+        "key_policy_allows_public_access": false
+      },
+      "after": {
+        "key_policy_allows_public_access": true
+      },
+      "mechanism": "Emergency console change (boto3 put_key_policy with broad Principal)",
+      "cis_control": "3.7",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.7"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D20",
+      "environment": "terraform",
+      "timestamp": "2026-07-04T14:44:18.224512+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-04c7b8ebcc24040ad",
+      "property_path": "default_sg_has_no_rules",
+      "before": {
+        "default_sg_has_no_rules": true
+      },
+      "after": {
+        "default_sg_has_no_rules": false,
+        "default_sg_id": "sg-00318f65c080bba07"
+      },
+      "mechanism": "External automation (boto3 authorize_security_group_ingress on default SG)",
+      "cis_control": "5.5",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "5.5"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D21",
+      "environment": "terraform",
+      "timestamp": "2026-07-04T14:45:05.463084+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-04c7b8ebcc24040ad",
+      "property_path": "nacl_unrestricted_ingress",
+      "before": {
+        "nacl_unrestricted_ingress": false
+      },
+      "after": {
+        "nacl_unrestricted_ingress": true,
+        "nacl_id": "acl-0062830dad87b8fda"
+      },
+      "mechanism": "Emergency console change (boto3 create_network_acl_entry allow all)",
+      "cis_control": "5.1",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D24",
+      "environment": "terraform",
+      "timestamp": "2026-07-04T14:45:41.060363+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "0368f8ae-5c01-4f44-965a-3175e41cecea",
+      "property_path": "key_policy_allows_public_access",
+      "before": {
+        "key_policy_allows_public_access": false
+      },
+      "after": {
+        "key_policy_allows_public_access": true
+      },
+      "mechanism": "Emergency console change (boto3 put_key_policy with broad Principal)",
+      "cis_control": "3.7",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "HIGH",
+        "detected_cis": [
+          "3.7"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D4",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:47:42.398512+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f69704ba30bad46c",
+      "property_path": "unrestricted_ssh_ingress",
+      "before": {
+        "unrestricted_ssh_ingress": false
+      },
+      "after": {
+        "unrestricted_ssh_ingress": true
+      },
+      "mechanism": "Emergency console change (boto3 authorize_security_group_ingress)",
+      "cis_control": "5.2",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "5.2"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D5",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:47:54.125160+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f69704ba30bad46c",
+      "property_path": "unrestricted_rdp_ingress",
+      "before": {
+        "unrestricted_rdp_ingress": false
+      },
+      "after": {
+        "unrestricted_rdp_ingress": true
+      },
+      "mechanism": "Emergency console change (boto3 authorize_security_group_ingress)",
+      "cis_control": "5.3",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "5.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D6",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:48:03.992532+00:00",
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f69704ba30bad46c",
+      "property_path": "unrestricted_all_traffic_egress",
+      "before": {
+        "unrestricted_all_traffic_egress": false
+      },
+      "after": {
+        "unrestricted_all_traffic_egress": true
+      },
+      "mechanism": "External automation (boto3 authorize_security_group_egress)",
+      "cis_control": "5.4",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D7",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:48:15.192332+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-pulumi",
+      "property_path": "has_wildcard_action",
+      "before": {
+        "has_wildcard_action": false
+      },
+      "after": {
+        "has_wildcard_action": true
+      },
+      "mechanism": "Emergency console change (boto3 create_policy_version with wildcard)",
+      "cis_control": "1.16",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "1.16"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D8",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:48:25.984998+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-pulumi",
+      "property_path": "has_admin_access",
+      "before": {
+        "has_admin_access": false,
+        "has_wildcard_action": false
+      },
+      "after": {
+        "has_admin_access": true,
+        "has_wildcard_action": true
+      },
+      "mechanism": "External automation (boto3 create_policy_version with admin equivalent)",
+      "cis_control": "1.16",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "1.16"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D9",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:48:38.445401+00:00",
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test-pulumi",
+      "property_path": "has_explicit_deny",
+      "before": {
+        "has_explicit_deny": true
+      },
+      "after": {
+        "has_explicit_deny": false
+      },
+      "mechanism": "Emergency console change (boto3 create_policy_version without deny)",
+      "cis_control": "1.17",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "LOW",
+        "detected_cis": [],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D10",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:48:48.620402+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-pulumi",
+      "property_path": "storage_encrypted",
+      "before": {
+        "storage_encrypted": true
+      },
+      "after": {
+        "storage_encrypted": false
+      },
+      "mechanism": "IMMUTABLE_PROPERTY - Simulated via state declaration mismatch. See dissertation notes.",
+      "cis_control": "2.3.1",
+      "severity": "CRITICAL",
+      "notes": "RDS storage_encrypted is immutable after instance creation. Current actual value: True. DriftFinder detection tested via declared vs actual state mismatch analysis. This is documented as a detection capability boundary in the dissertation.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D12",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:49:11.595577+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-pulumi",
+      "property_path": "backup_retention_days",
+      "before": {
+        "backup_retention_days": 7
+      },
+      "after": {
+        "backup_retention_days": 0
+      },
+      "mechanism": "External automation (boto3 modify_db_instance BackupRetentionPeriod=0)",
+      "cis_control": "2.3.3",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D16",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:51:43.172118+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-pulumi",
+      "property_path": "multi_region_enabled",
+      "before": {
+        "multi_region_enabled": true
+      },
+      "after": {
+        "multi_region_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 update_trail IsMultiRegionTrail=False)",
+      "cis_control": "3.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D17",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:51:53.087077+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-pulumi",
+      "property_path": "log_file_validation_enabled",
+      "before": {
+        "log_file_validation_enabled": true
+      },
+      "after": {
+        "log_file_validation_enabled": false
+      },
+      "mechanism": "External automation (boto3 update_trail EnableLogFileValidation=False)",
+      "cis_control": "3.2",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D18",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:52:02.469800+00:00",
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-pulumi",
+      "property_path": "cloudwatch_logs_enabled",
+      "before": {
+        "cloudwatch_logs_enabled": true
+      },
+      "after": {
+        "cloudwatch_logs_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 update_trail remove CW integration)",
+      "cis_control": "3.4",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D19",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:52:12.000077+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-09a8ae0b7b69e6bb8",
+      "property_path": "flow_logs_enabled",
+      "before": {
+        "flow_logs_enabled": true
+      },
+      "after": {
+        "flow_logs_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 delete_flow_logs)",
+      "cis_control": "5.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D20",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:52:21.865897+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-09a8ae0b7b69e6bb8",
+      "property_path": "default_sg_has_no_rules",
+      "before": {
+        "default_sg_has_no_rules": true
+      },
+      "after": {
+        "default_sg_has_no_rules": false,
+        "default_sg_id": "sg-01578224fa4398298"
+      },
+      "mechanism": "External automation (boto3 authorize_security_group_ingress on default SG)",
+      "cis_control": "5.5",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D21",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:52:33.253599+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-09a8ae0b7b69e6bb8",
+      "property_path": "nacl_unrestricted_ingress",
+      "before": {
+        "nacl_unrestricted_ingress": false
+      },
+      "after": {
+        "nacl_unrestricted_ingress": true,
+        "nacl_id": "acl-012bf2f16fc23bf1b"
+      },
+      "mechanism": "Emergency console change (boto3 create_network_acl_entry allow all)",
+      "cis_control": "5.1",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D22",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:52:44.511274+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "a53c127e-4e4d-4ad9-acb1-dbc6d6b52d77",
+      "property_path": "key_rotation_enabled",
+      "before": {
+        "key_rotation_enabled": true
+      },
+      "after": {
+        "key_rotation_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 disable_key_rotation)",
+      "cis_control": "3.7",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D23",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:52:55.814778+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "a53c127e-4e4d-4ad9-acb1-dbc6d6b52d77",
+      "property_path": "key_enabled",
+      "before": {
+        "key_enabled": true
+      },
+      "after": {
+        "key_enabled": false
+      },
+      "mechanism": "External automation (boto3 disable_key)",
+      "cis_control": "3.7",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D24",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T14:53:05.823462+00:00",
+      "resource_type": "NRMKMSKey",
+      "resource_id": "a53c127e-4e4d-4ad9-acb1-dbc6d6b52d77",
+      "property_path": "key_policy_allows_public_access",
+      "before": {
+        "key_policy_allows_public_access": false
+      },
+      "after": {
+        "key_policy_allows_public_access": true
+      },
+      "mechanism": "Emergency console change (boto3 put_key_policy with broad Principal)",
+      "cis_control": "3.7",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.3.3"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D1",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T15:08:54.214229+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-pulumi",
+      "property_path": "server_side_encryption_enabled",
+      "before": {
+        "server_side_encryption_enabled": true,
+        "encryption_algorithm": "AES256"
+      },
+      "after": {
+        "server_side_encryption_enabled": false,
+        "encryption_algorithm": null
+      },
+      "mechanism": "External automation (boto3 delete_bucket_encryption)",
+      "cis_control": "2.1.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D2",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T15:12:52.953032+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-pulumi",
+      "property_path": "public_access_block_enabled",
+      "before": {
+        "public_access_block_enabled": true,
+        "block_public_acls": true,
+        "block_public_policy": true
+      },
+      "after": {
+        "public_access_block_enabled": false,
+        "block_public_acls": false,
+        "block_public_policy": false
+      },
+      "mechanism": "Emergency console change (boto3 put_bucket_public_access_block)",
+      "cis_control": "2.1.4",
+      "severity": "CRITICAL",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "CRITICAL",
+        "detected_cis": [
+          "2.1.4"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D3",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T15:13:01.816880+00:00",
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-pulumi",
+      "property_path": "access_logging_enabled",
+      "before": {
+        "access_logging_enabled": true
+      },
+      "after": {
+        "access_logging_enabled": false
+      },
+      "mechanism": "External automation (boto3 put_bucket_logging with empty status)",
+      "cis_control": "2.1.5",
+      "severity": "MEDIUM",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": "MEDIUM",
+        "detected_cis": [
+          "2.1.5"
+        ],
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D11",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T15:13:27.581937+00:00",
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-pulumi",
+      "property_path": "publicly_accessible",
+      "before": {
+        "publicly_accessible": false
+      },
+      "after": {
+        "publicly_accessible": true
+      },
+      "mechanism": "INJECTION_FAILED - VPC has no internet gateway (same constraint as Terraform and CloudFormation envs).",
+      "cis_control": "2.3.2",
+      "severity": "HIGH",
+      "notes": "InvalidVPCNetworkStateFault: Pulumi VPC also private. Detection boundary.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D19",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T15:20:30.094028+00:00",
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-0f23ac739714cd5e1",
+      "property_path": "flow_logs_enabled",
+      "before": {
+        "flow_logs_enabled": true
+      },
+      "after": {
+        "flow_logs_enabled": false
+      },
+      "mechanism": "Emergency console change (boto3 delete_flow_logs)",
+      "cis_control": "5.1",
+      "severity": "HIGH",
+      "notes": null,
+      "driftfinder_result": {
+        "detected": true,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "TP"
+      }
+    },
+    {
+      "scenario_id": "D13",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T15:36:56.551038+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-0ece8f7a74828dcd7",
+      "property_path": "encrypted",
+      "before": {
+        "encrypted": true
+      },
+      "after": {
+        "encrypted": false
+      },
+      "mechanism": "IMMUTABLE_PROPERTY - EBS encryption cannot be changed. See dissertation notes.",
+      "cis_control": "2.2.1",
+      "severity": "CRITICAL",
+      "notes": "EBS volume encryption is immutable after creation. Current actual value: True. Detection boundary documented in dissertation.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D14",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T15:37:51.642226+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-0ece8f7a74828dcd7",
+      "property_path": "snapshot_created_unencrypted",
+      "before": {
+        "snapshot_encrypted": true
+      },
+      "after": {
+        "snapshot_id": "snap-0105395e12cec6291",
+        "volume_encrypted": true
+      },
+      "mechanism": "Emergency console change (boto3 create_snapshot)",
+      "cis_control": "2.2.1",
+      "severity": "HIGH",
+      "notes": "Snapshot created from encrypted volume. DriftFinder checks volume encryption state.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "D15",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T15:38:01.428103+00:00",
+      "resource_type": "NRMEBSVolume",
+      "resource_id": "vol-0ece8f7a74828dcd7",
+      "property_path": "delete_on_termination",
+      "before": {
+        "delete_on_termination": true
+      },
+      "after": {
+        "delete_on_termination": null
+      },
+      "mechanism": "Third-party tool (volume detached - property undeterminable without attachment)",
+      "cis_control": "2.2.1",
+      "severity": "MEDIUM",
+      "notes": "Volume attachment count: 0. delete_on_termination is None when volume is not attached. DriftFinder handles this as a detection limitation for attachment-dependent properties.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "FN"
+      }
+    },
+    {
+      "scenario_id": "C1",
+      "environment": "terraform",
+      "timestamp": "2026-07-04T20:28:16.843417+00:00",
+      "resource_type": "CONTROL",
+      "resource_id": "all",
+      "property_path": "baseline",
+      "before": {},
+      "after": {},
+      "mechanism": "Control case \u2014 clean baseline, no drift injected",
+      "cis_control": "ALL",
+      "severity": "N/A",
+      "notes": "Expected: 0 findings. Any finding here is a false positive.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "TN"
+      }
+    },
+    {
+      "scenario_id": "C2",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T20:28:16.843755+00:00",
+      "resource_type": "CONTROL",
+      "resource_id": "all",
+      "property_path": "baseline",
+      "before": {},
+      "after": {},
+      "mechanism": "Control case \u2014 clean baseline, no drift injected",
+      "cis_control": "ALL",
+      "severity": "N/A",
+      "notes": "Expected: 0 findings. Any finding here is a false positive.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "TN"
+      }
+    },
+    {
+      "scenario_id": "C3",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T20:28:16.843765+00:00",
+      "resource_type": "CONTROL",
+      "resource_id": "all",
+      "property_path": "baseline",
+      "before": {},
+      "after": {},
+      "mechanism": "Control case \u2014 clean baseline, no drift injected",
+      "cis_control": "ALL",
+      "severity": "N/A",
+      "notes": "Expected: 0 findings. Any finding here is a false positive.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "TN"
+      }
+    },
+    {
+      "scenario_id": "C4",
+      "environment": "terraform",
+      "timestamp": "2026-07-04T20:28:16.843771+00:00",
+      "resource_type": "CONTROL",
+      "resource_id": "all",
+      "property_path": "baseline",
+      "before": {},
+      "after": {},
+      "mechanism": "Control case \u2014 clean baseline, no drift injected",
+      "cis_control": "ALL",
+      "severity": "N/A",
+      "notes": "Expected: 0 findings. Any finding here is a false positive.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "TN"
+      }
+    },
+    {
+      "scenario_id": "C5",
+      "environment": "cloudformation",
+      "timestamp": "2026-07-04T20:28:16.843776+00:00",
+      "resource_type": "CONTROL",
+      "resource_id": "all",
+      "property_path": "baseline",
+      "before": {},
+      "after": {},
+      "mechanism": "Control case \u2014 clean baseline, no drift injected",
+      "cis_control": "ALL",
+      "severity": "N/A",
+      "notes": "Expected: 0 findings. Any finding here is a false positive.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "TN"
+      }
+    },
+    {
+      "scenario_id": "C6",
+      "environment": "pulumi",
+      "timestamp": "2026-07-04T20:28:16.843782+00:00",
+      "resource_type": "CONTROL",
+      "resource_id": "all",
+      "property_path": "baseline",
+      "before": {},
+      "after": {},
+      "mechanism": "Control case \u2014 clean baseline, no drift injected",
+      "cis_control": "ALL",
+      "severity": "N/A",
+      "notes": "Expected: 0 findings. Any finding here is a false positive.",
+      "driftfinder_result": {
+        "detected": false,
+        "finding_id": null,
+        "detected_severity": null,
+        "detected_cis": null,
+        "classification": "TN"
+      }
+    }
+  ],
+  "created_at": "2026-07-03T00:45:04.106662+00:00"
+}

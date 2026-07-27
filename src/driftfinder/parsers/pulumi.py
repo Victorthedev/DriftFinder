@@ -19,6 +19,7 @@ from driftfinder.parsers.base import (
     BaseParser,
     analyze_iam_policy_document,
     has_ssl_only_policy,
+    kms_key_policy_allows_public,
 )
 
 logger = logging.getLogger(__name__)
@@ -58,14 +59,32 @@ class PulumiParser(BaseParser):
         resources = stack_export.get("deployment", {}).get("resources", [])
         managed = [r for r in resources if not r.get("type", "").startswith("pulumi:")]
 
-        # Index flow log resources before processing VPCs
+        # Build indices for VPC cross-references before processing VPCs
         flow_log_vpcs: set[str] = set()
+        default_sg_vpcs: dict[str, bool] = {}   # vpc_id -> has_rules
+        nacl_vpcs: dict[str, bool] = {}          # vpc_id -> nacl_unrestricted_ingress
+
         for resource in managed:
-            if resource.get("type") == "aws:ec2/flowLog:FlowLog":
-                outputs = resource.get("outputs", {})
-                vpc_id = outputs.get("vpcId") or outputs.get("resourceId", "")
-                if vpc_id:
-                    flow_log_vpcs.add(vpc_id)
+            rtype = resource.get("type", "")
+            outputs = resource.get("outputs", {})
+
+            if rtype == "aws:ec2/flowLog:FlowLog":
+                vid = outputs.get("vpcId") or outputs.get("resourceId", "")
+                if vid:
+                    flow_log_vpcs.add(vid)
+
+            elif rtype == "aws:ec2/defaultSecurityGroup:DefaultSecurityGroup":
+                vid = outputs.get("vpcId", "")
+                ingress = outputs.get("ingress") or []
+                egress = outputs.get("egress") or []
+                if vid:
+                    default_sg_vpcs[vid] = bool(ingress or egress)
+
+            elif rtype == "aws:ec2/defaultNetworkAcl:DefaultNetworkAcl":
+                vid = outputs.get("vpcId", "")
+                ingress = outputs.get("ingress") or []
+                if vid:
+                    nacl_vpcs[vid] = _pulumi_nacl_ingress_unrestricted(ingress)
 
         yield from self._parse_s3_buckets(managed)
         yield from self._parse_security_groups(managed)
@@ -73,12 +92,25 @@ class PulumiParser(BaseParser):
         yield from self._parse_rds_instances(managed)
         yield from self._parse_ebs_volumes(managed)
         yield from self._parse_cloudtrails(managed)
-        yield from self._parse_vpcs(managed, flow_log_vpcs)
+        yield from self._parse_vpcs(managed, flow_log_vpcs, default_sg_vpcs, nacl_vpcs)
         yield from self._parse_kms_keys(managed)
 
     # S3
 
     def _parse_s3_buckets(self, resources: list[dict]) -> Iterator[NRMS3Bucket]:  # type: ignore[type-arg]
+        # Build indices from separate Pulumi S3 sub-resources (v4+ provider pattern)
+        pab_by_bucket: dict[str, dict] = {}   # bucket_name -> BucketPublicAccessBlock outputs
+        log_by_bucket: dict[str, dict] = {}   # bucket_name -> BucketLoggingV2 outputs
+
+        for r in resources:
+            rtype = r.get("type", "")
+            outs = r.get("outputs", {})
+            bkt = outs.get("bucket", "")
+            if rtype == "aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock" and bkt:
+                pab_by_bucket[bkt] = outs
+            elif rtype == "aws:s3/bucketLoggingV2:BucketLoggingV2" and bkt:
+                log_by_bucket[bkt] = outs
+
         for resource in resources:
             if resource.get("type") != "aws:s3/bucket:Bucket":
                 continue
@@ -87,32 +119,52 @@ class PulumiParser(BaseParser):
             bucket_id = outputs.get("bucket") or outputs.get("id", "")
             name = _urn_name(resource.get("urn", "")) or bucket_id
 
-            # Encryption
+            # Encryption — Pulumi state uses "rule" (singular) for old Bucket resource
             sse_enabled: bool | None = None
             enc_alg: EncryptionAlgorithm | None = None
             sse_config = outputs.get("serverSideEncryptionConfiguration")
             if sse_config is not None:
-                rules = sse_config.get("rules") or []
-                if rules:
-                    alg = rules[0].get("applyServerSideEncryptionByDefault", {}).get("sseAlgorithm")
+                rule = sse_config.get("rule") or (sse_config.get("rules") or [None])[0]
+                if rule:
+                    alg = rule.get("applyServerSideEncryptionByDefault", {}).get("sseAlgorithm")
                     sse_enabled = bool(alg)
                     enc_alg = _parse_enc_algorithm(alg)
-                else:
-                    sse_enabled = False
 
-            # Versioning
+            # Versioning — inline versioning on old Bucket resource may not reflect a
+            # separate BucketVersioningV2 resource; only treat as declared when explicitly enabled
             versioning_enabled: bool | None = None
             mfa_delete: bool | None = None
             ver = outputs.get("versioning")
-            if ver is not None:
-                versioning_enabled = ver.get("enabled", False)
+            if ver is not None and ver.get("enabled"):
+                versioning_enabled = True
                 mfa_delete = str(ver.get("mfaDelete", "")).upper() == "ENABLED"
 
-            # Logging
+            # Public access block — prefer separate BucketPublicAccessBlock resource
+            pab = pab_by_bucket.get(bucket_id)
+            if pab is not None:
+                bpa = pab.get("blockPublicAcls")
+                bpp = pab.get("blockPublicPolicy")
+                rpb = pab.get("restrictPublicBuckets")
+                ipa = pab.get("ignorePublicAcls")
+                public_access_block_enabled: bool | None = bool(bpa and bpp and rpb and ipa)
+                block_public_acls: bool | None = bool(bpa) if bpa is not None else None
+                block_public_policy: bool | None = bool(bpp) if bpp is not None else None
+                restrict_public_buckets: bool | None = bool(rpb) if rpb is not None else None
+            else:
+                public_access_block_enabled = None
+                block_public_acls = None
+                block_public_policy = None
+                restrict_public_buckets = None
+
+            # Logging — prefer separate BucketLoggingV2 resource; fall back to inline
             logging_enabled: bool | None = None
-            log_config = outputs.get("loggings")
-            if log_config is not None:
-                logging_enabled = bool(log_config)
+            log_v2 = log_by_bucket.get(bucket_id)
+            if log_v2 is not None:
+                logging_enabled = bool(log_v2.get("targetBucket"))
+            else:
+                log_config = outputs.get("loggings")
+                if log_config is not None:
+                    logging_enabled = bool(log_config)
 
             # SSL policy
             ssl_only: bool | None = None
@@ -130,6 +182,10 @@ class PulumiParser(BaseParser):
                 encryption_algorithm=enc_alg,
                 versioning_enabled=versioning_enabled,
                 mfa_delete_enabled=mfa_delete,
+                public_access_block_enabled=public_access_block_enabled,
+                block_public_acls=block_public_acls,
+                block_public_policy=block_public_policy,
+                restrict_public_buckets=restrict_public_buckets,
                 access_logging_enabled=logging_enabled,
                 ssl_requests_only=ssl_only,
             )
@@ -210,7 +266,7 @@ class PulumiParser(BaseParser):
                 continue
 
             outputs = resource.get("outputs", {})
-            db_id = outputs.get("id", "")
+            db_id = outputs.get("identifier") or outputs.get("id", "")
             retention = outputs.get("backupRetentionPeriod")
 
             yield NRMRDSInstance(
@@ -280,6 +336,8 @@ class PulumiParser(BaseParser):
         self,
         resources: list[dict],  # type: ignore[type-arg]
         flow_log_vpcs: set[str],
+        default_sg_vpcs: dict[str, bool],
+        nacl_vpcs: dict[str, bool],
     ) -> Iterator[NRMVPC]:
         for resource in resources:
             if resource.get("type") != "aws:ec2/vpc:Vpc":
@@ -290,6 +348,12 @@ class PulumiParser(BaseParser):
 
             flow_enabled: bool | None = True if vpc_id in flow_log_vpcs else None
 
+            default_sg_no_rules: bool | None = None
+            if vpc_id in default_sg_vpcs:
+                default_sg_no_rules = not default_sg_vpcs[vpc_id]
+
+            nacl_status: bool | None = nacl_vpcs.get(vpc_id)
+
             yield NRMVPC(
                 resource_id=vpc_id,
                 resource_name=_urn_name(resource.get("urn", "")) or vpc_id,
@@ -297,6 +361,8 @@ class PulumiParser(BaseParser):
                 region=self.region,
                 account_id=self.account_id,
                 flow_logs_enabled=flow_enabled,
+                default_sg_has_no_rules=default_sg_no_rules,
+                nacl_unrestricted_ingress=nacl_status,
             )
 
     # KMS Keys
@@ -316,6 +382,15 @@ class PulumiParser(BaseParser):
             if key_spec == "SYMMETRIC_DEFAULT":
                 rotation = _opt_bool(outputs, "enableKeyRotation")
 
+            key_policy_public: bool | None = None
+            policy_str = outputs.get("policy") or ""
+            if policy_str:
+                try:
+                    policy_doc = json.loads(policy_str)
+                    key_policy_public = kms_key_policy_allows_public(policy_doc)
+                except (json.JSONDecodeError, TypeError):
+                    pass
+
             yield NRMKMSKey(
                 resource_id=key_id,
                 resource_name=outputs.get("description") or _urn_name(resource.get("urn", "")),
@@ -324,6 +399,7 @@ class PulumiParser(BaseParser):
                 account_id=self.account_id,
                 key_rotation_enabled=rotation,
                 key_enabled=_opt_bool(outputs, "isEnabled"),
+                key_policy_allows_public_access=key_policy_public,
             )
 
 
@@ -368,6 +444,21 @@ def _pulumi_unrestricted_port(rules: list[dict], port: int) -> bool | None:  # t
         cidr = rule.get("cidrBlocks") or []
         ipv6 = rule.get("ipv6CidrBlocks") or []
         if "0.0.0.0/0" in cidr or "::/0" in ipv6:
+            return True
+    return False
+
+
+def _pulumi_nacl_ingress_unrestricted(ingress_rules: list[dict]) -> bool:  # type: ignore[type-arg]
+    """Return True if any ingress NACL rule allows all traffic from 0.0.0.0/0."""
+    for rule in ingress_rules:
+        if rule.get("action", "").lower() != "allow":
+            continue
+        proto = str(rule.get("protocol", ""))
+        if proto not in ("-1", "all"):
+            continue
+        cidr = rule.get("cidrBlock", "")
+        ipv6 = rule.get("ipv6CidrBlock", "")
+        if cidr in ("0.0.0.0/0", "::/0") or ipv6 == "::/0":
             return True
     return False
 

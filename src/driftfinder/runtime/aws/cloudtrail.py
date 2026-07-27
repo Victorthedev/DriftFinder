@@ -41,7 +41,7 @@ class CloudTrailQuerier(BaseResourceQuerier):
         is_logging = self._get_is_logging(trail_arn)
 
         cloudwatch_enabled = bool(trail.get("CloudWatchLogsLogGroupArn"))
-        kms_enabled = bool(trail.get("KMSKeyId"))
+        kms_enabled = bool(trail.get("KmsKeyId") or trail.get("KMSKeyId"))
 
         # S3 bucket logging: the trail records events to an S3 bucket by definition.
         # "S3 bucket logging" here means the S3 bucket used by the trail has its own

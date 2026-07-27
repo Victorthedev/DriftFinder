@@ -17,14 +17,14 @@ class TestDetectDrift:
             resource_id="my-bucket",
             resource_name="my-bucket",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=True,
         )
         actual = declared.__class__(
             resource_id="my-bucket",
             resource_name="my-bucket",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=False,
         )
         findings = _engine()._detect_drift(declared, actual)
@@ -42,7 +42,7 @@ class TestDetectDrift:
             resource_id="my-bucket",
             resource_name="my-bucket",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=True,
             public_access_block_enabled=True,
         )
@@ -54,14 +54,14 @@ class TestDetectDrift:
             resource_id="my-bucket",
             resource_name="my-bucket",
             iac_tool=IaCTool.CLOUDFORMATION,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=None,
         )
         actual = NRMS3Bucket(
             resource_id="my-bucket",
             resource_name="my-bucket",
             iac_tool=IaCTool.CLOUDFORMATION,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=False,
         )
         findings = _engine()._detect_drift(declared, actual)
@@ -72,7 +72,7 @@ class TestDetectDrift:
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=True,
             versioning_enabled=True,
             access_logging_enabled=True,
@@ -81,7 +81,7 @@ class TestDetectDrift:
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=False,
             versioning_enabled=False,
             access_logging_enabled=False,
@@ -97,14 +97,14 @@ class TestDetectDrift:
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             mfa_delete_enabled=True,
         )
         actual = NRMS3Bucket(
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             mfa_delete_enabled=False,
         )
         findings = _engine()._detect_drift(declared, actual)
@@ -127,7 +127,7 @@ class TestDeletedResourceFinding:
             resource_id="gone-bucket",
             resource_name="gone-bucket",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
         )
         finding = _engine()._deleted_resource_finding(resource)
         assert finding.property_path == "*"

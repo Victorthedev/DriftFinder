@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-04c7b8ebcc24040ad",
+      "resource_name": "driftfinder_test",
+      "iac_tool": "terraform",
+      "property_path": "flow_logs_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "5.1"
+      ],
+      "cis_description": "Ensure VPC flow logging is enabled in all VPCs",
+      "detected_at": "2026-07-03T07:49:23.718343Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T07:49:23.916911Z",
+  "iac_tool": "terraform",
+  "state_source": "experiment/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.226,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

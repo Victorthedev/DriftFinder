@@ -47,7 +47,7 @@ def declared_s3_encrypted():
         resource_id="my-bucket",
         resource_name="my-bucket",
         iac_tool=IaCTool.TERRAFORM,
-        region="eu-west-2",
+        region="eu-west-1",
         server_side_encryption_enabled=True,
         public_access_block_enabled=True,
         versioning_enabled=True,
@@ -58,10 +58,10 @@ def declared_s3_encrypted():
 def moto_s3_bucket():
     """Yields a bucket name after creating it in moto-patched S3."""
     with mock_aws():
-        session = boto3.Session(region_name="eu-west-2")
+        session = boto3.Session(region_name="eu-west-1")
         s3 = session.client("s3")
         s3.create_bucket(
             Bucket="moto-test-bucket",
-            CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
+            CreateBucketConfiguration={"LocationConstraint": "eu-west-1"},
         )
         yield "moto-test-bucket", session

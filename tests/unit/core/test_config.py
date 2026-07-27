@@ -7,7 +7,7 @@ from driftfinder.models.enums import FailOn, IaCTool, OutputFormat, ScanMode
 class TestDriftFinderConfig:
     def test_minimal_terraform_config(self):
         cfg = DriftFinderConfig(iac_tool=IaCTool.TERRAFORM, state_file="tf.tfstate")
-        assert cfg.aws_region == "eu-west-2"
+        assert cfg.aws_region == "eu-west-1"
         assert cfg.fail_on == FailOn.CRITICAL
         assert cfg.output_format == OutputFormat.BOTH
 
@@ -34,7 +34,7 @@ class TestDriftFinderConfig:
     def test_from_file(self, tmp_path):
         config_file = tmp_path / ".driftfinder.yml"
         config_file.write_text(
-            "iac_tool: terraform\nstate_file: terraform.tfstate\naws_region: eu-west-2\n"
+            "iac_tool: terraform\nstate_file: terraform.tfstate\naws_region: eu-west-1\n"
         )
         cfg = DriftFinderConfig.from_file(str(config_file))
         assert cfg.iac_tool == IaCTool.TERRAFORM
@@ -44,7 +44,7 @@ class TestDriftFinderConfig:
         cfg = DriftFinderConfig(iac_tool=IaCTool.TERRAFORM, state_file="tf.tfstate")
         updated = cfg.model_copy(update={"aws_region": "us-west-2"})
         assert updated.aws_region == "us-west-2"
-        assert cfg.aws_region == "eu-west-2"
+        assert cfg.aws_region == "eu-west-1"
 
     def test_report_only_mode(self):
         cfg = DriftFinderConfig(

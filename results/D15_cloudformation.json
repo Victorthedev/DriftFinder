@@ -1,0 +1,14 @@
+{
+  "findings": [],
+  "scan_timestamp": "2026-07-03T08:11:29.637713Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 0,
+  "compliant": true,
+  "scan_duration_seconds": 3.986,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

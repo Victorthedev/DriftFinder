@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f4acc41e5e6b0fdf",
+      "resource_name": "driftfinder-sg-test",
+      "iac_tool": "terraform",
+      "property_path": "unrestricted_all_traffic_egress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "LOW",
+      "cis_controls": [],
+      "cis_description": null,
+      "detected_at": "2026-07-03T00:58:13.535476Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T00:58:17.005626Z",
+  "iac_tool": "terraform",
+  "state_source": "experiment/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 4.25,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 1
+}

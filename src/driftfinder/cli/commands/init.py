@@ -53,7 +53,7 @@ def init_command(config_path: str, force: bool) -> None:
         stack_name = None
         pulumi_stack = click.prompt("Pulumi stack export JSON path")
 
-    aws_region = click.prompt("AWS region", default="eu-west-2")
+    aws_region = click.prompt("AWS region", default="eu-west-1")
     aws_profile = click.prompt("AWS profile (leave blank for default credential chain)", default="")
     fail_on = click.prompt(
         "Fail on severity",

@@ -11,7 +11,7 @@ state_file: s3://my-company-tf-state/prod/terraform.tfstate  # Terraform
 # pulumi_stack: my-org/my-project/prod                       # Pulumi
 
 # AWS settings
-aws_region: eu-west-2
+aws_region: eu-west-1
 # aws_profile: production  # Optional: uses default credential chain if omitted
 
 # Scan behaviour

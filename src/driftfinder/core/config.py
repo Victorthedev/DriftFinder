@@ -10,7 +10,7 @@ class DriftFinderConfig(BaseModel):
     # Required
     iac_tool: IaCTool
     aws_profile: str | None = None
-    aws_region: str = "eu-west-2"
+    aws_region: str = "eu-west-1"
 
     # IaC source — exactly one must be set per iac_tool
     state_file: str | None = None  # Terraform: local path or s3://...
@@ -49,7 +49,7 @@ class DriftFinderConfig(BaseModel):
 
         return cls(
             iac_tool=os.environ["DRIFTFINDER_TOOL"],
-            aws_region=os.environ.get("AWS_DEFAULT_REGION", "eu-west-2"),
+            aws_region=os.environ.get("AWS_DEFAULT_REGION", "eu-west-1"),
             aws_profile=os.environ.get("DRIFTFINDER_AWS_PROFILE"),
             state_file=os.environ.get("DRIFTFINDER_STATE_FILE"),
             stack_name=os.environ.get("DRIFTFINDER_STACK_NAME"),

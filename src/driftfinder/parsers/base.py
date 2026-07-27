@@ -9,7 +9,7 @@ from driftfinder.models.nrm import NRMResource
 class BaseParser(ABC):
     """Abstract base for all IaC state parsers."""
 
-    def __init__(self, region: str = "eu-west-2", account_id: str = "") -> None:
+    def __init__(self, region: str = "eu-west-1", account_id: str = "") -> None:
         self.region = region
         self.account_id = account_id
 
@@ -85,6 +85,24 @@ def analyze_iam_policy_document(policy_doc: dict) -> dict:  # type: ignore[type-
         "has_explicit_deny": has_explicit_deny,
         "policy_document_hash": doc_hash,
     }
+
+
+def kms_key_policy_allows_public(policy_doc: dict) -> bool:  # type: ignore[type-arg]
+    """
+    Return True if a KMS key policy has an Allow statement with Principal: "*"
+    or Principal: {"AWS": "*"}, indicating unrestricted key access.
+    """
+    for statement in policy_doc.get("Statement", []):
+        if statement.get("Effect") != "Allow":
+            continue
+        principal = statement.get("Principal", {})
+        if principal == "*":
+            return True
+        if isinstance(principal, dict):
+            aws_p = principal.get("AWS", "")
+            if aws_p == "*" or (isinstance(aws_p, list) and "*" in aws_p):
+                return True
+    return False
 
 
 def has_ssl_only_policy(policy_json: str) -> bool:

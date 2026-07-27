@@ -1,0 +1,43 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test",
+      "resource_name": "driftfinder-iam-test",
+      "iac_tool": "terraform",
+      "property_path": "has_explicit_deny",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "LOW",
+      "cis_controls": [],
+      "cis_description": null,
+      "detected_at": "2026-07-03T01:01:12.087163Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::450284263989:policy/driftfinder-iam-test",
+      "resource_name": "driftfinder-iam-test",
+      "iac_tool": "terraform",
+      "property_path": "policy_document_hash",
+      "declared_value": "2760a4641403269274f182fc0a8e859b049a03344769acab596a98d3766aaac1",
+      "actual_value": "010b641bd94d5bea1e9904f40082c3b49742741f091818ed7106c37733d13844",
+      "drift_type": "MODIFIED",
+      "severity": "LOW",
+      "cis_controls": [],
+      "cis_description": null,
+      "detected_at": "2026-07-03T01:01:12.087390Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T01:01:14.014604Z",
+  "iac_tool": "terraform",
+  "state_source": "experiment/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.475,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 2
+}

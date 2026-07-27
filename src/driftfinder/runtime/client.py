@@ -36,7 +36,7 @@ _BOTO_CONFIG = Config(
 
 def create_session(
     profile: str | None = None,
-    region: str = "eu-west-2",
+    region: str = "eu-west-1",
 ) -> boto3.Session:
     return boto3.Session(profile_name=profile, region_name=region)
 
@@ -49,7 +49,7 @@ class AWSRuntimeQuerier:
 
     def __init__(
         self,
-        region: str = "eu-west-2",
+        region: str = "eu-west-1",
         profile: str | None = None,
         account_id: str = "",
     ) -> None:

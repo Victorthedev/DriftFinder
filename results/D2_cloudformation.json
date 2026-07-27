@@ -1,0 +1,95 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "resource_name": "DriftFinderS3Bucket",
+      "iac_tool": "cloudformation",
+      "property_path": "public_access_block_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "2.1.4"
+      ],
+      "cis_description": "Ensure that S3 Buckets are configured with Block Public Access",
+      "detected_at": "2026-07-03T07:56:29.409495Z"
+    },
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "resource_name": "DriftFinderS3Bucket",
+      "iac_tool": "cloudformation",
+      "property_path": "block_public_acls",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "2.1.4"
+      ],
+      "cis_description": "Ensure that S3 Buckets are configured with Block Public Access (BlockPublicAcls)",
+      "detected_at": "2026-07-03T07:56:29.409589Z"
+    },
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "resource_name": "DriftFinderS3Bucket",
+      "iac_tool": "cloudformation",
+      "property_path": "ignore_public_acls",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "2.1.4"
+      ],
+      "cis_description": "Ensure that S3 Buckets are configured with Block Public Access (IgnorePublicAcls)",
+      "detected_at": "2026-07-03T07:56:29.409610Z"
+    },
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "resource_name": "DriftFinderS3Bucket",
+      "iac_tool": "cloudformation",
+      "property_path": "block_public_policy",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "2.1.4"
+      ],
+      "cis_description": "Ensure that S3 Buckets are configured with Block Public Access (BlockPublicPolicy)",
+      "detected_at": "2026-07-03T07:56:29.409625Z"
+    },
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-cf",
+      "resource_name": "DriftFinderS3Bucket",
+      "iac_tool": "cloudformation",
+      "property_path": "restrict_public_buckets",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "2.1.4"
+      ],
+      "cis_description": "Ensure that S3 Buckets are configured with Block Public Access (RestrictPublicBuckets)",
+      "detected_at": "2026-07-03T07:56:29.409640Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T07:56:31.577023Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.779,
+  "critical_count": 5,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

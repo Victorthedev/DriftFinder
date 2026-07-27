@@ -21,6 +21,7 @@ from driftfinder.models.nrm import (
 from driftfinder.parsers.base import (
     BaseParser,
     analyze_iam_policy_document,
+    kms_key_policy_allows_public,
 )
 
 logger = logging.getLogger(__name__)
@@ -47,7 +48,7 @@ class CloudFormationParser(BaseParser):
 
     def __init__(
         self,
-        region: str = "eu-west-2",
+        region: str = "eu-west-1",
         account_id: str = "",
         profile: str | None = None,
     ) -> None:
@@ -75,6 +76,49 @@ class CloudFormationParser(BaseParser):
 
         cf_resources = template.get("Resources", {})
 
+        # Build flow-log index (D19): physical VPC ID -> has flow log declared
+        self._flow_log_vpcs: set[str] = set()
+        for _, resource_block in cf_resources.items():
+            if resource_block.get("Type") == "AWS::EC2::FlowLog":
+                props = resource_block.get("Properties") or {}
+                resource_id_ref = props.get("ResourceId", "")
+                phys = physical_ids.get(resource_id_ref, "")
+                if phys:
+                    self._flow_log_vpcs.add(phys)
+
+        # Build NACL index (D21): physical VPC ID -> nacl_unrestricted_ingress bool
+        nacl_vpc_map: dict[str, str] = {}   # logical NACL ID -> physical VPC ID
+        nacl_unrestricted: dict[str, bool] = {}  # logical NACL ID -> has unrestricted ingress
+
+        for logical_id, resource_block in cf_resources.items():
+            if resource_block.get("Type") == "AWS::EC2::NetworkAcl":
+                props = resource_block.get("Properties") or {}
+                vpc_ref = props.get("VpcId", "")
+                vpc_phys = physical_ids.get(vpc_ref, "")
+                nacl_vpc_map[logical_id] = vpc_phys
+                nacl_unrestricted[logical_id] = False
+
+        for _, resource_block in cf_resources.items():
+            if resource_block.get("Type") == "AWS::EC2::NetworkAclEntry":
+                props = resource_block.get("Properties") or {}
+                if props.get("Egress", False):
+                    continue
+                nacl_ref = props.get("NetworkAclId", "")
+                if nacl_ref not in nacl_unrestricted:
+                    continue
+                if props.get("RuleAction", "").lower() == "allow":
+                    proto = str(props.get("Protocol", ""))
+                    cidr = props.get("CidrBlock", "")
+                    if proto == "-1" and cidr in ("0.0.0.0/0", "::/0"):
+                        nacl_unrestricted[nacl_ref] = True
+
+        self._vpc_nacl: dict[str, bool] = {}
+        for nacl_lid, vpc_pid in nacl_vpc_map.items():
+            if vpc_pid:
+                self._vpc_nacl[vpc_pid] = (
+                    self._vpc_nacl.get(vpc_pid, False) or nacl_unrestricted.get(nacl_lid, False)
+                )
+
         for logical_id, resource_block in cf_resources.items():
             cf_type = resource_block.get("Type", "")
             if cf_type not in _CF_TYPE_MAP:
@@ -92,11 +136,10 @@ class CloudFormationParser(BaseParser):
         response = self._cfn.get_template(StackName=stack_name, TemplateStage="Original")
         body = response["TemplateBody"]
         if isinstance(body, str):
-            # Handle both JSON and YAML templates
             try:
                 return json.loads(body)  # type: ignore[no-any-return]
             except json.JSONDecodeError:
-                return yaml.safe_load(body)  # type: ignore[no-any-return]
+                return _cfn_yaml_load(body)  # type: ignore[no-any-return]
         return body  # type: ignore[return-value]
 
     def _get_physical_ids(self, stack_name: str) -> dict[str, str]:
@@ -290,13 +333,21 @@ class CloudFormationParser(BaseParser):
     def _build_vpc(
         self, logical_id: str, physical_id: str, props: dict  # type: ignore[type-arg]
     ) -> NRMVPC:
-        # Flow logs and default SG are separate CF resources; cannot determine from VPC alone
+        flow_log_vpcs: set[str] = getattr(self, "_flow_log_vpcs", set())
+        vpc_nacl: dict[str, bool] = getattr(self, "_vpc_nacl", {})
+
+        flow_enabled: bool | None = True if physical_id in flow_log_vpcs else None
+        nacl_status: bool | None = vpc_nacl.get(physical_id)
+
+        # CF has no native default SG resource; default_sg_has_no_rules stays None
         return NRMVPC(
             resource_id=physical_id,
             resource_name=logical_id,
             iac_tool=IaCTool.CLOUDFORMATION,
             region=self.region,
             account_id=self.account_id,
+            flow_logs_enabled=flow_enabled,
+            nacl_unrestricted_ingress=nacl_status,
         )
 
     def _build_kms(
@@ -304,6 +355,17 @@ class CloudFormationParser(BaseParser):
     ) -> NRMKMSKey:
         # CF AWS::KMS::Key does not expose KeyState as a template property;
         # key_enabled can only be determined at runtime.
+        key_policy_allows_public: bool | None = None
+        key_policy = props.get("KeyPolicy")
+        if key_policy is not None:
+            if isinstance(key_policy, str):
+                try:
+                    key_policy = json.loads(key_policy)
+                except json.JSONDecodeError:
+                    key_policy = None
+            if isinstance(key_policy, dict):
+                key_policy_allows_public = kms_key_policy_allows_public(key_policy)
+
         return NRMKMSKey(
             resource_id=physical_id,
             resource_name=logical_id,
@@ -311,12 +373,26 @@ class CloudFormationParser(BaseParser):
             region=self.region,
             account_id=self.account_id,
             key_rotation_enabled=_cf_opt_bool(props, "EnableKeyRotation"),
+            key_enabled=_cf_opt_bool(props, "Enabled"),
+            key_policy_allows_public_access=key_policy_allows_public,
         )
 
 
 # ---------------------------------------------------------------------------
 # Module-level helpers
 # ---------------------------------------------------------------------------
+
+
+def _cfn_yaml_load(body: str) -> dict:  # type: ignore[type-arg]
+    """Load a CloudFormation YAML template, tolerating intrinsic function tags."""
+    loader = yaml.SafeLoader
+    for tag in (
+        "!Ref", "!Sub", "!GetAtt", "!Join", "!Select", "!Split",
+        "!If", "!Not", "!And", "!Or", "!Equals", "!Condition",
+        "!FindInMap", "!ImportValue", "!Base64", "!Cidr",
+    ):
+        loader.add_constructor(tag, lambda l, n: l.construct_scalar(n))  # noqa: E731
+    return yaml.load(body, Loader=loader)  # noqa: S506
 
 
 def _cf_opt_bool(props: dict, key: str) -> bool | None:  # type: ignore[type-arg]

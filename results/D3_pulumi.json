@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-450284263989-pulumi",
+      "resource_name": "driftfinder-s3-test",
+      "iac_tool": "pulumi",
+      "property_path": "access_logging_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "2.1.5"
+      ],
+      "cis_description": "Ensure that S3 Buckets have Object-level logging enabled with CloudTrail",
+      "detected_at": "2026-07-04T15:13:05.642456Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-04T15:13:08.251342Z",
+  "iac_tool": "pulumi",
+  "state_source": "experiment/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 2.875,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

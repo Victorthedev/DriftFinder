@@ -10,7 +10,7 @@
           "attributes": {
             "id": "test-pab-bucket",
             "bucket": "test-pab-bucket",
-            "region": "eu-west-2"
+            "region": "eu-west-1"
           }
         }
       ]

@@ -1,0 +1,1783 @@
+# DriftFinder Experiment — Complete Step by Step Protocol
+# Every single step is written out. No shortcuts. No "repeat steps X-Y".
+# Follow this from top to bottom without skipping anything.
+
+=======================================================================
+SECTION 1: SETUP (DO ONCE)
+=======================================================================
+
+STEP 1
+Open your terminal and run:
+aws sts get-caller-identity
+Copy your Account ID from the output. You will need it throughout.
+
+STEP 2
+In AWS Console go to Billing > Budgets and set a $50 alert on your account.
+
+STEP 3
+In your project root, create a results folder:
+mkdir -p results
+
+STEP 4
+Copy the three config files below into your project root.
+
+File: .driftfinder-terraform.yml
+---
+iac_tool: terraform
+state_file: experiment/terraform/terraform.tfstate
+aws_region: eu-west-1
+fail_on: LOW
+output_format: json
+---
+
+File: .driftfinder-cloudformation.yml
+---
+iac_tool: cloudformation
+stack_name: driftfinder-experiment-cf
+aws_region: eu-west-1
+fail_on: LOW
+output_format: json
+---
+
+File: .driftfinder-pulumi.yml
+---
+iac_tool: pulumi
+pulumi_stack: YOUR_ORG/driftfinder-experiment/driftfinder-experiment
+aws_region: eu-west-1
+fail_on: LOW
+output_format: json
+---
+
+=======================================================================
+SECTION 2: PROVISION THREE ENVIRONMENTS (DO ONCE)
+=======================================================================
+
+--- TERRAFORM ---
+
+STEP 5
+cd experiment/terraform
+
+STEP 6
+terraform init
+
+STEP 7
+terraform apply \
+  -var="account_id=YOUR_ACCOUNT_ID" \
+  -var="db_password=DriftFinder123!" \
+  -var="region=eu-west-1"
+Type yes when prompted. Wait 10-15 minutes for RDS to finish.
+
+STEP 8
+terraform output -json > ../resources_terraform.json
+
+STEP 9
+cd ../..
+
+--- CLOUDFORMATION ---
+
+STEP 10
+aws cloudformation deploy \
+  --template-file experiment/cloudformation/baseline.yaml \
+  --stack-name driftfinder-experiment-cf \
+  --parameter-overrides AccountId=YOUR_ACCOUNT_ID DBPassword=DriftFinder123! \
+  --capabilities CAPABILITY_NAMED_IAM \
+  --region eu-west-1
+Wait 10-15 minutes for RDS to finish.
+
+STEP 11
+aws cloudformation describe-stacks \
+  --stack-name driftfinder-experiment-cf \
+  --region eu-west-1 \
+  --query "Stacks[0].Outputs" \
+  --output json > experiment/resources_cloudformation_raw.json
+
+STEP 12
+python3 -c "
+import json
+raw = json.load(open('experiment/resources_cloudformation_raw.json'))
+key_map = {
+    'S3BucketName': 's3_bucket_name',
+    'SecurityGroupId': 'security_group_id',
+    'IAMPolicyArn': 'iam_policy_arn',
+    'RDSInstanceId': 'rds_instance_id',
+    'EBSVolumeId': 'ebs_volume_id',
+    'CloudTrailName': 'cloudtrail_name',
+    'VPCId': 'vpc_id',
+    'KMSKeyId': 'kms_key_id',
+    'KMSKeyArn': 'kms_key_arn',
+}
+out = {key_map.get(o['OutputKey'], o['OutputKey']): o['OutputValue'] for o in raw}
+json.dump(out, open('experiment/resources_cloudformation.json', 'w'), indent=2)
+print('Done')
+"
+
+--- PULUMI ---
+
+STEP 13
+cd experiment/pulumi
+
+STEP 14
+pip install pulumi pulumi-aws
+
+STEP 15
+pulumi stack init driftfinder-experiment
+
+STEP 16
+pulumi config set aws:region eu-west-1
+
+STEP 17
+pulumi config set account_id YOUR_ACCOUNT_ID
+
+STEP 18
+pulumi config set --secret db_password DriftFinder123!
+
+STEP 19
+pulumi up
+Type yes when prompted. Wait 10-15 minutes for RDS.
+
+STEP 20
+pulumi stack output --json > ../resources_pulumi.json
+
+STEP 21
+cd ../..
+
+=======================================================================
+SECTION 3: BASELINE VERIFICATION (MUST PASS BEFORE CONTINUING)
+=======================================================================
+
+STEP 22
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings. Exit code 0. If any findings appear STOP and fix provisioning.
+
+STEP 23
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings. Exit code 0. If any findings appear STOP and fix provisioning.
+
+STEP 24
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings. Exit code 0. If any findings appear STOP and fix provisioning.
+
+=======================================================================
+SECTION 4: SCENARIO D1 — S3 Disable Server-Side Encryption
+Resource: S3 Bucket | Property: server_side_encryption_enabled
+Severity: HIGH | CIS: 2.1.1 | Mechanism: External automation
+=======================================================================
+
+STEP 25
+python experiment/inject.py --scenario D1 --env terraform --resources experiment/resources_terraform.json
+
+STEP 26
+driftfinder scan --config .driftfinder-terraform.yml --output results/D1_terraform --format json
+
+STEP 27
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+# Change detected=True if DriftFinder found it, False if it missed it
+logger.record_result('D1', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['2.1.1'])
+"
+
+STEP 28
+python experiment/inject.py --reset D1 --env terraform --resources experiment/resources_terraform.json
+
+STEP 29
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings. If not zero STOP and investigate.
+
+STEP 30
+python experiment/inject.py --scenario D1 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 31
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D1_cloudformation --format json
+
+STEP 32
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D1', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['2.1.1'])
+"
+
+STEP 33
+python experiment/inject.py --reset D1 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 34
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 35
+python experiment/inject.py --scenario D1 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 36
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D1_pulumi --format json
+
+STEP 37
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D1', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['2.1.1'])
+"
+
+STEP 38
+python experiment/inject.py --reset D1 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 39
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 5: SCENARIO D2 — S3 Disable Public Access Block
+Resource: S3 Bucket | Property: public_access_block_enabled
+Severity: CRITICAL | CIS: 2.1.4 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 40
+python experiment/inject.py --scenario D2 --env terraform --resources experiment/resources_terraform.json
+
+STEP 41
+driftfinder scan --config .driftfinder-terraform.yml --output results/D2_terraform --format json
+
+STEP 42
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D2', 'terraform', detected=True, detected_severity='CRITICAL', detected_cis=['2.1.4'])
+"
+
+STEP 43
+python experiment/inject.py --reset D2 --env terraform --resources experiment/resources_terraform.json
+
+STEP 44
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 45
+python experiment/inject.py --scenario D2 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 46
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D2_cloudformation --format json
+
+STEP 47
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D2', 'cloudformation', detected=True, detected_severity='CRITICAL', detected_cis=['2.1.4'])
+"
+
+STEP 48
+python experiment/inject.py --reset D2 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 49
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 50
+python experiment/inject.py --scenario D2 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 51
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D2_pulumi --format json
+
+STEP 52
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D2', 'pulumi', detected=True, detected_severity='CRITICAL', detected_cis=['2.1.4'])
+"
+
+STEP 53
+python experiment/inject.py --reset D2 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 54
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 6: SCENARIO D3 — S3 Disable Access Logging
+Resource: S3 Bucket | Property: access_logging_enabled
+Severity: MEDIUM | CIS: 2.1.5 | Mechanism: External automation
+=======================================================================
+
+STEP 55
+python experiment/inject.py --scenario D3 --env terraform --resources experiment/resources_terraform.json
+
+STEP 56
+driftfinder scan --config .driftfinder-terraform.yml --output results/D3_terraform --format json
+
+STEP 57
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D3', 'terraform', detected=True, detected_severity='MEDIUM', detected_cis=['2.1.5'])
+"
+
+STEP 58
+python experiment/inject.py --reset D3 --env terraform --resources experiment/resources_terraform.json
+
+STEP 59
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 60
+python experiment/inject.py --scenario D3 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 61
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D3_cloudformation --format json
+
+STEP 62
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D3', 'cloudformation', detected=True, detected_severity='MEDIUM', detected_cis=['2.1.5'])
+"
+
+STEP 63
+python experiment/inject.py --reset D3 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 64
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 65
+python experiment/inject.py --scenario D3 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 66
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D3_pulumi --format json
+
+STEP 67
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D3', 'pulumi', detected=True, detected_severity='MEDIUM', detected_cis=['2.1.5'])
+"
+
+STEP 68
+python experiment/inject.py --reset D3 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 69
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 7: SCENARIO D4 — Security Group Open SSH
+Resource: Security Group | Property: unrestricted_ssh_ingress
+Severity: CRITICAL | CIS: 5.2 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 70
+python experiment/inject.py --scenario D4 --env terraform --resources experiment/resources_terraform.json
+
+STEP 71
+driftfinder scan --config .driftfinder-terraform.yml --output results/D4_terraform --format json
+
+STEP 72
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D4', 'terraform', detected=True, detected_severity='CRITICAL', detected_cis=['5.2'])
+"
+
+STEP 73
+python experiment/inject.py --reset D4 --env terraform --resources experiment/resources_terraform.json
+
+STEP 74
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 75
+python experiment/inject.py --scenario D4 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 76
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D4_cloudformation --format json
+
+STEP 77
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D4', 'cloudformation', detected=True, detected_severity='CRITICAL', detected_cis=['5.2'])
+"
+
+STEP 78
+python experiment/inject.py --reset D4 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 79
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 80
+python experiment/inject.py --scenario D4 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 81
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D4_pulumi --format json
+
+STEP 82
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D4', 'pulumi', detected=True, detected_severity='CRITICAL', detected_cis=['5.2'])
+"
+
+STEP 83
+python experiment/inject.py --reset D4 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 84
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 8: SCENARIO D5 — Security Group Open RDP
+Resource: Security Group | Property: unrestricted_rdp_ingress
+Severity: CRITICAL | CIS: 5.3 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 85
+python experiment/inject.py --scenario D5 --env terraform --resources experiment/resources_terraform.json
+
+STEP 86
+driftfinder scan --config .driftfinder-terraform.yml --output results/D5_terraform --format json
+
+STEP 87
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D5', 'terraform', detected=True, detected_severity='CRITICAL', detected_cis=['5.3'])
+"
+
+STEP 88
+python experiment/inject.py --reset D5 --env terraform --resources experiment/resources_terraform.json
+
+STEP 89
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 90
+python experiment/inject.py --scenario D5 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 91
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D5_cloudformation --format json
+
+STEP 92
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D5', 'cloudformation', detected=True, detected_severity='CRITICAL', detected_cis=['5.3'])
+"
+
+STEP 93
+python experiment/inject.py --reset D5 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 94
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 95
+python experiment/inject.py --scenario D5 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 96
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D5_pulumi --format json
+
+STEP 97
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D5', 'pulumi', detected=True, detected_severity='CRITICAL', detected_cis=['5.3'])
+"
+
+STEP 98
+python experiment/inject.py --reset D5 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 99
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 9: SCENARIO D6 — Security Group Remove Egress Restriction
+Resource: Security Group | Property: unrestricted_all_traffic_egress
+Severity: MEDIUM | CIS: 5.4 | Mechanism: External automation
+=======================================================================
+
+STEP 100
+python experiment/inject.py --scenario D6 --env terraform --resources experiment/resources_terraform.json
+
+STEP 101
+driftfinder scan --config .driftfinder-terraform.yml --output results/D6_terraform --format json
+
+STEP 102
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D6', 'terraform', detected=True, detected_severity='MEDIUM', detected_cis=['5.4'])
+"
+
+STEP 103
+python experiment/inject.py --reset D6 --env terraform --resources experiment/resources_terraform.json
+
+STEP 104
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 105
+python experiment/inject.py --scenario D6 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 106
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D6_cloudformation --format json
+
+STEP 107
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D6', 'cloudformation', detected=True, detected_severity='MEDIUM', detected_cis=['5.4'])
+"
+
+STEP 108
+python experiment/inject.py --reset D6 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 109
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 110
+python experiment/inject.py --scenario D6 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 111
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D6_pulumi --format json
+
+STEP 112
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D6', 'pulumi', detected=True, detected_severity='MEDIUM', detected_cis=['5.4'])
+"
+
+STEP 113
+python experiment/inject.py --reset D6 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 114
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 10: SCENARIO D7 — IAM Policy Add Wildcard Action
+Resource: IAM Policy | Property: has_wildcard_action
+Severity: CRITICAL | CIS: 1.16 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 115
+python experiment/inject.py --scenario D7 --env terraform --resources experiment/resources_terraform.json
+
+STEP 116
+driftfinder scan --config .driftfinder-terraform.yml --output results/D7_terraform --format json
+
+STEP 117
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D7', 'terraform', detected=True, detected_severity='CRITICAL', detected_cis=['1.16'])
+"
+
+STEP 118
+python experiment/inject.py --reset D7 --env terraform --resources experiment/resources_terraform.json
+
+STEP 119
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 120
+python experiment/inject.py --scenario D7 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 121
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D7_cloudformation --format json
+
+STEP 122
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D7', 'cloudformation', detected=True, detected_severity='CRITICAL', detected_cis=['1.16'])
+"
+
+STEP 123
+python experiment/inject.py --reset D7 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 124
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 125
+python experiment/inject.py --scenario D7 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 126
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D7_pulumi --format json
+
+STEP 127
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D7', 'pulumi', detected=True, detected_severity='CRITICAL', detected_cis=['1.16'])
+"
+
+STEP 128
+python experiment/inject.py --reset D7 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 129
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 11: SCENARIO D8 — IAM Policy Attach Admin Access
+Resource: IAM Policy | Property: has_admin_access
+Severity: HIGH | CIS: 1.16 | Mechanism: External automation
+=======================================================================
+
+STEP 130
+python experiment/inject.py --scenario D8 --env terraform --resources experiment/resources_terraform.json
+
+STEP 131
+driftfinder scan --config .driftfinder-terraform.yml --output results/D8_terraform --format json
+
+STEP 132
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D8', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['1.16'])
+"
+
+STEP 133
+python experiment/inject.py --reset D8 --env terraform --resources experiment/resources_terraform.json
+
+STEP 134
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 135
+python experiment/inject.py --scenario D8 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 136
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D8_cloudformation --format json
+
+STEP 137
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D8', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['1.16'])
+"
+
+STEP 138
+python experiment/inject.py --reset D8 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 139
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 140
+python experiment/inject.py --scenario D8 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 141
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D8_pulumi --format json
+
+STEP 142
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D8', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['1.16'])
+"
+
+STEP 143
+python experiment/inject.py --reset D8 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 144
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 12: SCENARIO D9 — IAM Policy Remove Explicit Deny
+Resource: IAM Policy | Property: has_explicit_deny
+Severity: MEDIUM | CIS: 1.17 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 145
+python experiment/inject.py --scenario D9 --env terraform --resources experiment/resources_terraform.json
+
+STEP 146
+driftfinder scan --config .driftfinder-terraform.yml --output results/D9_terraform --format json
+
+STEP 147
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D9', 'terraform', detected=True, detected_severity='MEDIUM', detected_cis=['1.17'])
+"
+
+STEP 148
+python experiment/inject.py --reset D9 --env terraform --resources experiment/resources_terraform.json
+
+STEP 149
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 150
+python experiment/inject.py --scenario D9 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 151
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D9_cloudformation --format json
+
+STEP 152
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D9', 'cloudformation', detected=True, detected_severity='MEDIUM', detected_cis=['1.17'])
+"
+
+STEP 153
+python experiment/inject.py --reset D9 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 154
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 155
+python experiment/inject.py --scenario D9 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 156
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D9_pulumi --format json
+
+STEP 157
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D9', 'pulumi', detected=True, detected_severity='MEDIUM', detected_cis=['1.17'])
+"
+
+STEP 158
+python experiment/inject.py --reset D9 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 159
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 13: SCENARIO D10 — RDS Storage Encrypted (IMMUTABLE)
+Resource: RDS Instance | Property: storage_encrypted
+Severity: CRITICAL | CIS: 2.3.1 | Mechanism: Immutable property
+NOTE: This logs a detection boundary scenario. No AWS change is made.
+=======================================================================
+
+STEP 160
+python experiment/inject.py --scenario D10 --env terraform --resources experiment/resources_terraform.json
+
+STEP 161
+driftfinder scan --config .driftfinder-terraform.yml --output results/D10_terraform --format json
+NOTE: DriftFinder cannot detect this as drift because the actual resource IS
+encrypted. This is expected. Record detected=False and note it as an
+immutable property detection boundary in your results spreadsheet.
+
+STEP 162
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D10', 'terraform', detected=False, detected_severity=None, detected_cis=None)
+"
+
+STEP 163
+python experiment/inject.py --scenario D10 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 164
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D10_cloudformation --format json
+
+STEP 165
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D10', 'cloudformation', detected=False, detected_severity=None, detected_cis=None)
+"
+
+STEP 166
+python experiment/inject.py --scenario D10 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 167
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D10_pulumi --format json
+
+STEP 168
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D10', 'pulumi', detected=False, detected_severity=None, detected_cis=None)
+"
+
+=======================================================================
+SECTION 14: SCENARIO D11 — RDS Enable Public Accessibility
+Resource: RDS Instance | Property: publicly_accessible
+Severity: HIGH | CIS: 2.3.2 | Mechanism: Emergency console change
+WARNING: Wait 10-15 minutes after injection before scanning.
+=======================================================================
+
+STEP 169
+python experiment/inject.py --scenario D11 --env terraform --resources experiment/resources_terraform.json
+Wait 10-15 minutes for RDS modification to complete before scanning.
+
+STEP 170
+driftfinder scan --config .driftfinder-terraform.yml --output results/D11_terraform --format json
+
+STEP 171
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D11', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['2.3.2'])
+"
+
+STEP 172
+python experiment/inject.py --reset D11 --env terraform --resources experiment/resources_terraform.json
+Wait 10-15 minutes for RDS to finish.
+
+STEP 173
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 174
+python experiment/inject.py --scenario D11 --env cloudformation --resources experiment/resources_cloudformation.json
+Wait 10-15 minutes.
+
+STEP 175
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D11_cloudformation --format json
+
+STEP 176
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D11', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['2.3.2'])
+"
+
+STEP 177
+python experiment/inject.py --reset D11 --env cloudformation --resources experiment/resources_cloudformation.json
+Wait 10-15 minutes.
+
+STEP 178
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 179
+python experiment/inject.py --scenario D11 --env pulumi --resources experiment/resources_pulumi.json
+Wait 10-15 minutes.
+
+STEP 180
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D11_pulumi --format json
+
+STEP 181
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D11', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['2.3.2'])
+"
+
+STEP 182
+python experiment/inject.py --reset D11 --env pulumi --resources experiment/resources_pulumi.json
+Wait 10-15 minutes.
+
+STEP 183
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 15: SCENARIO D12 — RDS Disable Automated Backups
+Resource: RDS Instance | Property: backup_retention_days
+Severity: MEDIUM | CIS: 2.3.3 | Mechanism: External automation
+WARNING: Wait 10-15 minutes after injection before scanning.
+=======================================================================
+
+STEP 184
+python experiment/inject.py --scenario D12 --env terraform --resources experiment/resources_terraform.json
+Wait 10-15 minutes.
+
+STEP 185
+driftfinder scan --config .driftfinder-terraform.yml --output results/D12_terraform --format json
+
+STEP 186
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D12', 'terraform', detected=True, detected_severity='MEDIUM', detected_cis=['2.3.3'])
+"
+
+STEP 187
+python experiment/inject.py --reset D12 --env terraform --resources experiment/resources_terraform.json
+Wait 10-15 minutes.
+
+STEP 188
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 189
+python experiment/inject.py --scenario D12 --env cloudformation --resources experiment/resources_cloudformation.json
+Wait 10-15 minutes.
+
+STEP 190
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D12_cloudformation --format json
+
+STEP 191
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D12', 'cloudformation', detected=True, detected_severity='MEDIUM', detected_cis=['2.3.3'])
+"
+
+STEP 192
+python experiment/inject.py --reset D12 --env cloudformation --resources experiment/resources_cloudformation.json
+Wait 10-15 minutes.
+
+STEP 193
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 194
+python experiment/inject.py --scenario D12 --env pulumi --resources experiment/resources_pulumi.json
+Wait 10-15 minutes.
+
+STEP 195
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D12_pulumi --format json
+
+STEP 196
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D12', 'pulumi', detected=True, detected_severity='MEDIUM', detected_cis=['2.3.3'])
+"
+
+STEP 197
+python experiment/inject.py --reset D12 --env pulumi --resources experiment/resources_pulumi.json
+Wait 10-15 minutes.
+
+STEP 198
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 16: SCENARIO D13 — EBS Encrypted (IMMUTABLE)
+Resource: EBS Volume | Property: encrypted
+Severity: CRITICAL | CIS: 2.2.1 | Mechanism: Immutable property
+NOTE: Same as D10. No AWS change made. Detection boundary test.
+=======================================================================
+
+STEP 199
+python experiment/inject.py --scenario D13 --env terraform --resources experiment/resources_terraform.json
+
+STEP 200
+driftfinder scan --config .driftfinder-terraform.yml --output results/D13_terraform --format json
+
+STEP 201
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D13', 'terraform', detected=False, detected_severity=None, detected_cis=None)
+"
+
+STEP 202
+python experiment/inject.py --scenario D13 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 203
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D13_cloudformation --format json
+
+STEP 204
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D13', 'cloudformation', detected=False, detected_severity=None, detected_cis=None)
+"
+
+STEP 205
+python experiment/inject.py --scenario D13 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 206
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D13_pulumi --format json
+
+STEP 207
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D13', 'pulumi', detected=False, detected_severity=None, detected_cis=None)
+"
+
+=======================================================================
+SECTION 17: SCENARIO D14 — EBS Create Unencrypted Snapshot
+Resource: EBS Volume | Property: snapshot_encrypted
+Severity: HIGH | CIS: 2.2.1 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 208
+python experiment/inject.py --scenario D14 --env terraform --resources experiment/resources_terraform.json
+
+STEP 209
+driftfinder scan --config .driftfinder-terraform.yml --output results/D14_terraform --format json
+
+STEP 210
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D14', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['2.2.1'])
+"
+
+STEP 211
+python experiment/inject.py --reset D14 --env terraform --resources experiment/resources_terraform.json
+
+STEP 212
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 213
+python experiment/inject.py --scenario D14 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 214
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D14_cloudformation --format json
+
+STEP 215
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D14', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['2.2.1'])
+"
+
+STEP 216
+python experiment/inject.py --reset D14 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 217
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 218
+python experiment/inject.py --scenario D14 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 219
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D14_pulumi --format json
+
+STEP 220
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D14', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['2.2.1'])
+"
+
+STEP 221
+python experiment/inject.py --reset D14 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 222
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 18: SCENARIO D15 — EBS Delete On Termination (OBSERVATION)
+Resource: EBS Volume | Property: delete_on_termination
+Severity: MEDIUM | CIS: 2.2.1 | Mechanism: Third-party tool
+NOTE: Attachment-dependent property. No AWS change made. Observation test.
+=======================================================================
+
+STEP 223
+python experiment/inject.py --scenario D15 --env terraform --resources experiment/resources_terraform.json
+
+STEP 224
+driftfinder scan --config .driftfinder-terraform.yml --output results/D15_terraform --format json
+
+STEP 225
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D15', 'terraform', detected=False, detected_severity=None, detected_cis=None)
+"
+
+STEP 226
+python experiment/inject.py --scenario D15 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 227
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D15_cloudformation --format json
+
+STEP 228
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D15', 'cloudformation', detected=False, detected_severity=None, detected_cis=None)
+"
+
+STEP 229
+python experiment/inject.py --scenario D15 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 230
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D15_pulumi --format json
+
+STEP 231
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D15', 'pulumi', detected=False, detected_severity=None, detected_cis=None)
+"
+
+=======================================================================
+SECTION 19: SCENARIO D16 — CloudTrail Disable Multi-Region
+Resource: CloudTrail | Property: multi_region_enabled
+Severity: HIGH | CIS: 3.1 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 232
+python experiment/inject.py --scenario D16 --env terraform --resources experiment/resources_terraform.json
+
+STEP 233
+driftfinder scan --config .driftfinder-terraform.yml --output results/D16_terraform --format json
+
+STEP 234
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D16', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['3.1'])
+"
+
+STEP 235
+python experiment/inject.py --reset D16 --env terraform --resources experiment/resources_terraform.json
+
+STEP 236
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 237
+python experiment/inject.py --scenario D16 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 238
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D16_cloudformation --format json
+
+STEP 239
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D16', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['3.1'])
+"
+
+STEP 240
+python experiment/inject.py --reset D16 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 241
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 242
+python experiment/inject.py --scenario D16 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 243
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D16_pulumi --format json
+
+STEP 244
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D16', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['3.1'])
+"
+
+STEP 245
+python experiment/inject.py --reset D16 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 246
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 20: SCENARIO D17 — CloudTrail Disable Log Validation
+Resource: CloudTrail | Property: log_file_validation_enabled
+Severity: HIGH | CIS: 3.2 | Mechanism: External automation
+=======================================================================
+
+STEP 247
+python experiment/inject.py --scenario D17 --env terraform --resources experiment/resources_terraform.json
+
+STEP 248
+driftfinder scan --config .driftfinder-terraform.yml --output results/D17_terraform --format json
+
+STEP 249
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D17', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['3.2'])
+"
+
+STEP 250
+python experiment/inject.py --reset D17 --env terraform --resources experiment/resources_terraform.json
+
+STEP 251
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 252
+python experiment/inject.py --scenario D17 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 253
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D17_cloudformation --format json
+
+STEP 254
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D17', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['3.2'])
+"
+
+STEP 255
+python experiment/inject.py --reset D17 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 256
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 257
+python experiment/inject.py --scenario D17 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 258
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D17_pulumi --format json
+
+STEP 259
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D17', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['3.2'])
+"
+
+STEP 260
+python experiment/inject.py --reset D17 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 261
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 21: SCENARIO D18 — CloudTrail Disable CloudWatch Integration
+Resource: CloudTrail | Property: cloudwatch_logs_enabled
+Severity: MEDIUM | CIS: 3.4 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 262
+python experiment/inject.py --scenario D18 --env terraform --resources experiment/resources_terraform.json
+
+STEP 263
+driftfinder scan --config .driftfinder-terraform.yml --output results/D18_terraform --format json
+
+STEP 264
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D18', 'terraform', detected=True, detected_severity='MEDIUM', detected_cis=['3.4'])
+"
+
+STEP 265
+python experiment/inject.py --reset D18 --env terraform --resources experiment/resources_terraform.json
+
+STEP 266
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 267
+python experiment/inject.py --scenario D18 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 268
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D18_cloudformation --format json
+
+STEP 269
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D18', 'cloudformation', detected=True, detected_severity='MEDIUM', detected_cis=['3.4'])
+"
+
+STEP 270
+python experiment/inject.py --reset D18 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 271
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 272
+python experiment/inject.py --scenario D18 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 273
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D18_pulumi --format json
+
+STEP 274
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D18', 'pulumi', detected=True, detected_severity='MEDIUM', detected_cis=['3.4'])
+"
+
+STEP 275
+python experiment/inject.py --reset D18 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 276
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 22: SCENARIO D19 — VPC Delete Flow Log
+Resource: VPC | Property: flow_logs_enabled
+Severity: HIGH | CIS: 5.1 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 277
+python experiment/inject.py --scenario D19 --env terraform --resources experiment/resources_terraform.json
+
+STEP 278
+driftfinder scan --config .driftfinder-terraform.yml --output results/D19_terraform --format json
+
+STEP 279
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D19', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['5.1'])
+"
+
+STEP 280
+python experiment/inject.py --reset D19 --env terraform --resources experiment/resources_terraform.json
+
+STEP 281
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 282
+python experiment/inject.py --scenario D19 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 283
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D19_cloudformation --format json
+
+STEP 284
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D19', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['5.1'])
+"
+
+STEP 285
+python experiment/inject.py --reset D19 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 286
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 287
+python experiment/inject.py --scenario D19 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 288
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D19_pulumi --format json
+
+STEP 289
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D19', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['5.1'])
+"
+
+STEP 290
+python experiment/inject.py --reset D19 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 291
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 23: SCENARIO D20 — VPC Add Rule to Default Security Group
+Resource: VPC | Property: default_sg_has_no_rules
+Severity: CRITICAL | CIS: 5.5 | Mechanism: External automation
+=======================================================================
+
+STEP 292
+python experiment/inject.py --scenario D20 --env terraform --resources experiment/resources_terraform.json
+
+STEP 293
+driftfinder scan --config .driftfinder-terraform.yml --output results/D20_terraform --format json
+
+STEP 294
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D20', 'terraform', detected=True, detected_severity='CRITICAL', detected_cis=['5.5'])
+"
+
+STEP 295
+python experiment/inject.py --reset D20 --env terraform --resources experiment/resources_terraform.json
+
+STEP 296
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 297
+python experiment/inject.py --scenario D20 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 298
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D20_cloudformation --format json
+
+STEP 299
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D20', 'cloudformation', detected=True, detected_severity='CRITICAL', detected_cis=['5.5'])
+"
+
+STEP 300
+python experiment/inject.py --reset D20 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 301
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 302
+python experiment/inject.py --scenario D20 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 303
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D20_pulumi --format json
+
+STEP 304
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D20', 'pulumi', detected=True, detected_severity='CRITICAL', detected_cis=['5.5'])
+"
+
+STEP 305
+python experiment/inject.py --reset D20 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 306
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 24: SCENARIO D21 — VPC Modify NACL Allow Unrestricted Ingress
+Resource: VPC | Property: nacl_unrestricted_ingress
+Severity: MEDIUM | CIS: 5.1 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 307
+python experiment/inject.py --scenario D21 --env terraform --resources experiment/resources_terraform.json
+
+STEP 308
+driftfinder scan --config .driftfinder-terraform.yml --output results/D21_terraform --format json
+
+STEP 309
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D21', 'terraform', detected=True, detected_severity='MEDIUM', detected_cis=['5.1'])
+"
+
+STEP 310
+python experiment/inject.py --reset D21 --env terraform --resources experiment/resources_terraform.json
+
+STEP 311
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 312
+python experiment/inject.py --scenario D21 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 313
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D21_cloudformation --format json
+
+STEP 314
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D21', 'cloudformation', detected=True, detected_severity='MEDIUM', detected_cis=['5.1'])
+"
+
+STEP 315
+python experiment/inject.py --reset D21 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 316
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 317
+python experiment/inject.py --scenario D21 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 318
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D21_pulumi --format json
+
+STEP 319
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D21', 'pulumi', detected=True, detected_severity='MEDIUM', detected_cis=['5.1'])
+"
+
+STEP 320
+python experiment/inject.py --reset D21 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 321
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 25: SCENARIO D22 — KMS Disable Key Rotation
+Resource: KMS Key | Property: key_rotation_enabled
+Severity: HIGH | CIS: 3.7 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 322
+python experiment/inject.py --scenario D22 --env terraform --resources experiment/resources_terraform.json
+
+STEP 323
+driftfinder scan --config .driftfinder-terraform.yml --output results/D22_terraform --format json
+
+STEP 324
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D22', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['3.7'])
+"
+
+STEP 325
+python experiment/inject.py --reset D22 --env terraform --resources experiment/resources_terraform.json
+
+STEP 326
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 327
+python experiment/inject.py --scenario D22 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 328
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D22_cloudformation --format json
+
+STEP 329
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D22', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['3.7'])
+"
+
+STEP 330
+python experiment/inject.py --reset D22 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 331
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 332
+python experiment/inject.py --scenario D22 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 333
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D22_pulumi --format json
+
+STEP 334
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D22', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['3.7'])
+"
+
+STEP 335
+python experiment/inject.py --reset D22 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 336
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 26: SCENARIO D23 — KMS Disable Key
+Resource: KMS Key | Property: key_enabled
+Severity: CRITICAL | CIS: 3.7 | Mechanism: External automation
+WARNING: SCAN IMMEDIATELY AFTER INJECTION. RESET IMMEDIATELY AFTER SCAN.
+Disabling the key affects RDS, EBS and CloudTrail encrypted with it.
+=======================================================================
+
+STEP 337
+python experiment/inject.py --scenario D23 --env terraform --resources experiment/resources_terraform.json
+
+STEP 338
+driftfinder scan --config .driftfinder-terraform.yml --output results/D23_terraform --format json
+DO THIS IMMEDIATELY AFTER STEP 337.
+
+STEP 339
+python experiment/inject.py --reset D23 --env terraform --resources experiment/resources_terraform.json
+DO THIS IMMEDIATELY AFTER STEP 338.
+
+STEP 340
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D23', 'terraform', detected=True, detected_severity='CRITICAL', detected_cis=['3.7'])
+"
+
+STEP 341
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 342
+python experiment/inject.py --scenario D23 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 343
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D23_cloudformation --format json
+DO THIS IMMEDIATELY.
+
+STEP 344
+python experiment/inject.py --reset D23 --env cloudformation --resources experiment/resources_cloudformation.json
+DO THIS IMMEDIATELY.
+
+STEP 345
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D23', 'cloudformation', detected=True, detected_severity='CRITICAL', detected_cis=['3.7'])
+"
+
+STEP 346
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 347
+python experiment/inject.py --scenario D23 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 348
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D23_pulumi --format json
+DO THIS IMMEDIATELY.
+
+STEP 349
+python experiment/inject.py --reset D23 --env pulumi --resources experiment/resources_pulumi.json
+DO THIS IMMEDIATELY.
+
+STEP 350
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D23', 'pulumi', detected=True, detected_severity='CRITICAL', detected_cis=['3.7'])
+"
+
+STEP 351
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 27: SCENARIO D24 — KMS Modify Key Policy
+Resource: KMS Key | Property: key_policy_allows_public_access
+Severity: HIGH | CIS: 3.7 | Mechanism: Emergency console change
+=======================================================================
+
+STEP 352
+python experiment/inject.py --scenario D24 --env terraform --resources experiment/resources_terraform.json
+
+STEP 353
+driftfinder scan --config .driftfinder-terraform.yml --output results/D24_terraform --format json
+
+STEP 354
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D24', 'terraform', detected=True, detected_severity='HIGH', detected_cis=['3.7'])
+"
+
+STEP 355
+python experiment/inject.py --reset D24 --env terraform --resources experiment/resources_terraform.json
+
+STEP 356
+driftfinder scan --config .driftfinder-terraform.yml
+EXPECTED: 0 findings.
+
+STEP 357
+python experiment/inject.py --scenario D24 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 358
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/D24_cloudformation --format json
+
+STEP 359
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D24', 'cloudformation', detected=True, detected_severity='HIGH', detected_cis=['3.7'])
+"
+
+STEP 360
+python experiment/inject.py --reset D24 --env cloudformation --resources experiment/resources_cloudformation.json
+
+STEP 361
+driftfinder scan --config .driftfinder-cloudformation.yml
+EXPECTED: 0 findings.
+
+STEP 362
+python experiment/inject.py --scenario D24 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 363
+driftfinder scan --config .driftfinder-pulumi.yml --output results/D24_pulumi --format json
+
+STEP 364
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.record_result('D24', 'pulumi', detected=True, detected_severity='HIGH', detected_cis=['3.7'])
+"
+
+STEP 365
+python experiment/inject.py --reset D24 --env pulumi --resources experiment/resources_pulumi.json
+
+STEP 366
+driftfinder scan --config .driftfinder-pulumi.yml
+EXPECTED: 0 findings.
+
+=======================================================================
+SECTION 28: CONTROL CASES C1-C6
+Verify DriftFinder produces ZERO findings on clean environments.
+These measure false positive rate. Any finding here is a false positive.
+=======================================================================
+
+STEP 367
+driftfinder scan --config .driftfinder-terraform.yml --output results/C1_terraform --format json
+EXPECTED: 0 findings. Record this as control case C1 terraform.
+
+STEP 368
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/C2_cloudformation --format json
+EXPECTED: 0 findings. Record this as control case C2 cloudformation.
+
+STEP 369
+driftfinder scan --config .driftfinder-pulumi.yml --output results/C3_pulumi --format json
+EXPECTED: 0 findings. Record this as control case C3 pulumi.
+
+STEP 370
+driftfinder scan --config .driftfinder-terraform.yml --output results/C4_terraform --format json
+EXPECTED: 0 findings. Record as C4.
+
+STEP 371
+driftfinder scan --config .driftfinder-cloudformation.yml --output results/C5_cloudformation --format json
+EXPECTED: 0 findings. Record as C5.
+
+STEP 372
+driftfinder scan --config .driftfinder-pulumi.yml --output results/C6_pulumi --format json
+EXPECTED: 0 findings. Record as C6.
+
+=======================================================================
+SECTION 29: COMPUTE RESULTS
+=======================================================================
+
+STEP 373
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.print_summary()
+"
+
+STEP 374
+python3 -c "
+from experiment.ground_truth_logger import GroundTruthLogger
+logger = GroundTruthLogger('experiment/ground_truth.json')
+logger.export_for_dissertation('results/dissertation_results.json')
+"
+
+=======================================================================
+SECTION 30: TEARDOWN (DELETE ALL AWS RESOURCES)
+=======================================================================
+
+STEP 375
+cd experiment/terraform
+terraform destroy \
+  -var="account_id=YOUR_ACCOUNT_ID" \
+  -var="db_password=DriftFinder123!" \
+  -var="region=eu-west-1"
+Type yes when prompted.
+
+STEP 376
+aws cloudformation delete-stack \
+  --stack-name driftfinder-experiment-cf \
+  --region eu-west-1
+
+STEP 377
+cd experiment/pulumi
+pulumi destroy
+Type yes when prompted.
+
+=======================================================================
+DONE. Share the results/ folder and experiment/ground_truth.json
+and we will write the dissertation results chapter.
+=======================================================================

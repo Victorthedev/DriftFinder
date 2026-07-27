@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test-cf",
+      "resource_name": "DriftFinderRDS",
+      "iac_tool": "cloudformation",
+      "property_path": "backup_retention_days",
+      "declared_value": 7,
+      "actual_value": 0,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "2.3.3"
+      ],
+      "cis_description": "Ensure that RDS clusters have backup enabled",
+      "detected_at": "2026-07-03T08:04:41.931636Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T08:04:42.601746Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.656,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

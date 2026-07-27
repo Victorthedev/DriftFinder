@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMKMSKey",
+      "resource_id": "013cd23e-2a9f-4153-a19f-0620d379b5a9",
+      "resource_name": "DriftFinderKMSKey",
+      "iac_tool": "cloudformation",
+      "property_path": "key_policy_allows_public_access",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "3.7"
+      ],
+      "cis_description": "Ensure KMS key policy does not allow public access",
+      "detected_at": "2026-07-04T14:40:38.655388Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-04T14:40:41.125036Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.015,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

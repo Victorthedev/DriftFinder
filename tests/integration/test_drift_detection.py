@@ -16,11 +16,11 @@ from driftfinder.models.enums import IaCTool
 @mock_aws
 def test_detects_encryption_drift_end_to_end(tmp_path):
     """Terraform state declares encryption; moto bucket has none. Engine finds drift."""
-    session = boto3.Session(region_name="eu-west-2")
+    session = boto3.Session(region_name="eu-west-1")
     s3 = session.client("s3")
     s3.create_bucket(
         Bucket="driftfinder-test",
-        CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
+        CreateBucketConfiguration={"LocationConstraint": "eu-west-1"},
     )
     # Deliberately no encryption configured
 
@@ -36,7 +36,7 @@ def test_detects_encryption_drift_end_to_end(tmp_path):
                         "attributes": {
                             "id": "driftfinder-test",
                             "bucket": "driftfinder-test",
-                            "region": "eu-west-2",
+                            "region": "eu-west-1",
                         }
                     }
                 ],
@@ -68,7 +68,7 @@ def test_detects_encryption_drift_end_to_end(tmp_path):
     config = DriftFinderConfig(
         iac_tool=IaCTool.TERRAFORM,
         state_file=str(state_file),
-        aws_region="eu-west-2",
+        aws_region="eu-west-1",
     )
     engine = DriftFinderEngine(config)
     result = engine.scan()
@@ -86,11 +86,11 @@ def test_detects_encryption_drift_end_to_end(tmp_path):
 @mock_aws
 def test_no_drift_when_state_matches(tmp_path):
     """When declared and actual state match, scan returns compliant."""
-    session = boto3.Session(region_name="eu-west-2")
+    session = boto3.Session(region_name="eu-west-1")
     s3 = session.client("s3")
     s3.create_bucket(
         Bucket="compliant-bucket",
-        CreateBucketConfiguration={"LocationConstraint": "eu-west-2"},
+        CreateBucketConfiguration={"LocationConstraint": "eu-west-1"},
     )
     s3.put_bucket_versioning(
         Bucket="compliant-bucket",
@@ -109,7 +109,7 @@ def test_no_drift_when_state_matches(tmp_path):
                         "attributes": {
                             "id": "compliant-bucket",
                             "bucket": "compliant-bucket",
-                            "region": "eu-west-2",
+                            "region": "eu-west-1",
                         }
                     }
                 ],
@@ -137,7 +137,7 @@ def test_no_drift_when_state_matches(tmp_path):
     config = DriftFinderConfig(
         iac_tool=IaCTool.TERRAFORM,
         state_file=str(state_file),
-        aws_region="eu-west-2",
+        aws_region="eu-west-1",
     )
     result = DriftFinderEngine(config).scan()
     versioning_findings = [f for f in result.findings if f.property_path == "versioning_enabled"]
@@ -161,7 +161,7 @@ def test_deleted_resource_produces_critical_finding(tmp_path):
                         "attributes": {
                             "id": "deleted-bucket",
                             "bucket": "deleted-bucket",
-                            "region": "eu-west-2",
+                            "region": "eu-west-1",
                         }
                     }
                 ],
@@ -174,7 +174,7 @@ def test_deleted_resource_produces_critical_finding(tmp_path):
     config = DriftFinderConfig(
         iac_tool=IaCTool.TERRAFORM,
         state_file=str(state_file),
-        aws_region="eu-west-2",
+        aws_region="eu-west-1",
     )
     result = DriftFinderEngine(config).scan()
 

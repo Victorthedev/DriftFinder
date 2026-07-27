@@ -10,12 +10,12 @@ FIXTURES = Path(__file__).parent.parent.parent / "fixtures" / "tfstate"
 
 
 def _s3(path: Path) -> list:
-    parser = TerraformParser(region="eu-west-2")
+    parser = TerraformParser(region="eu-west-1")
     return [r for r in parser.parse(str(path)) if isinstance(r, NRMS3Bucket)]
 
 
 def _sg(path: Path) -> list:
-    parser = TerraformParser(region="eu-west-2")
+    parser = TerraformParser(region="eu-west-1")
     return [r for r in parser.parse(str(path)) if isinstance(r, NRMSecurityGroup)]
 
 

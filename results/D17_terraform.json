@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "arn:aws:cloudtrail:eu-west-1:450284263989:trail/driftfinder-trail-test",
+      "resource_name": "driftfinder-trail-test",
+      "iac_tool": "terraform",
+      "property_path": "log_file_validation_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "3.2"
+      ],
+      "cis_description": "Ensure CloudTrail log file validation is enabled",
+      "detected_at": "2026-07-03T07:48:30.336198Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T07:48:30.946021Z",
+  "iac_tool": "terraform",
+  "state_source": "experiment/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.067,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

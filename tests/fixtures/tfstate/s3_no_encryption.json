@@ -10,7 +10,7 @@
           "attributes": {
             "id": "test-plain-bucket",
             "bucket": "test-plain-bucket",
-            "region": "eu-west-2"
+            "region": "eu-west-1"
           }
         }
       ]

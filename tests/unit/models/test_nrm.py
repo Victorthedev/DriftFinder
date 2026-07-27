@@ -20,7 +20,7 @@ class TestNRMBase:
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
         )
         assert bucket.account_id == ""
 
@@ -29,7 +29,7 @@ class TestNRMBase:
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
         )
         with pytest.raises((TypeError, AttributeError)):
             bucket.resource_id = "changed"  # type: ignore[misc]
@@ -39,7 +39,7 @@ class TestNRMBase:
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             server_side_encryption_enabled=True,
         )
         s = {bucket}
@@ -52,7 +52,7 @@ class TestNRMSecurityGroup:
             resource_id="sg-1",
             resource_name="sg-1",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             ingress_rules=((22, 22, "tcp"),),
         )
         assert isinstance(sg.ingress_rules, tuple)
@@ -62,7 +62,7 @@ class TestNRMSecurityGroup:
             resource_id="sg-1",
             resource_name="sg-1",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
             ingress_rules=((22, 22, "tcp"),),
             egress_rules=(),
         )
@@ -87,7 +87,7 @@ class TestNRMDefaultsAreNone:
             resource_id="b",
             resource_name="b",
             iac_tool=IaCTool.TERRAFORM,
-            region="eu-west-2",
+            region="eu-west-1",
         )
         assert bucket.server_side_encryption_enabled is None
         assert bucket.public_access_block_enabled is None
@@ -99,7 +99,7 @@ class TestNRMDefaultsAreNone:
             "resource_id": "x",
             "resource_name": "x",
             "iac_tool": IaCTool.TERRAFORM,
-            "region": "eu-west-2",
+            "region": "eu-west-1",
         }
         resources = [
             NRMS3Bucket(**base),

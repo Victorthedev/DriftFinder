@@ -19,6 +19,7 @@ from driftfinder.parsers.base import (
     BaseParser,
     analyze_iam_policy_document,
     has_ssl_only_policy,
+    kms_key_policy_allows_public,
 )
 
 logger = logging.getLogger(__name__)
@@ -40,6 +41,7 @@ _SUPPORTED = frozenset(
         "aws_vpc",
         "aws_flow_log",
         "aws_default_security_group",
+        "aws_default_network_acl",
         "aws_kms_key",
     }
 )
@@ -282,12 +284,12 @@ class TerraformParser(BaseParser):
         self, resources: list[dict]  # type: ignore[type-arg]
     ) -> Iterator[NRMRDSInstance]:
         for instance, resource in _iter_instances(resources, "aws_db_instance"):
-            db_id = instance.get("id", "")
+            db_id = instance.get("identifier") or resource.get("name", instance.get("id", ""))
             retention = instance.get("backup_retention_period")
 
             yield NRMRDSInstance(
                 resource_id=db_id,
-                resource_name=instance.get("identifier") or resource.get("name", db_id),
+                resource_name=db_id,
                 iac_tool=IaCTool.TERRAFORM,
                 region=self.region,
                 account_id=self.account_id,
@@ -338,7 +340,7 @@ class TerraformParser(BaseParser):
                 kms_encryption_enabled=bool(kms_id) if kms_id else None,
             )
 
-    # VPC — flow logs and default SG come from separate resources
+    # VPC — flow logs, default SG, and default NACL come from separate resources
 
     def _parse_vpcs(self, resources: list[dict]) -> Iterator[NRMVPC]:  # type: ignore[type-arg]
         flow_log_vpcs: set[str] = set()
@@ -355,6 +357,14 @@ class TerraformParser(BaseParser):
             egress = instance.get("egress") or []
             default_sg_has_rules[vid] = bool(ingress or egress)
 
+        # vpc_id -> bool (declared default NACL has unrestricted ingress)
+        nacl_vpcs: dict[str, bool] = {}
+        for instance, _ in _iter_instances(resources, "aws_default_network_acl"):
+            vid = instance.get("vpc_id", "")
+            ingress = instance.get("ingress") or []
+            if vid:
+                nacl_vpcs[vid] = _tf_nacl_ingress_unrestricted(ingress)
+
         for instance, resource in _iter_instances(resources, "aws_vpc"):
             vpc_id = instance.get("id", "")
 
@@ -362,6 +372,7 @@ class TerraformParser(BaseParser):
             default_sg_no_rules: bool | None = None
             if vpc_id in default_sg_has_rules:
                 default_sg_no_rules = not default_sg_has_rules[vpc_id]
+            nacl_status: bool | None = nacl_vpcs.get(vpc_id)
 
             yield NRMVPC(
                 resource_id=vpc_id,
@@ -371,6 +382,7 @@ class TerraformParser(BaseParser):
                 account_id=self.account_id,
                 flow_logs_enabled=flow_enabled,
                 default_sg_has_no_rules=default_sg_no_rules,
+                nacl_unrestricted_ingress=nacl_status,
             )
 
     # KMS Keys
@@ -389,6 +401,16 @@ class TerraformParser(BaseParser):
             if key_spec == "SYMMETRIC_DEFAULT":
                 rotation = _opt_bool(instance, "enable_key_rotation")
 
+            # Key policy public access check
+            key_policy_public: bool | None = None
+            policy_str = instance.get("policy") or ""
+            if policy_str:
+                try:
+                    policy_doc = json.loads(policy_str)
+                    key_policy_public = kms_key_policy_allows_public(policy_doc)
+                except (json.JSONDecodeError, TypeError):
+                    pass
+
             yield NRMKMSKey(
                 resource_id=key_id,
                 resource_name=instance.get("description") or resource.get("name", key_id),
@@ -397,6 +419,7 @@ class TerraformParser(BaseParser):
                 account_id=self.account_id,
                 key_rotation_enabled=rotation,
                 key_enabled=_opt_bool(instance, "is_enabled"),
+                key_policy_allows_public_access=key_policy_public,
             )
 
 
@@ -445,6 +468,20 @@ def _parse_enc_algorithm(alg: str | None) -> EncryptionAlgorithm | None:
         return EncryptionAlgorithm(alg)
     except ValueError:
         return None
+
+
+def _tf_nacl_ingress_unrestricted(ingress_rules: list[dict]) -> bool:  # type: ignore[type-arg]
+    """Return True if any ingress NACL rule allows all traffic from 0.0.0.0/0."""
+    for rule in ingress_rules:
+        if rule.get("action", "").lower() != "allow":
+            continue
+        proto = str(rule.get("protocol", ""))
+        if proto not in ("-1", "all"):
+            continue
+        cidr = rule.get("cidr_block", "")
+        if cidr in ("0.0.0.0/0", "::/0"):
+            return True
+    return False
 
 
 def _tf_unrestricted_port(rules: list[dict], port: int) -> bool | None:  # type: ignore[type-arg]

@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0866609c378180119",
+      "resource_name": "DriftFinderSG",
+      "iac_tool": "cloudformation",
+      "property_path": "unrestricted_all_traffic_egress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "LOW",
+      "cis_controls": [],
+      "cis_description": null,
+      "detected_at": "2026-07-03T07:59:56.487077Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-03T07:59:57.705853Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.567,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 1
+}

@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0f69704ba30bad46c",
+      "resource_name": "driftfinder-sg-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "unrestricted_ssh_ingress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "5.2"
+      ],
+      "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to port 22",
+      "detected_at": "2026-07-04T14:47:47.461076Z"
+    }
+  ],
+  "scan_timestamp": "2026-07-04T14:47:50.098445Z",
+  "iac_tool": "pulumi",
+  "state_source": "experiment/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 3.529,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}
