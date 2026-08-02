@@ -251,7 +251,7 @@ Zero false positives across all 78 scans and 6 control cases.
 
 ## What comes next
 
-Phase 2 (post-dissertation) plans include: async concurrent scanning, all 58 CIS controls, a TypeScript SDK, AI-assisted fix suggestions, an MCP server and a remediation command. The roadmap is detailed in `work.md`.
+Phase 2 (post-dissertation) plans include: async concurrent scanning, all 58 CIS controls, a TypeScript SDK, AI-assisted fix suggestions, an MCP server and a remediation command.
 
 ---
 
