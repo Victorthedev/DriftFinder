@@ -8,7 +8,7 @@ DriftFinder is developed as part of an MSc dissertation in Data Science and Big 
 
 ## What it does
 
-DriftFinder reads your IaC state (a Terraform state file, a CloudFormation stack or a Pulumi stack export), queries the matching live AWS resources, and compares the two through a **Normalised Resource Model (NRM)** — a canonical, tool-agnostic schema that represents every security-relevant property the same way regardless of which IaC tool declared it.
+DriftFinder reads your IaC state (a Terraform state file, a CloudFormation stack or a Pulumi stack export), queries the matching live AWS resources, and compares the two through a **Normalised Resource Model (NRM)** - a canonical, tool-agnostic schema that represents every security-relevant property the same way regardless of which IaC tool declared it.
 
 Every detected divergence is reported with:
 - The property that changed
