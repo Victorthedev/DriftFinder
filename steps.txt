@@ -1,5 +1,4 @@
 # DriftFinder Experiment — Complete Step by Step Protocol
-# Every single step is written out. No shortcuts. No "repeat steps X-Y".
 # Follow this from top to bottom without skipping anything.
 
 =======================================================================
@@ -1776,8 +1775,3 @@ STEP 377
 cd experiment/pulumi
 pulumi destroy
 Type yes when prompted.
-
-=======================================================================
-DONE. Share the results/ folder and experiment/ground_truth.json
-and we will write the dissertation results chapter.
-=======================================================================
