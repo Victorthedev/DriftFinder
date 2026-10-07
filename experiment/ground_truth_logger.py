@@ -42,6 +42,7 @@ class GroundTruthLogger:
         severity: str,
         environment: str,
         notes: Optional[str] = None,
+        injected: bool = True,
     ):
         entry = {
             "scenario_id": scenario_id,
@@ -56,6 +57,7 @@ class GroundTruthLogger:
             "cis_control": cis_control,
             "severity": severity,
             "notes": notes,
+            "injected": injected,
             # These are filled in after running DriftFinder
             "driftfinder_result": {
                 "detected": None,           # True / False
@@ -84,6 +86,7 @@ class GroundTruthLogger:
         finding_id: Optional[str] = None,
         detected_severity: Optional[str] = None,
         detected_cis: Optional[list] = None,
+        matched_finding: Optional[dict] = None,
     ):
         """
         Record DriftFinder's scan result for a scenario.
@@ -95,6 +98,7 @@ class GroundTruthLogger:
                 entry["driftfinder_result"]["finding_id"] = finding_id
                 entry["driftfinder_result"]["detected_severity"] = detected_severity
                 entry["driftfinder_result"]["detected_cis"] = detected_cis
+                entry["driftfinder_result"]["matched_finding"] = matched_finding
 
                 # Classify
                 if detected:
@@ -115,6 +119,7 @@ class GroundTruthLogger:
         property_path: str,
         detected_severity: str,
         detected_cis: list,
+        source: Optional[str] = None,
     ):
         """Record a false positive finding from DriftFinder (not in ground truth)."""
         entry = {
@@ -123,6 +128,7 @@ class GroundTruthLogger:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "resource_id": resource_id,
             "property_path": property_path,
+            "source": source,
             "driftfinder_result": {
                 "detected": True,
                 "detected_severity": detected_severity,
@@ -133,6 +139,45 @@ class GroundTruthLogger:
         self.data["entries"].append(entry)
         self._save()
         print(f"  False positive recorded: {resource_id}.{property_path} [{environment}]")
+
+    def remove_entries_from_source(self, source: str):
+        self.data["entries"] = [e for e in self.data["entries"] if e.get("source") != source]
+        self._save()
+
+    def record_control(self, scenario_id: str, environment: str, findings_count: int):
+        self.data["entries"] = [
+            e for e in self.data["entries"]
+            if not (e["scenario_id"] == scenario_id and e["environment"] == environment)
+        ]
+        self.data["entries"].append({
+            "scenario_id": scenario_id,
+            "environment": environment,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "resource_type": "CONTROL",
+            "resource_id": "all",
+            "property_path": "baseline",
+            "before": {},
+            "after": {},
+            "mechanism": "Control case — clean baseline, no drift injected",
+            "cis_control": "ALL",
+            "severity": "N/A",
+            "notes": "Expected: 0 findings. Any finding here is a false positive.",
+            "driftfinder_result": {
+                "detected": findings_count > 0,
+                "finding_id": None,
+                "detected_severity": None,
+                "detected_cis": None,
+                "classification": "TN" if findings_count == 0 else "NOT_CLEAN",
+            },
+        })
+        self._save()
+        print(f"  Control recorded: {scenario_id} [{environment}]: {findings_count} findings")
+
+    @staticmethod
+    def cis_matches(entry: dict) -> bool:
+        expected = entry.get("cis_control")
+        reported = entry.get("driftfinder_result", {}).get("detected_cis") or []
+        return not reported if expected is None else expected in reported
 
     def compute_metrics(self, environment: Optional[str] = None) -> dict:
         """
@@ -145,23 +190,48 @@ class GroundTruthLogger:
         if environment:
             entries = [e for e in entries if e.get("environment") == environment]
 
-        tp = sum(1 for e in entries if e.get("driftfinder_result", {}).get("classification") == "TP")
-        fp = sum(1 for e in entries if e.get("driftfinder_result", {}).get("classification") == "FP")
-        fn = sum(1 for e in entries if e.get("driftfinder_result", {}).get("classification") == "FN")
+        def classified(label, subset):
+            return sum(1 for e in subset if e.get("driftfinder_result", {}).get("classification") == label)
+
+        def f1_score(p, r):
+            return (2 * p * r / (p + r)) if (p + r) > 0 else 0.0
+
+        scenarios = [e for e in entries if e.get("scenario_id", "").startswith("D")]
+        injected = [e for e in scenarios if e.get("injected", True)]
+
+        tp = classified("TP", entries)
+        fp = classified("FP", entries)
+        fn = classified("FN", entries)
+        tp_injected = classified("TP", injected)
+        fn_injected = classified("FN", injected)
 
         precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
         recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-        f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) > 0 else 0.0
+        recall_injected = tp_injected / (tp_injected + fn_injected) if (tp_injected + fn_injected) > 0 else 0.0
+
+        detected = [e for e in scenarios if e.get("driftfinder_result", {}).get("classification") == "TP"]
+        severity_matches = sum(
+            1 for e in detected if e["driftfinder_result"].get("detected_severity") == e.get("severity")
+        )
+        cis_matches = sum(1 for e in detected if self.cis_matches(e))
 
         return {
             "environment": environment or "all",
-            "total_scenarios": len([e for e in entries if e.get("scenario_id", "").startswith("D")]),
+            "total_scenarios": len(scenarios),
             "tp": tp,
             "fp": fp,
             "fn": fn,
             "precision": round(precision, 4),
             "recall": round(recall, 4),
-            "f1": round(f1, 4),
+            "f1": round(f1_score(precision, recall), 4),
+            "scenarios_with_drift_injected": len(injected),
+            "scenarios_without_drift": len(scenarios) - len(injected),
+            "tp_where_drift_injected": tp_injected,
+            "fn_where_drift_injected": fn_injected,
+            "recall_where_drift_injected": round(recall_injected, 4),
+            "f1_where_drift_injected": round(f1_score(precision, recall_injected), 4),
+            "detections_with_expected_severity": severity_matches,
+            "detections_with_expected_cis": cis_matches,
         }
 
     def print_summary(self):
@@ -170,21 +240,25 @@ class GroundTruthLogger:
         print("DRIFTFINDER EXPERIMENT RESULTS SUMMARY")
         print("="*70)
 
-        for env in ["terraform", "cloudformation", "pulumi"]:
-            metrics = self.compute_metrics(env)
-            print(f"\n{env.upper()}")
-            print(f"  Scenarios:  {metrics['total_scenarios']}")
+        def show(metrics):
+            print(f"  Scenarios:  {metrics['total_scenarios']} "
+                  f"({metrics['scenarios_with_drift_injected']} with drift injected, "
+                  f"{metrics['scenarios_without_drift']} without)")
             print(f"  TP: {metrics['tp']}  FP: {metrics['fp']}  FN: {metrics['fn']}")
             print(f"  Precision:  {metrics['precision']:.4f}")
-            print(f"  Recall:     {metrics['recall']:.4f}")
-            print(f"  F1 Score:   {metrics['f1']:.4f}")
+            print(f"  Recall:     {metrics['recall']:.4f} (all scenarios)")
+            print(f"  Recall:     {metrics['recall_where_drift_injected']:.4f} (scenarios with drift injected)")
+            print(f"  F1 Score:   {metrics['f1']:.4f} (all scenarios)")
+            print(f"  F1 Score:   {metrics['f1_where_drift_injected']:.4f} (scenarios with drift injected)")
+            print(f"  Detections with expected severity: {metrics['detections_with_expected_severity']} of {metrics['tp']}")
+            print(f"  Detections with expected CIS control: {metrics['detections_with_expected_cis']} of {metrics['tp']}")
+
+        for env in ["terraform", "cloudformation", "pulumi"]:
+            print(f"\n{env.upper()}")
+            show(self.compute_metrics(env))
 
         print(f"\nOVERALL")
-        overall = self.compute_metrics()
-        print(f"  TP: {overall['tp']}  FP: {overall['fp']}  FN: {overall['fn']}")
-        print(f"  Precision:  {overall['precision']:.4f}")
-        print(f"  Recall:     {overall['recall']:.4f}")
-        print(f"  F1 Score:   {overall['f1']:.4f}")
+        show(self.compute_metrics())
         print("="*70)
 
     def export_for_dissertation(self, output_path: str = "dissertation_results.json"):
@@ -194,18 +268,23 @@ class GroundTruthLogger:
             if not entry.get("scenario_id", "").startswith("D"):
                 continue
             result = entry.get("driftfinder_result", {})
+            detected = result.get("classification") == "TP"
             results.append({
                 "scenario_id": entry["scenario_id"],
                 "environment": entry["environment"],
                 "resource_type": entry["resource_type"],
                 "property_path": entry["property_path"],
-                "cis_control": entry["cis_control"],
-                "severity": entry["severity"],
                 "mechanism": entry["mechanism"],
+                "injected": entry.get("injected", True),
                 "detected": result.get("detected"),
                 "classification": result.get("classification"),
-                "detected_severity": result.get("detected_severity"),
-                "detected_cis": result.get("detected_cis"),
+                "expected_severity": entry["severity"],
+                "reported_severity": result.get("detected_severity"),
+                "severity_matches": detected and result.get("detected_severity") == entry["severity"],
+                "expected_cis": entry["cis_control"],
+                "reported_cis": result.get("detected_cis"),
+                "cis_matches": detected and self.cis_matches(entry),
+                "matched_finding": result.get("matched_finding"),
                 "notes": entry.get("notes"),
             })
 

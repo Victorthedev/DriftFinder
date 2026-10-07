@@ -10,9 +10,15 @@ class TestCISMapper:
         self.mapper = CISMapper()
 
     def test_returns_control_for_known_field(self):
-        ctrl = self.mapper.get_control("NRMS3Bucket", "server_side_encryption_enabled")
+        ctrl = self.mapper.get_control("NRMS3Bucket", "ssl_requests_only")
         assert ctrl is not None
         assert ctrl.control_id == "2.1.1"
+        assert ctrl.severity == Severity.HIGH
+
+    def test_field_without_cis_control_keeps_severity(self):
+        ctrl = self.mapper.get_control("NRMS3Bucket", "server_side_encryption_enabled")
+        assert ctrl is not None
+        assert ctrl.control_id is None
         assert ctrl.severity == Severity.HIGH
 
     def test_returns_none_for_unknown_field(self):
@@ -27,17 +33,22 @@ class TestCISMapper:
             ("NRMS3Bucket", "public_access_block_enabled", "2.1.4", Severity.CRITICAL),
             ("NRMS3Bucket", "ssl_requests_only", "2.1.1", Severity.HIGH),
             ("NRMSecurityGroup", "unrestricted_ssh_ingress", "5.2", Severity.CRITICAL),
-            ("NRMSecurityGroup", "unrestricted_rdp_ingress", "5.3", Severity.CRITICAL),
+            ("NRMSecurityGroup", "unrestricted_rdp_ingress", "5.2", Severity.CRITICAL),
+            ("NRMSecurityGroup", "unrestricted_all_traffic_egress", None, Severity.MEDIUM),
             ("NRMIAMPolicy", "has_wildcard_action", "1.16", Severity.CRITICAL),
+            ("NRMIAMPolicy", "has_explicit_deny", None, Severity.MEDIUM),
             ("NRMRDSInstance", "storage_encrypted", "2.3.1", Severity.CRITICAL),
-            ("NRMRDSInstance", "publicly_accessible", "2.3.2", Severity.HIGH),
+            ("NRMRDSInstance", "publicly_accessible", "2.3.3", Severity.HIGH),
+            ("NRMRDSInstance", "backup_retention_days", None, Severity.MEDIUM),
             ("NRMEBSVolume", "encrypted", "2.2.1", Severity.CRITICAL),
             ("NRMCloudTrail", "multi_region_enabled", "3.1", Severity.HIGH),
             ("NRMCloudTrail", "is_logging", "3.1", Severity.CRITICAL),
-            ("NRMVPC", "flow_logs_enabled", "5.1", Severity.HIGH),
-            ("NRMVPC", "default_sg_has_no_rules", "5.5", Severity.CRITICAL),
-            ("NRMKMSKey", "key_rotation_enabled", "3.7", Severity.HIGH),
-            ("NRMKMSKey", "key_enabled", "3.7", Severity.CRITICAL),
+            ("NRMCloudTrail", "kms_encryption_enabled", "3.5", Severity.HIGH),
+            ("NRMVPC", "flow_logs_enabled", "3.7", Severity.HIGH),
+            ("NRMVPC", "default_sg_has_no_rules", "5.4", Severity.CRITICAL),
+            ("NRMVPC", "nacl_unrestricted_ingress", "5.1", Severity.MEDIUM),
+            ("NRMKMSKey", "key_rotation_enabled", "3.6", Severity.HIGH),
+            ("NRMKMSKey", "key_enabled", None, Severity.CRITICAL),
         ],
     )
     def test_all_critical_controls_present(
@@ -55,4 +66,4 @@ class TestCISMapper:
         assert len(controls) == 11
 
     def test_total_mapping_count(self):
-        assert len(CIS_MAPPINGS) == 31
+        assert len(CIS_MAPPINGS) == 34

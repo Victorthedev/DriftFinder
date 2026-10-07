@@ -382,7 +382,7 @@ Resources:
       DBInstanceIdentifier: driftfinder-rds-test-cf
       DBInstanceClass: db.t3.micro
       Engine: mysql
-      EngineVersion: '8.0'
+      EngineVersion: '8.4'
       MasterUsername: admin
       MasterUserPassword: !Ref DBPassword
       AllocatedStorage: '20'
@@ -439,3 +439,13 @@ Outputs:
     Value: !Ref DriftFinderKMSKey
   KMSKeyArn:
     Value: !GetAtt DriftFinderKMSKey.Arn
+  CTLogBucketName:
+    Value: !Ref CloudTrailLogBucket
+  CloudTrailCWLogGroupArn:
+    Value: !GetAtt CloudTrailLogGroup.Arn
+  CloudTrailCWRoleArn:
+    Value: !GetAtt CloudTrailCWRole.Arn
+  FlowLogRoleArn:
+    Value: !GetAtt FlowLogRole.Arn
+  VPCFlowLogGroupName:
+    Value: !Ref FlowLogGroup

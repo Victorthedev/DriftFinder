@@ -45,23 +45,51 @@ jobs:
       - run: pip install -e "."
       - run: pip-audit
 
-  e2e:
-    runs-on: ubuntu-latest
-    services:
-      localstack:
-        image: localstack/localstack:3.0
-        ports:
-          - 4566:4566
-        env:
-          SERVICES: s3,ec2,iam,rds,kms,cloudtrail
+  native-install:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-      - run: pip install -e ".[dev]"
-      - run: pytest tests/e2e -m localstack
-        env:
-          AWS_DEFAULT_REGION: eu-west-1
-          AWS_ACCESS_KEY_ID: test
-          AWS_SECRET_ACCESS_KEY: test
+          python-version: "3.13"
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.3"
+          terraform_wrapper: false
+      - uses: pulumi/actions@v6
+        with:
+          pulumi-version: "3.250.0"
+      - run: pip install --require-hashes --no-deps -r requirements.lock
+      - run: pip install --no-deps -e .
+      - run: driftfinder --version
+      - run: python experiment/run.py --help
+      - name: Check installed versions match the pinned versions
+        run: |
+          python -c "
+          import sys
+          sys.path.insert(0, 'experiment')
+          import run
+          versions, blocking, warnings = run.check_versions()
+          print({k: versions[k] for k in ('python', 'terraform', 'pulumi', 'driftfinder')})
+          print('\n'.join(blocking + warnings) or 'All versions match')
+          sys.exit(1 if blocking or warnings else 0)
+          "
+      - run: terraform -chdir=experiment/terraform init -backend=false -input=false
+      - run: terraform -chdir=experiment/terraform validate
+      - run: pytest tests/unit tests/integration -p no:cacheprovider
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t driftfinder .
+      - run: docker run --rm driftfinder driftfinder --version
+      - run: docker run --rm driftfinder driftfinder-experiment --help
+      - run: docker run --rm driftfinder pytest /app/tests/unit /app/tests/integration -p no:cacheprovider

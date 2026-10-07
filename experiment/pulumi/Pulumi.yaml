@@ -1,8 +1,6 @@
 name: driftfinder-experiment
 runtime:
   name: python
-  options:
-    virtualenv: /Users/wikiwoo/DriftFinder/.venv
 description: DriftFinder Controlled Experiment - Pulumi Baseline Environment
 
 config:
