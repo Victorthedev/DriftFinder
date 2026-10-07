@@ -34,7 +34,7 @@ class TestDetectDrift:
         assert f.declared_value is True
         assert f.actual_value is False
         assert f.drift_type == DriftType.MODIFIED
-        assert "2.1.1" in f.cis_controls
+        assert f.cis_controls == []
         assert f.severity == Severity.HIGH
 
     def test_no_findings_when_state_matches(self):

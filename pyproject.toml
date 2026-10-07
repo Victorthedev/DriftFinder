@@ -56,6 +56,10 @@ ai = [
   "anthropic>=0.18.0",
   "openai>=1.0.0",
 ]
+experiment = [
+  "pulumi>=3.0.0",
+  "pulumi-aws>=7.0.0",
+]
 
 [project.scripts]
 driftfinder = "driftfinder.cli.main:cli"

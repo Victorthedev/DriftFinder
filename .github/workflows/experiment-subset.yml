@@ -1,0 +1,66 @@
+name: Experiment subset on real AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenarios:
+        description: Scenarios to run
+        default: "D1 D4"
+      envs:
+        description: Environments to run
+        default: "terraform cloudformation pulumi"
+
+concurrency:
+  group: driftfinder-aws-experiment
+  cancel-in-progress: false
+
+jobs:
+  native:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    defaults:
+      run:
+        shell: bash
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: eu-west-1
+      SCENARIOS: ${{ inputs.scenarios }}
+      ENVS: ${{ inputs.envs }}
+      RUN_DIR: experiment-runs/${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.3"
+          terraform_wrapper: false
+      - uses: pulumi/actions@v6
+        with:
+          pulumi-version: "3.250.0"
+      - run: pip install --require-hashes --no-deps -r requirements.lock
+      - run: pip install --no-deps -e .
+      - run: python experiment/run.py preflight
+      - run: python experiment/run.py run --envs $ENVS --scenarios $SCENARIOS --output-dir "$RUN_DIR" --yes
+      - name: Make sure nothing is left running
+        if: always()
+        run: |
+          if [ -f "$RUN_DIR/run.json" ]; then
+            python experiment/run.py teardown "$RUN_DIR"
+          fi
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experiment-${{ matrix.os }}
+          path: |
+            experiment-runs/${{ matrix.os }}
+            !experiment-runs/**/secrets.json
+            !experiment-runs/**/work/**
+          if-no-files-found: ignore

@@ -74,3 +74,8 @@ dmypy.json
 
 # Logs
 *.log
+
+# Terraform and Pulumi local state
+.terraform/
+experiment/pulumi/Pulumi.*.yaml
+!experiment/pulumi/Pulumi.yaml

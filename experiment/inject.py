@@ -13,6 +13,7 @@ resources.json is produced by running the provisioning outputs:
 """
 
 import boto3
+from botocore.exceptions import ClientError
 import json
 import argparse
 import sys
@@ -38,6 +39,21 @@ def load_resources(path: str) -> dict:
     return data
 
 
+def _ignore_not_found(fn, not_found_codes: tuple, **kwargs):
+    try:
+        fn(**kwargs)
+    except ClientError as exc:
+        if exc.response["Error"]["Code"] not in not_found_codes:
+            raise
+
+
+def _require_state(key: str, env: str) -> str:
+    value = _load_experiment_state(key, env)
+    if not value:
+        raise RuntimeError(f"No saved state for {env}_{key} in {STATE_FILE}. Was the scenario injected?")
+    return value
+
+
 # ═══════════════════════════════════════════════════════════════════════════
 # D1: S3 — Disable server-side encryption
 # ═══════════════════════════════════════════════════════════════════════════
@@ -47,7 +63,7 @@ def inject_D1(resources: dict, logger: GroundTruthLogger, env: str):
     D1: S3 Bucket - server_side_encryption_enabled
     Change: Disable SSE via AWS CLI equivalent
     Mechanism: External automation
-    Severity: HIGH | CIS: 2.1.1
+    Severity: HIGH | CIS: none
     """
     s3 = get_client("s3")
     bucket = resources["s3_bucket_name"]
@@ -58,6 +74,19 @@ def inject_D1(resources: dict, logger: GroundTruthLogger, env: str):
 
     after = {"server_side_encryption_enabled": False, "encryption_algorithm": None}
 
+    try:
+        rules = s3.get_bucket_encryption(Bucket=bucket)["ServerSideEncryptionConfiguration"]["Rules"]
+        algorithms = [r["ApplyServerSideEncryptionByDefault"]["SSEAlgorithm"] for r in rules]
+    except ClientError as exc:
+        if exc.response["Error"]["Code"] != "ServerSideEncryptionConfigurationNotFoundError":
+            raise
+        algorithms = []
+    injected = not algorithms
+    notes = None if injected else (
+        f"Encryption still enabled after the call ({', '.join(algorithms)}). "
+        "AWS applies SSE-S3 to every bucket by default, so no drift reached the account."
+    )
+
     logger.log(
         scenario_id="D1",
         resource_type="NRMS3Bucket",
@@ -66,9 +95,11 @@ def inject_D1(resources: dict, logger: GroundTruthLogger, env: str):
         before=before,
         after=after,
         mechanism="External automation (boto3 delete_bucket_encryption)",
-        cis_control="2.1.1",
+        cis_control=None,
         severity="HIGH",
         environment=env,
+        notes=notes,
+        injected=injected,
     )
     print(f"[D1] Disabled S3 encryption on {bucket}")
 
@@ -148,7 +179,7 @@ def inject_D3(resources: dict, logger: GroundTruthLogger, env: str):
     D3: S3 Bucket - access_logging_enabled
     Change: Disable access logging
     Mechanism: External automation
-    Severity: MEDIUM | CIS: 2.1.5
+    Severity: MEDIUM | CIS: none
     """
     s3 = get_client("s3")
     bucket = resources["s3_bucket_name"]
@@ -163,7 +194,7 @@ def inject_D3(resources: dict, logger: GroundTruthLogger, env: str):
         before={"access_logging_enabled": True},
         after={"access_logging_enabled": False},
         mechanism="External automation (boto3 put_bucket_logging with empty status)",
-        cis_control="2.1.5",
+        cis_control=None,
         severity="MEDIUM",
         environment=env,
     )
@@ -175,7 +206,7 @@ def reset_D3(resources: dict, env: str):
     # Use the cloudtrail logs bucket as the logging target
     s3 = get_client("s3")
     bucket = resources["s3_bucket_name"]
-    ct_bucket = resources.get("ct_log_bucket_name", f"driftfinder-ct-logs-tf")
+    ct_bucket = resources["ct_log_bucket_name"]
     s3.put_bucket_logging(
         Bucket=bucket,
         BucketLoggingStatus={
@@ -230,18 +261,17 @@ def inject_D4(resources: dict, logger: GroundTruthLogger, env: str):
 def reset_D4(resources: dict, env: str):
     ec2 = get_client("ec2")
     sg_id = resources["security_group_id"]
-    try:
-        ec2.revoke_security_group_ingress(
-            GroupId=sg_id,
-            IpPermissions=[{
-                "IpProtocol": "tcp",
-                "FromPort": 22,
-                "ToPort": 22,
-                "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
-            }],
-        )
-    except ec2.exceptions.InvalidPermission_NotFound:
-        pass
+    _ignore_not_found(
+        ec2.revoke_security_group_ingress,
+        ("InvalidPermission.NotFound",),
+        GroupId=sg_id,
+        IpPermissions=[{
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
+        }],
+    )
     print(f"[D4 RESET] Removed unrestricted SSH ingress from {sg_id}")
 
 
@@ -254,7 +284,7 @@ def inject_D5(resources: dict, logger: GroundTruthLogger, env: str):
     D5: Security Group - unrestricted_rdp_ingress
     Change: Add 0.0.0.0/0 ingress on port 3389
     Mechanism: Emergency console change
-    Severity: CRITICAL | CIS: 5.3
+    Severity: CRITICAL | CIS: 5.2
     """
     ec2 = get_client("ec2")
     sg_id = resources["security_group_id"]
@@ -277,7 +307,7 @@ def inject_D5(resources: dict, logger: GroundTruthLogger, env: str):
         before={"unrestricted_rdp_ingress": False},
         after={"unrestricted_rdp_ingress": True},
         mechanism="Emergency console change (boto3 authorize_security_group_ingress)",
-        cis_control="5.3",
+        cis_control="5.2",
         severity="CRITICAL",
         environment=env,
     )
@@ -287,18 +317,17 @@ def inject_D5(resources: dict, logger: GroundTruthLogger, env: str):
 def reset_D5(resources: dict, env: str):
     ec2 = get_client("ec2")
     sg_id = resources["security_group_id"]
-    try:
-        ec2.revoke_security_group_ingress(
-            GroupId=sg_id,
-            IpPermissions=[{
-                "IpProtocol": "tcp",
-                "FromPort": 3389,
-                "ToPort": 3389,
-                "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
-            }],
-        )
-    except Exception:
-        pass
+    _ignore_not_found(
+        ec2.revoke_security_group_ingress,
+        ("InvalidPermission.NotFound",),
+        GroupId=sg_id,
+        IpPermissions=[{
+            "IpProtocol": "tcp",
+            "FromPort": 3389,
+            "ToPort": 3389,
+            "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
+        }],
+    )
     print(f"[D5 RESET] Removed unrestricted RDP ingress from {sg_id}")
 
 
@@ -311,7 +340,7 @@ def inject_D6(resources: dict, logger: GroundTruthLogger, env: str):
     D6: Security Group - egress_restricted
     Change: Add all-traffic egress rule (0.0.0.0/0, all ports)
     Mechanism: External automation
-    Severity: MEDIUM | CIS: 5.4
+    Severity: MEDIUM | CIS: none
     """
     ec2 = get_client("ec2")
     sg_id = resources["security_group_id"]
@@ -332,7 +361,7 @@ def inject_D6(resources: dict, logger: GroundTruthLogger, env: str):
         before={"unrestricted_all_traffic_egress": False},
         after={"unrestricted_all_traffic_egress": True},
         mechanism="External automation (boto3 authorize_security_group_egress)",
-        cis_control="5.4",
+        cis_control=None,
         severity="MEDIUM",
         environment=env,
     )
@@ -342,16 +371,15 @@ def inject_D6(resources: dict, logger: GroundTruthLogger, env: str):
 def reset_D6(resources: dict, env: str):
     ec2 = get_client("ec2")
     sg_id = resources["security_group_id"]
-    try:
-        ec2.revoke_security_group_egress(
-            GroupId=sg_id,
-            IpPermissions=[{
-                "IpProtocol": "-1",
-                "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
-            }],
-        )
-    except Exception:
-        pass
+    _ignore_not_found(
+        ec2.revoke_security_group_egress,
+        ("InvalidPermission.NotFound",),
+        GroupId=sg_id,
+        IpPermissions=[{
+            "IpProtocol": "-1",
+            "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
+        }],
+    )
     print(f"[D6 RESET] Removed unrestricted egress from {sg_id}")
 
 
@@ -510,7 +538,7 @@ def inject_D9(resources: dict, logger: GroundTruthLogger, env: str):
     D9: IAM Policy - has_explicit_deny
     Change: Create new policy version without the explicit Deny statement
     Mechanism: Emergency console change
-    Severity: MEDIUM | CIS: 1.17
+    Severity: MEDIUM | CIS: none
     """
     iam = get_client("iam")
     policy_arn = resources["iam_policy_arn"]
@@ -543,7 +571,7 @@ def inject_D9(resources: dict, logger: GroundTruthLogger, env: str):
         before={"has_explicit_deny": True},
         after={"has_explicit_deny": False},
         mechanism="Emergency console change (boto3 create_policy_version without deny)",
-        cis_control="1.17",
+        cis_control=None,
         severity="MEDIUM",
         environment=env,
     )
@@ -605,6 +633,7 @@ def inject_D10(resources: dict, logger: GroundTruthLogger, env: str):
             "DriftFinder detection tested via declared vs actual state mismatch analysis. "
             "This is documented as a detection capability boundary in the dissertation."
         ),
+        injected=False,
     )
     print(f"[D10] RDS storage_encrypted is immutable. Logged as detection boundary scenario.")
     print(f"      Current encrypted state: {current_encrypted}")
@@ -624,20 +653,41 @@ def inject_D11(resources: dict, logger: GroundTruthLogger, env: str):
     D11: RDS Instance - publicly_accessible
     Change: Enable public accessibility
     Mechanism: Emergency console change
-    Severity: HIGH | CIS: 2.3.2
+    Severity: HIGH | CIS: 2.3.3
     Note: RDS modification may take several minutes to apply.
     """
     rds = get_client("rds")
     rds_id = resources["rds_instance_id"]
 
-    rds.modify_db_instance(
-        DBInstanceIdentifier=rds_id,
-        PubliclyAccessible=True,
-        ApplyImmediately=True,
-    )
+    try:
+        rds.modify_db_instance(
+            DBInstanceIdentifier=rds_id,
+            PubliclyAccessible=True,
+            ApplyImmediately=True,
+        )
+    except ClientError as exc:
+        error = exc.response["Error"]
+        if error["Code"] != "InvalidVPCNetworkStateFault":
+            raise
+        logger.log(
+            scenario_id="D11",
+            resource_type="NRMRDSInstance",
+            resource_id=rds_id,
+            property_path="publicly_accessible",
+            before={"publicly_accessible": False},
+            after={"publicly_accessible": True},
+            mechanism="INJECTION_FAILED - AWS prevents PubliclyAccessible=True in VPC without internet gateway.",
+            cis_control="2.3.3",
+            severity="HIGH",
+            environment=env,
+            notes=f"{error['Code']}: {error.get('Message', '')}",
+            injected=False,
+        )
+        print(f"[D11] AWS rejected the change on {rds_id}: {error['Code']}")
+        return
 
     print(f"[D11] Enabled public accessibility on {rds_id}. Waiting for modification...")
-    _wait_for_rds_available(rds, rds_id)
+    _wait_for_rds_available(rds, rds_id, PubliclyAccessible=True)
 
     logger.log(
         scenario_id="D11",
@@ -647,7 +697,7 @@ def inject_D11(resources: dict, logger: GroundTruthLogger, env: str):
         before={"publicly_accessible": False},
         after={"publicly_accessible": True},
         mechanism="Emergency console change (boto3 modify_db_instance)",
-        cis_control="2.3.2",
+        cis_control="2.3.3",
         severity="HIGH",
         environment=env,
     )
@@ -662,21 +712,24 @@ def reset_D11(resources: dict, env: str):
         PubliclyAccessible=False,
         ApplyImmediately=True,
     )
-    _wait_for_rds_available(rds, rds_id)
+    _wait_for_rds_available(rds, rds_id, PubliclyAccessible=False)
     print(f"[D11 RESET] Disabled public accessibility on {rds_id}")
 
 
-def _wait_for_rds_available(rds_client, rds_id: str, timeout: int = 600):
-    print(f"  Waiting for RDS {rds_id} to be available...")
+def _wait_for_rds_available(rds_client, rds_id: str, timeout: int = 1800, **expected):
+    print(f"  Waiting for RDS {rds_id} to be available with {expected}...")
     start = time.time()
     while time.time() - start < timeout:
         response = rds_client.describe_db_instances(DBInstanceIdentifier=rds_id)
-        status = response["DBInstances"][0]["DBInstanceStatus"]
-        if status == "available":
+        db = response["DBInstances"][0]
+        status = db["DBInstanceStatus"]
+        pending = db.get("PendingModifiedValues") or {}
+        applied = all(db.get(k) == v for k, v in expected.items())
+        if status == "available" and not pending and applied:
             return
-        print(f"  Status: {status}. Waiting...")
+        print(f"  Status: {status}. Pending: {pending}. Applied: {applied}. Waiting...")
         time.sleep(30)
-    raise TimeoutError(f"RDS {rds_id} did not become available within {timeout}s")
+    raise TimeoutError(f"RDS {rds_id} did not reach {expected} within {timeout}s")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -688,7 +741,7 @@ def inject_D12(resources: dict, logger: GroundTruthLogger, env: str):
     D12: RDS Instance - backup_retention_days
     Change: Set backup retention to 0 (disables automated backups)
     Mechanism: External automation
-    Severity: MEDIUM | CIS: 2.3.3
+    Severity: MEDIUM | CIS: none
     """
     rds = get_client("rds")
     rds_id = resources["rds_instance_id"]
@@ -698,7 +751,7 @@ def inject_D12(resources: dict, logger: GroundTruthLogger, env: str):
         BackupRetentionPeriod=0,
         ApplyImmediately=True,
     )
-    _wait_for_rds_available(rds, rds_id)
+    _wait_for_rds_available(rds, rds_id, BackupRetentionPeriod=0)
 
     logger.log(
         scenario_id="D12",
@@ -708,7 +761,7 @@ def inject_D12(resources: dict, logger: GroundTruthLogger, env: str):
         before={"backup_retention_days": 7},
         after={"backup_retention_days": 0},
         mechanism="External automation (boto3 modify_db_instance BackupRetentionPeriod=0)",
-        cis_control="2.3.3",
+        cis_control=None,
         severity="MEDIUM",
         environment=env,
     )
@@ -723,7 +776,7 @@ def reset_D12(resources: dict, env: str):
         BackupRetentionPeriod=7,
         ApplyImmediately=True,
     )
-    _wait_for_rds_available(rds, rds_id)
+    _wait_for_rds_available(rds, rds_id, BackupRetentionPeriod=7)
     print(f"[D12 RESET] Restored backup retention on {rds_id}")
 
 
@@ -760,6 +813,7 @@ def inject_D13(resources: dict, logger: GroundTruthLogger, env: str):
             f"Current actual value: {current}. "
             "Detection boundary documented in dissertation."
         ),
+        injected=False,
     )
     print(f"[D13] EBS encrypted is immutable. Current value: {current}. Logged as detection boundary.")
 
@@ -799,6 +853,8 @@ def inject_D14(resources: dict, logger: GroundTruthLogger, env: str):
     ec2_resource = boto3.resource("ec2", region_name=REGION)
     snapshot = ec2_resource.Snapshot(snapshot_id)
     snapshot.wait_until_completed()
+    snapshot.reload()
+    snapshot_encrypted = bool(snapshot.encrypted)
 
     # Save snapshot ID for reset
     _save_experiment_state("D14_snapshot_id", snapshot_id, resources.get("_env", "unknown"))
@@ -809,22 +865,27 @@ def inject_D14(resources: dict, logger: GroundTruthLogger, env: str):
         resource_id=volume_id,
         property_path="snapshot_created_unencrypted",
         before={"snapshot_encrypted": True},
-        after={"snapshot_id": snapshot_id, "volume_encrypted": True},
+        after={"snapshot_id": snapshot_id, "volume_encrypted": True, "snapshot_encrypted": snapshot_encrypted},
         mechanism="Emergency console change (boto3 create_snapshot)",
         cis_control="2.2.1",
         severity="HIGH",
         environment=env,
-        notes="Snapshot created from encrypted volume. DriftFinder checks volume encryption state.",
+        notes=(
+            f"Snapshot created from encrypted volume. Snapshot encrypted: {snapshot_encrypted}. "
+            "AWS encrypts every snapshot of an encrypted volume, so no unencrypted snapshot exists."
+            if snapshot_encrypted else
+            "Snapshot created from encrypted volume is unencrypted."
+        ),
+        injected=not snapshot_encrypted,
     )
     print(f"[D14] Created snapshot {snapshot_id} from volume {volume_id}")
 
 
 def reset_D14(resources: dict, env: str):
-    snapshot_id = _load_experiment_state("D14_snapshot_id", resources.get("_env", "unknown"))
-    if snapshot_id:
-        ec2 = get_client("ec2")
-        ec2.delete_snapshot(SnapshotId=snapshot_id)
-        print(f"[D14 RESET] Deleted snapshot {snapshot_id}")
+    snapshot_id = _require_state("D14_snapshot_id", resources.get("_env", "unknown"))
+    ec2 = get_client("ec2")
+    _ignore_not_found(ec2.delete_snapshot, ("InvalidSnapshot.NotFound",), SnapshotId=snapshot_id)
+    print(f"[D14 RESET] Deleted snapshot {snapshot_id}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -860,7 +921,7 @@ def inject_D15(resources: dict, logger: GroundTruthLogger, env: str):
         before={"delete_on_termination": True},
         after={"delete_on_termination": None},
         mechanism="Third-party tool (volume detached - property undeterminable without attachment)",
-        cis_control="2.2.1",
+        cis_control=None,
         severity="MEDIUM",
         environment=env,
         notes=(
@@ -868,6 +929,7 @@ def inject_D15(resources: dict, logger: GroundTruthLogger, env: str):
             "delete_on_termination is None when volume is not attached. "
             "DriftFinder handles this as a detection limitation for attachment-dependent properties."
         ),
+        injected=False,
     )
     print(f"[D15] EBS delete_on_termination: attachment-dependent property test logged.")
     print(f"      Volume attachments: {len(attachments)}")
@@ -962,7 +1024,7 @@ def inject_D18(resources: dict, logger: GroundTruthLogger, env: str):
     D18: CloudTrail - cloudwatch_logs_enabled
     Change: Remove CloudWatch Logs integration
     Mechanism: Emergency console change
-    Severity: MEDIUM | CIS: 3.4
+    Severity: MEDIUM | CIS: none
     """
     ct = get_client("cloudtrail")
     trail_name = resources["cloudtrail_name"]
@@ -981,7 +1043,7 @@ def inject_D18(resources: dict, logger: GroundTruthLogger, env: str):
         before={"cloudwatch_logs_enabled": True},
         after={"cloudwatch_logs_enabled": False},
         mechanism="Emergency console change (boto3 update_trail remove CW integration)",
-        cis_control="3.4",
+        cis_control=None,
         severity="MEDIUM",
         environment=env,
     )
@@ -995,8 +1057,8 @@ def reset_D18(resources: dict, env: str):
     # These should be stored in resources.json
     ct.update_trail(
         Name=trail_name,
-        CloudWatchLogsLogGroupArn=resources.get("cloudtrail_cw_log_group_arn", ""),
-        CloudWatchLogsRoleArn=resources.get("cloudtrail_cw_role_arn", ""),
+        CloudWatchLogsLogGroupArn=resources["cloudtrail_cw_log_group_arn"],
+        CloudWatchLogsRoleArn=resources["cloudtrail_cw_role_arn"],
     )
     print(f"[D18 RESET] Restored CloudWatch Logs integration on CloudTrail {trail_name}")
 
@@ -1010,7 +1072,7 @@ def inject_D19(resources: dict, logger: GroundTruthLogger, env: str):
     D19: VPC - flow_logs_enabled
     Change: Delete the VPC flow log
     Mechanism: Emergency console change
-    Severity: HIGH | CIS: 5.1
+    Severity: HIGH | CIS: 3.7
     """
     ec2 = get_client("ec2")
     vpc_id = resources["vpc_id"]
@@ -1022,8 +1084,7 @@ def inject_D19(resources: dict, logger: GroundTruthLogger, env: str):
     flow_logs = response["FlowLogs"]
 
     if not flow_logs:
-        print(f"[D19] No flow logs found for {vpc_id}. Already deleted or not created.")
-        return
+        raise RuntimeError(f"[D19] No flow logs found for {vpc_id}. Baseline is not clean.")
 
     flow_log_id = flow_logs[0]["FlowLogId"]
     ec2.delete_flow_logs(FlowLogIds=[flow_log_id])
@@ -1039,7 +1100,7 @@ def inject_D19(resources: dict, logger: GroundTruthLogger, env: str):
         before={"flow_logs_enabled": True},
         after={"flow_logs_enabled": False},
         mechanism="Emergency console change (boto3 delete_flow_logs)",
-        cis_control="5.1",
+        cis_control="3.7",
         severity="HIGH",
         environment=env,
     )
@@ -1053,8 +1114,8 @@ def reset_D19(resources: dict, env: str):
     vpc_id = resources["vpc_id"]
 
     # Get the flow log role ARN from resources
-    role_arn = resources.get("flow_log_role_arn", "")
-    log_group = resources.get("vpc_flow_log_group_name", f"/driftfinder/vpc-flow-logs-{env}")
+    role_arn = resources["flow_log_role_arn"]
+    log_group = resources["vpc_flow_log_group_name"]
 
     ec2.create_flow_logs(
         ResourceIds=[vpc_id],
@@ -1076,7 +1137,7 @@ def inject_D20(resources: dict, logger: GroundTruthLogger, env: str):
     D20: VPC - default_sg_has_no_rules
     Change: Add an inbound rule to the VPC default security group
     Mechanism: External automation
-    Severity: CRITICAL | CIS: 5.5
+    Severity: CRITICAL | CIS: 5.4
     """
     ec2 = get_client("ec2")
     vpc_id = resources["vpc_id"]
@@ -1110,7 +1171,7 @@ def inject_D20(resources: dict, logger: GroundTruthLogger, env: str):
         before={"default_sg_has_no_rules": True},
         after={"default_sg_has_no_rules": False, "default_sg_id": default_sg_id},
         mechanism="External automation (boto3 authorize_security_group_ingress on default SG)",
-        cis_control="5.5",
+        cis_control="5.4",
         severity="CRITICAL",
         environment=env,
     )
@@ -1119,20 +1180,18 @@ def inject_D20(resources: dict, logger: GroundTruthLogger, env: str):
 
 def reset_D20(resources: dict, env: str):
     ec2 = get_client("ec2")
-    default_sg_id = _load_experiment_state("D20_default_sg_id", resources.get("_env", "unknown"))
-    if default_sg_id:
-        try:
-            ec2.revoke_security_group_ingress(
-                GroupId=default_sg_id,
-                IpPermissions=[{
-                    "IpProtocol": "tcp",
-                    "FromPort": 80,
-                    "ToPort": 80,
-                    "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
-                }],
-            )
-        except Exception:
-            pass
+    default_sg_id = _require_state("D20_default_sg_id", resources.get("_env", "unknown"))
+    _ignore_not_found(
+        ec2.revoke_security_group_ingress,
+        ("InvalidPermission.NotFound",),
+        GroupId=default_sg_id,
+        IpPermissions=[{
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
+        }],
+    )
     print(f"[D20 RESET] Removed rule from default SG {default_sg_id}")
 
 
@@ -1196,16 +1255,14 @@ def inject_D21(resources: dict, logger: GroundTruthLogger, env: str):
 
 def reset_D21(resources: dict, env: str):
     ec2 = get_client("ec2")
-    nacl_id = _load_experiment_state("D21_nacl_id", resources.get("_env", "unknown"))
-    if nacl_id:
-        try:
-            ec2.delete_network_acl_entry(
-                NetworkAclId=nacl_id,
-                RuleNumber=1,
-                Egress=False,
-            )
-        except Exception:
-            pass
+    nacl_id = _require_state("D21_nacl_id", resources.get("_env", "unknown"))
+    _ignore_not_found(
+        ec2.delete_network_acl_entry,
+        ("InvalidNetworkAclEntry.NotFound",),
+        NetworkAclId=nacl_id,
+        RuleNumber=1,
+        Egress=False,
+    )
     print(f"[D21 RESET] Removed NACL entry from {nacl_id}")
 
 
@@ -1218,7 +1275,7 @@ def inject_D22(resources: dict, logger: GroundTruthLogger, env: str):
     D22: KMS Key - key_rotation_enabled
     Change: Disable automatic key rotation
     Mechanism: Emergency console change
-    Severity: HIGH | CIS: 3.7
+    Severity: HIGH | CIS: 3.6
     """
     kms = get_client("kms")
     key_id = resources["kms_key_id"]
@@ -1233,7 +1290,7 @@ def inject_D22(resources: dict, logger: GroundTruthLogger, env: str):
         before={"key_rotation_enabled": True},
         after={"key_rotation_enabled": False},
         mechanism="Emergency console change (boto3 disable_key_rotation)",
-        cis_control="3.7",
+        cis_control="3.6",
         severity="HIGH",
         environment=env,
     )
@@ -1256,7 +1313,7 @@ def inject_D23(resources: dict, logger: GroundTruthLogger, env: str):
     D23: KMS Key - key_enabled
     Change: Disable the KMS key
     Mechanism: External automation
-    Severity: CRITICAL | CIS: 3.7
+    Severity: CRITICAL | CIS: none
     WARNING: Disabling the KMS key will affect all resources encrypted with it
     (RDS, EBS, CloudTrail). Re-enable immediately after DriftFinder scan.
     """
@@ -1277,7 +1334,7 @@ def inject_D23(resources: dict, logger: GroundTruthLogger, env: str):
         before={"key_enabled": True},
         after={"key_enabled": False},
         mechanism="External automation (boto3 disable_key)",
-        cis_control="3.7",
+        cis_control=None,
         severity="CRITICAL",
         environment=env,
     )
@@ -1300,7 +1357,7 @@ def inject_D24(resources: dict, logger: GroundTruthLogger, env: str):
     D24: KMS Key - key_policy_allows_public_access
     Change: Modify key policy to allow a broad principal (simulates misconfig)
     Mechanism: Emergency console change
-    Severity: HIGH | CIS: 3.7
+    Severity: HIGH | CIS: none
     Note: We add a statement allowing the account root to use the key broadly,
     then verify DriftFinder detects the policy change.
     """
@@ -1347,7 +1404,7 @@ def inject_D24(resources: dict, logger: GroundTruthLogger, env: str):
         before={"key_policy_allows_public_access": False},
         after={"key_policy_allows_public_access": True},
         mechanism="Emergency console change (boto3 put_key_policy with broad Principal)",
-        cis_control="3.7",
+        cis_control=None,
         severity="HIGH",
         environment=env,
     )
@@ -1357,9 +1414,8 @@ def inject_D24(resources: dict, logger: GroundTruthLogger, env: str):
 def reset_D24(resources: dict, env: str):
     kms = get_client("kms")
     key_id = resources["kms_key_id"]
-    original_policy = _load_experiment_state("D24_original_policy", resources.get("_env", "unknown"))
-    if original_policy:
-        kms.put_key_policy(KeyId=key_id, PolicyName="default", Policy=original_policy)
+    original_policy = _require_state("D24_original_policy", resources.get("_env", "unknown"))
+    kms.put_key_policy(KeyId=key_id, PolicyName="default", Policy=original_policy)
     print(f"[D24 RESET] Restored original key policy on KMS key {key_id}")
 
 
@@ -1444,12 +1500,20 @@ def main():
         help="Path to ground truth log file (default: ground_truth.json)",
     )
     parser.add_argument(
+        "--state-file",
+        default="experiment_state.json",
+        help="Path to experiment state file used by resets (default: experiment_state.json)",
+    )
+    parser.add_argument(
         "--baseline-check",
         action="store_true",
         help="Verify all resources exist and are in compliant state",
     )
 
     args = parser.parse_args()
+
+    global STATE_FILE
+    STATE_FILE = Path(args.state_file)
 
     resources = load_resources(args.resources)
     resources["_env"] = args.env

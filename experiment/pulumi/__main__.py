@@ -1,7 +1,7 @@
 """
 DriftFinder Controlled Experiment - Pulumi Baseline Environment
 Provisions all 8 resource types in CIS-compliant initial state.
-Region: eu-west-2
+Region: eu-west-1
 """
 
 import json
@@ -11,7 +11,7 @@ import pulumi_aws as aws
 config = pulumi.Config()
 account_id = config.require("account_id")
 db_password = config.require_secret("db_password")
-region = config.get("region") or "eu-west-2"
+region = config.get("region") or "eu-west-1"
 
 tags = {
     "Environment": "driftfinder-experiment",
@@ -377,7 +377,7 @@ rds = aws.rds.Instance(
     "driftfinder-rds-test",
     identifier="driftfinder-rds-test-pulumi",
     engine="mysql",
-    engine_version="8.0",
+    engine_version="8.4",
     instance_class="db.t3.micro",
     allocated_storage=20,
     storage_encrypted=True,
@@ -414,3 +414,8 @@ pulumi.export("cloudtrail_name", trail.name)
 pulumi.export("vpc_id", vpc.id)
 pulumi.export("kms_key_id", kms_key.key_id)
 pulumi.export("kms_key_arn", kms_key.arn)
+pulumi.export("ct_log_bucket_name", ct_log_bucket.bucket)
+pulumi.export("cloudtrail_cw_log_group_arn", ct_log_group.arn.apply(lambda arn: f"{arn}:*"))
+pulumi.export("cloudtrail_cw_role_arn", ct_role.arn)
+pulumi.export("flow_log_role_arn", flow_log_role.arn)
+pulumi.export("vpc_flow_log_group_name", flow_log_group.name)

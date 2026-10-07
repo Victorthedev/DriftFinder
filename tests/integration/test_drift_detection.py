@@ -80,7 +80,7 @@ def test_detects_encryption_drift_end_to_end(tmp_path):
     assert len(enc_findings) == 1
     assert enc_findings[0].declared_value is True
     assert enc_findings[0].actual_value is False
-    assert "2.1.1" in enc_findings[0].cis_controls
+    assert enc_findings[0].cis_controls == []
 
 
 @mock_aws

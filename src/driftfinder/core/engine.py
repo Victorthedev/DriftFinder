@@ -133,7 +133,7 @@ class DriftFinderEngine:
                     actual_value=actual_value,
                     drift_type=self._classify_drift_type(declared_value, actual_value),
                     severity=cis.severity if cis else Severity.LOW,
-                    cis_controls=[cis.control_id] if cis else [],
+                    cis_controls=[cis.control_id] if cis and cis.control_id else [],
                     cis_description=cis.description if cis else None,
                     detected_at=datetime.now(tz=UTC),
                 )
