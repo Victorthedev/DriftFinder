@@ -1,8 +1,0 @@
-encryptionsalt: v1:kicwlHlN1T0=:v1:vmcgZDHT5NjWfuSB:+DwbHO1qhjYojVE67Noe57CNIqOUow==
-config:
-  aws:region: eu-west-1
-  driftfinder-experiment:account_id: "450284263989"
-  driftfinder-experiment:db_password:
-    secure: v1:Y5l2GRO7GdFaGLNG:Yh3GofZVde02mQ6kP3HaD56n+0MExZp0lbCynYqBIg==
-  driftfinder-experiment:region: eu-west-1
-  driftfinder-experiment:virtualenv: /Users/wikiwoo/DriftFinder/.venv
