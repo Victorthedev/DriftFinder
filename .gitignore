@@ -79,3 +79,6 @@ dmypy.json
 .terraform/
 experiment/pulumi/Pulumi.*.yaml
 !experiment/pulumi/Pulumi.yaml
+
+# Experiment run output
+experiment-runs/
