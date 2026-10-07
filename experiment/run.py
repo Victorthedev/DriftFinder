@@ -432,7 +432,7 @@ class Run:
             "TF_VAR_account_id": self.account,
             "TF_VAR_db_password": self.secrets["db_password"],
             "TF_VAR_region": REGION,
-            "PULUMI_BACKEND_URL": (self.work / "pulumi-backend").as_uri(),
+            "PULUMI_BACKEND_URL": "file://" + (self.work / "pulumi-backend").as_posix(),
             "PULUMI_CONFIG_PASSPHRASE": self.secrets["pulumi_passphrase"],
             "PULUMI_PYTHON_CMD": sys.executable,
             "PULUMI_SKIP_UPDATE_CHECK": "true",

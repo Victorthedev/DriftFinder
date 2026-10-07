@@ -9,6 +9,14 @@ on:
       envs:
         description: Environments to run
         default: "terraform cloudformation pulumi"
+      os:
+        description: Operating systems to test on
+        type: choice
+        default: windows and linux
+        options:
+          - windows and linux
+          - windows only
+          - linux only
 
 concurrency:
   group: driftfinder-aws-experiment
@@ -22,7 +30,7 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: ${{ fromJSON(inputs.os == 'windows only' && '["windows-latest"]' || inputs.os == 'linux only' && '["ubuntu-latest"]' || '["windows-latest", "ubuntu-latest"]') }}
     defaults:
       run:
         shell: bash
@@ -34,15 +42,15 @@ jobs:
       ENVS: ${{ inputs.envs }}
       RUN_DIR: experiment-runs/${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: "1.13.3"
           terraform_wrapper: false
-      - uses: pulumi/actions@v6
+      - uses: pulumi/actions@v7
         with:
           pulumi-version: "3.250.0"
       - run: pip install --require-hashes --no-deps -r requirements.lock
@@ -56,7 +64,7 @@ jobs:
             python experiment/run.py teardown "$RUN_DIR"
           fi
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: experiment-${{ matrix.os }}
           path: |
