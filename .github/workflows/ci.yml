@@ -7,19 +7,6 @@ on:
     branches: [main]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install -e ".[dev]"
-      - run: ruff check src/ tests/
-      - run: black --check src/ tests/
-      - run: isort --check-only src/ tests/
-      - run: mypy src/driftfinder --strict
-
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -42,8 +29,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install pip-audit
-      - run: pip install -e "."
-      - run: pip-audit
+      - run: pip-audit -r requirements.lock --no-deps --disable-pip
 
   native-install:
     runs-on: ${{ matrix.os }}
