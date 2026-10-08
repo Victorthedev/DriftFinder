@@ -1,5 +1,0 @@
-iac_tool: terraform
-state_file: experiment/terraform/terraform.tfstate
-aws_region: eu-west-1
-fail_on: LOW
-output_format: json
