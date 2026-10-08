@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test-pulumi",
+      "resource_name": "driftfinder-trail-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "log_file_validation_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "3.2"
+      ],
+      "cis_description": "Ensure CloudTrail log file validation is enabled",
+      "detected_at": "2026-10-08T09:40:30.705941Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:40:33.729945Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 23.928,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

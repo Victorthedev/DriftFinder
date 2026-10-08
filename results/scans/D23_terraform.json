@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMKMSKey",
+      "resource_id": "30bb257e-e6f7-420a-9644-c319d1cd69a0",
+      "resource_name": "DriftFinder experiment KMS key",
+      "iac_tool": "terraform",
+      "property_path": "key_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: KMS key is disabled",
+      "detected_at": "2026-10-08T10:01:15.069640Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T10:01:15.069759Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 16.098,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

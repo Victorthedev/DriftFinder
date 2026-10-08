@@ -62,7 +62,6 @@ def inject_D1(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D1: S3 Bucket - server_side_encryption_enabled
     Change: Disable SSE via AWS CLI equivalent
-    Mechanism: External automation
     Severity: HIGH | CIS: none
     """
     s3 = get_client("s3")
@@ -94,7 +93,6 @@ def inject_D1(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="server_side_encryption_enabled",
         before=before,
         after=after,
-        mechanism="External automation (boto3 delete_bucket_encryption)",
         cis_control=None,
         severity="HIGH",
         environment=env,
@@ -124,7 +122,6 @@ def inject_D2(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D2: S3 Bucket - public_access_block_enabled
     Change: Disable all public access block settings
-    Mechanism: Emergency console change
     Severity: CRITICAL | CIS: 2.1.4
     """
     s3 = get_client("s3")
@@ -147,7 +144,6 @@ def inject_D2(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="public_access_block_enabled",
         before={"public_access_block_enabled": True, "block_public_acls": True, "block_public_policy": True},
         after={"public_access_block_enabled": False, "block_public_acls": False, "block_public_policy": False},
-        mechanism="Emergency console change (boto3 put_bucket_public_access_block)",
         cis_control="2.1.4",
         severity="CRITICAL",
         environment=env,
@@ -178,7 +174,6 @@ def inject_D3(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D3: S3 Bucket - access_logging_enabled
     Change: Disable access logging
-    Mechanism: External automation
     Severity: MEDIUM | CIS: none
     """
     s3 = get_client("s3")
@@ -193,7 +188,6 @@ def inject_D3(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="access_logging_enabled",
         before={"access_logging_enabled": True},
         after={"access_logging_enabled": False},
-        mechanism="External automation (boto3 put_bucket_logging with empty status)",
         cis_control=None,
         severity="MEDIUM",
         environment=env,
@@ -227,7 +221,6 @@ def inject_D4(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D4: Security Group - unrestricted_ssh_ingress
     Change: Add 0.0.0.0/0 ingress on port 22
-    Mechanism: Emergency console change
     Severity: CRITICAL | CIS: 5.2
     """
     ec2 = get_client("ec2")
@@ -250,7 +243,6 @@ def inject_D4(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="unrestricted_ssh_ingress",
         before={"unrestricted_ssh_ingress": False},
         after={"unrestricted_ssh_ingress": True},
-        mechanism="Emergency console change (boto3 authorize_security_group_ingress)",
         cis_control="5.2",
         severity="CRITICAL",
         environment=env,
@@ -283,7 +275,6 @@ def inject_D5(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D5: Security Group - unrestricted_rdp_ingress
     Change: Add 0.0.0.0/0 ingress on port 3389
-    Mechanism: Emergency console change
     Severity: CRITICAL | CIS: 5.2
     """
     ec2 = get_client("ec2")
@@ -306,7 +297,6 @@ def inject_D5(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="unrestricted_rdp_ingress",
         before={"unrestricted_rdp_ingress": False},
         after={"unrestricted_rdp_ingress": True},
-        mechanism="Emergency console change (boto3 authorize_security_group_ingress)",
         cis_control="5.2",
         severity="CRITICAL",
         environment=env,
@@ -339,7 +329,6 @@ def inject_D6(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D6: Security Group - egress_restricted
     Change: Add all-traffic egress rule (0.0.0.0/0, all ports)
-    Mechanism: External automation
     Severity: MEDIUM | CIS: none
     """
     ec2 = get_client("ec2")
@@ -360,7 +349,6 @@ def inject_D6(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="unrestricted_all_traffic_egress",
         before={"unrestricted_all_traffic_egress": False},
         after={"unrestricted_all_traffic_egress": True},
-        mechanism="External automation (boto3 authorize_security_group_egress)",
         cis_control=None,
         severity="MEDIUM",
         environment=env,
@@ -391,7 +379,6 @@ def inject_D7(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D7: IAM Policy - has_wildcard_action
     Change: Create new policy version with wildcard Action: *
-    Mechanism: Emergency console change
     Severity: CRITICAL | CIS: 1.16
     """
     iam = get_client("iam")
@@ -425,7 +412,6 @@ def inject_D7(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="has_wildcard_action",
         before={"has_wildcard_action": False},
         after={"has_wildcard_action": True},
-        mechanism="Emergency console change (boto3 create_policy_version with wildcard)",
         cis_control="1.16",
         severity="CRITICAL",
         environment=env,
@@ -482,7 +468,6 @@ def inject_D8(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D8: IAM Policy - has_admin_access
     Change: Create new version equivalent to AdministratorAccess
-    Mechanism: External automation
     Severity: HIGH | CIS: 1.16
     Note: We create a new policy version rather than attaching the AWS
     managed policy, because the test subject is the policy itself.
@@ -516,7 +501,6 @@ def inject_D8(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="has_admin_access",
         before={"has_admin_access": False, "has_wildcard_action": False},
         after={"has_admin_access": True, "has_wildcard_action": True},
-        mechanism="External automation (boto3 create_policy_version with admin equivalent)",
         cis_control="1.16",
         severity="HIGH",
         environment=env,
@@ -537,7 +521,6 @@ def inject_D9(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D9: IAM Policy - has_explicit_deny
     Change: Create new policy version without the explicit Deny statement
-    Mechanism: Emergency console change
     Severity: MEDIUM | CIS: none
     """
     iam = get_client("iam")
@@ -570,7 +553,6 @@ def inject_D9(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="has_explicit_deny",
         before={"has_explicit_deny": True},
         after={"has_explicit_deny": False},
-        mechanism="Emergency console change (boto3 create_policy_version without deny)",
         cis_control=None,
         severity="MEDIUM",
         environment=env,
@@ -590,23 +572,10 @@ def reset_D9(resources: dict, env: str):
 def inject_D10(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D10: RDS Instance - storage_encrypted
-    IMPORTANT: storage_encrypted is IMMUTABLE on an existing RDS instance.
-    AWS does not allow disabling encryption after creation.
-
-    Dissertation documentation: This scenario tests DriftFinder's ability
-    to detect a mismatch between declared encrypted=True and actual
-    encrypted=False. Since the property is immutable, this is simulated
-    by modifying the IaC declared state to reference a pre-known
-    non-compliant configuration, then verifying DriftFinder's detection.
-
-    Workaround: We modify the declared state in the IaC state file/template
-    to claim storage_encrypted=True while creating a SEPARATE unencrypted
-    RDS snapshot that represents the unencrypted state. This tests the
-    DriftFinder detection capability for this property class.
-
-    For the experiment: Note this as a DETECTED_VIA_CONFIG_MISMATCH finding
-    rather than a live injection. The property is still included in results
-    with a note about its immutable nature. This is a valid research finding.
+    Not injectable: RDS storage encryption cannot be changed after the
+    instance is created. No change is made. The current value is read and
+    the scenario is recorded with injected=False.
+    Severity: CRITICAL | CIS: 2.3.1
     """
     rds = get_client("rds")
     rds_id = resources["rds_instance_id"]
@@ -623,21 +592,18 @@ def inject_D10(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="storage_encrypted",
         before={"storage_encrypted": True},
         after={"storage_encrypted": False},
-        mechanism="IMMUTABLE_PROPERTY - Simulated via state declaration mismatch. See dissertation notes.",
         cis_control="2.3.1",
         severity="CRITICAL",
         environment=env,
         notes=(
-            "RDS storage_encrypted is immutable after instance creation. "
-            f"Current actual value: {current_encrypted}. "
-            "DriftFinder detection tested via declared vs actual state mismatch analysis. "
-            "This is documented as a detection capability boundary in the dissertation."
+            "Not injectable: RDS storage encryption is immutable after creation. "
+            "No change request was sent to AWS. The current value was read only. "
+            f"Current actual value: {current_encrypted}."
         ),
         injected=False,
     )
-    print(f"[D10] RDS storage_encrypted is immutable. Logged as detection boundary scenario.")
+    print(f"[D10] Not injectable: RDS storage encryption is immutable after creation. No change made.")
     print(f"      Current encrypted state: {current_encrypted}")
-    print(f"      Note this in your ground truth log as an immutable property test.")
 
 
 def reset_D10(resources: dict, env: str):
@@ -652,7 +618,6 @@ def inject_D11(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D11: RDS Instance - publicly_accessible
     Change: Enable public accessibility
-    Mechanism: Emergency console change
     Severity: HIGH | CIS: 2.3.3
     Note: RDS modification may take several minutes to apply.
     """
@@ -676,11 +641,13 @@ def inject_D11(resources: dict, logger: GroundTruthLogger, env: str):
             property_path="publicly_accessible",
             before={"publicly_accessible": False},
             after={"publicly_accessible": True},
-            mechanism="INJECTION_FAILED - AWS prevents PubliclyAccessible=True in VPC without internet gateway.",
             cis_control="2.3.3",
             severity="HIGH",
             environment=env,
-            notes=f"{error['Code']}: {error.get('Message', '')}",
+            notes=(
+                "Injection rejected by AWS: the VPC has no internet gateway, so the instance cannot be made "
+                f"publicly accessible. {error['Code']}: {error.get('Message', '')}"
+            ),
             injected=False,
         )
         print(f"[D11] AWS rejected the change on {rds_id}: {error['Code']}")
@@ -696,7 +663,6 @@ def inject_D11(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="publicly_accessible",
         before={"publicly_accessible": False},
         after={"publicly_accessible": True},
-        mechanism="Emergency console change (boto3 modify_db_instance)",
         cis_control="2.3.3",
         severity="HIGH",
         environment=env,
@@ -740,7 +706,6 @@ def inject_D12(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D12: RDS Instance - backup_retention_days
     Change: Set backup retention to 0 (disables automated backups)
-    Mechanism: External automation
     Severity: MEDIUM | CIS: none
     """
     rds = get_client("rds")
@@ -760,7 +725,6 @@ def inject_D12(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="backup_retention_days",
         before={"backup_retention_days": 7},
         after={"backup_retention_days": 0},
-        mechanism="External automation (boto3 modify_db_instance BackupRetentionPeriod=0)",
         cis_control=None,
         severity="MEDIUM",
         environment=env,
@@ -787,8 +751,9 @@ def reset_D12(resources: dict, env: str):
 def inject_D13(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D13: EBS Volume - encrypted
-    IMMUTABLE: EBS encryption cannot be changed on an existing volume.
-    Same handling as D10. Documents detection boundary.
+    Not injectable: EBS encryption cannot be changed on an existing volume.
+    No change is made. The current value is read and the scenario is
+    recorded with injected=False.
     Severity: CRITICAL | CIS: 2.2.1
     """
     ec2 = get_client("ec2")
@@ -804,18 +769,17 @@ def inject_D13(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="encrypted",
         before={"encrypted": True},
         after={"encrypted": False},
-        mechanism="IMMUTABLE_PROPERTY - EBS encryption cannot be changed. See dissertation notes.",
         cis_control="2.2.1",
         severity="CRITICAL",
         environment=env,
         notes=(
-            "EBS volume encryption is immutable after creation. "
-            f"Current actual value: {current}. "
-            "Detection boundary documented in dissertation."
+            "Not injectable: EBS volume encryption is immutable after creation. "
+            "No change request was sent to AWS. The current value was read only. "
+            f"Current actual value: {current}."
         ),
         injected=False,
     )
-    print(f"[D13] EBS encrypted is immutable. Current value: {current}. Logged as detection boundary.")
+    print(f"[D13] Not injectable: EBS volume encryption is immutable after creation. No change made. Current value: {current}")
 
 
 def reset_D13(resources: dict, env: str):
@@ -830,7 +794,6 @@ def inject_D14(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D14: EBS Volume - snapshot_encrypted
     Change: Create an unencrypted snapshot by copying with encryption disabled
-    Mechanism: Emergency console change
     Severity: HIGH | CIS: 2.2.1
     Note: Creating an unencrypted snapshot from an encrypted volume requires
     copying the snapshot with encryption disabled. Store snapshot ID for reset.
@@ -866,7 +829,6 @@ def inject_D14(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="snapshot_created_unencrypted",
         before={"snapshot_encrypted": True},
         after={"snapshot_id": snapshot_id, "volume_encrypted": True, "snapshot_encrypted": snapshot_encrypted},
-        mechanism="Emergency console change (boto3 create_snapshot)",
         cis_control="2.2.1",
         severity="HIGH",
         environment=env,
@@ -895,16 +857,11 @@ def reset_D14(resources: dict, env: str):
 def inject_D15(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D15: EBS Volume - delete_on_termination
-    Note: delete_on_termination is only relevant when a volume is attached
-    to an EC2 instance. Since the baseline does not include an EC2 instance
-    to minimise cost, this scenario tests the property on a detached volume.
-
-    DriftFinder behaviour: When volume is not attached, delete_on_termination
-    is None (cannot be determined). This tests DriftFinder's handling of
-    the None vs declared value comparison for attachment-dependent properties.
-
-    This is a valid research finding: some NRM properties are only
-    determinable when a resource is in a specific state.
+    Not injectable: delete_on_termination only exists while a volume is
+    attached to an EC2 instance, and the baseline has no instance (to keep
+    cost low). No change is made. The attachment state is read and the
+    scenario is recorded with injected=False.
+    Severity: MEDIUM | CIS: none
     """
     ec2 = get_client("ec2")
     volume_id = resources["ebs_volume_id"]
@@ -920,18 +877,17 @@ def inject_D15(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="delete_on_termination",
         before={"delete_on_termination": True},
         after={"delete_on_termination": None},
-        mechanism="Third-party tool (volume detached - property undeterminable without attachment)",
         cis_control=None,
         severity="MEDIUM",
         environment=env,
         notes=(
-            f"Volume attachment count: {len(attachments)}. "
-            "delete_on_termination is None when volume is not attached. "
-            "DriftFinder handles this as a detection limitation for attachment-dependent properties."
+            "Not injectable: the volume is not attached to an instance, so delete-on-termination has no value. "
+            "No change request was sent to AWS. The attachment state was read only. "
+            f"Volume attachment count: {len(attachments)}."
         ),
         injected=False,
     )
-    print(f"[D15] EBS delete_on_termination: attachment-dependent property test logged.")
+    print(f"[D15] Not injectable: volume is not attached, so delete-on-termination has no value. No change made.")
     print(f"      Volume attachments: {len(attachments)}")
 
 
@@ -947,7 +903,6 @@ def inject_D16(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D16: CloudTrail - multi_region_enabled
     Change: Disable multi-region logging
-    Mechanism: Emergency console change
     Severity: HIGH | CIS: 3.1
     """
     ct = get_client("cloudtrail")
@@ -962,7 +917,6 @@ def inject_D16(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="multi_region_enabled",
         before={"multi_region_enabled": True},
         after={"multi_region_enabled": False},
-        mechanism="Emergency console change (boto3 update_trail IsMultiRegionTrail=False)",
         cis_control="3.1",
         severity="HIGH",
         environment=env,
@@ -985,7 +939,6 @@ def inject_D17(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D17: CloudTrail - log_file_validation_enabled
     Change: Disable log file validation
-    Mechanism: External automation
     Severity: HIGH | CIS: 3.2
     """
     ct = get_client("cloudtrail")
@@ -1000,7 +953,6 @@ def inject_D17(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="log_file_validation_enabled",
         before={"log_file_validation_enabled": True},
         after={"log_file_validation_enabled": False},
-        mechanism="External automation (boto3 update_trail EnableLogFileValidation=False)",
         cis_control="3.2",
         severity="HIGH",
         environment=env,
@@ -1023,7 +975,6 @@ def inject_D18(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D18: CloudTrail - cloudwatch_logs_enabled
     Change: Remove CloudWatch Logs integration
-    Mechanism: Emergency console change
     Severity: MEDIUM | CIS: none
     """
     ct = get_client("cloudtrail")
@@ -1042,7 +993,6 @@ def inject_D18(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="cloudwatch_logs_enabled",
         before={"cloudwatch_logs_enabled": True},
         after={"cloudwatch_logs_enabled": False},
-        mechanism="Emergency console change (boto3 update_trail remove CW integration)",
         cis_control=None,
         severity="MEDIUM",
         environment=env,
@@ -1071,7 +1021,6 @@ def inject_D19(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D19: VPC - flow_logs_enabled
     Change: Delete the VPC flow log
-    Mechanism: Emergency console change
     Severity: HIGH | CIS: 3.7
     """
     ec2 = get_client("ec2")
@@ -1099,7 +1048,6 @@ def inject_D19(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="flow_logs_enabled",
         before={"flow_logs_enabled": True},
         after={"flow_logs_enabled": False},
-        mechanism="Emergency console change (boto3 delete_flow_logs)",
         cis_control="3.7",
         severity="HIGH",
         environment=env,
@@ -1136,7 +1084,6 @@ def inject_D20(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D20: VPC - default_sg_has_no_rules
     Change: Add an inbound rule to the VPC default security group
-    Mechanism: External automation
     Severity: CRITICAL | CIS: 5.4
     """
     ec2 = get_client("ec2")
@@ -1170,7 +1117,6 @@ def inject_D20(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="default_sg_has_no_rules",
         before={"default_sg_has_no_rules": True},
         after={"default_sg_has_no_rules": False, "default_sg_id": default_sg_id},
-        mechanism="External automation (boto3 authorize_security_group_ingress on default SG)",
         cis_control="5.4",
         severity="CRITICAL",
         environment=env,
@@ -1203,7 +1149,6 @@ def inject_D21(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D21: VPC - nacl_unrestricted_ingress
     Change: Add NACL entry allowing all traffic from 0.0.0.0/0
-    Mechanism: Emergency console change
     Severity: MEDIUM | CIS: 5.1
     """
     ec2 = get_client("ec2")
@@ -1245,7 +1190,6 @@ def inject_D21(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="nacl_unrestricted_ingress",
         before={"nacl_unrestricted_ingress": False},
         after={"nacl_unrestricted_ingress": True, "nacl_id": nacl_id},
-        mechanism="Emergency console change (boto3 create_network_acl_entry allow all)",
         cis_control="5.1",
         severity="MEDIUM",
         environment=env,
@@ -1274,7 +1218,6 @@ def inject_D22(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D22: KMS Key - key_rotation_enabled
     Change: Disable automatic key rotation
-    Mechanism: Emergency console change
     Severity: HIGH | CIS: 3.6
     """
     kms = get_client("kms")
@@ -1289,7 +1232,6 @@ def inject_D22(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="key_rotation_enabled",
         before={"key_rotation_enabled": True},
         after={"key_rotation_enabled": False},
-        mechanism="Emergency console change (boto3 disable_key_rotation)",
         cis_control="3.6",
         severity="HIGH",
         environment=env,
@@ -1312,7 +1254,6 @@ def inject_D23(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D23: KMS Key - key_enabled
     Change: Disable the KMS key
-    Mechanism: External automation
     Severity: CRITICAL | CIS: none
     WARNING: Disabling the KMS key will affect all resources encrypted with it
     (RDS, EBS, CloudTrail). Re-enable immediately after DriftFinder scan.
@@ -1333,7 +1274,6 @@ def inject_D23(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="key_enabled",
         before={"key_enabled": True},
         after={"key_enabled": False},
-        mechanism="External automation (boto3 disable_key)",
         cis_control=None,
         severity="CRITICAL",
         environment=env,
@@ -1356,7 +1296,6 @@ def inject_D24(resources: dict, logger: GroundTruthLogger, env: str):
     """
     D24: KMS Key - key_policy_allows_public_access
     Change: Modify key policy to allow a broad principal (simulates misconfig)
-    Mechanism: Emergency console change
     Severity: HIGH | CIS: none
     Note: We add a statement allowing the account root to use the key broadly,
     then verify DriftFinder detects the policy change.
@@ -1403,7 +1342,6 @@ def inject_D24(resources: dict, logger: GroundTruthLogger, env: str):
         property_path="key_policy_allows_public_access",
         before={"key_policy_allows_public_access": False},
         after={"key_policy_allows_public_access": True},
-        mechanism="Emergency console change (boto3 put_key_policy with broad Principal)",
         cis_control=None,
         severity="HIGH",
         environment=env,

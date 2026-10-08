@@ -1,0 +1,17 @@
+{
+  "terraform_D14_snapshot_id": "snap-057c440eb71e92c3c",
+  "cloudformation_D14_snapshot_id": "snap-08410d14759f361c0",
+  "pulumi_D14_snapshot_id": "snap-092c4daa60a6da2f2",
+  "terraform_D19_flow_log_id": "fl-0a405c223b529140b",
+  "cloudformation_D19_flow_log_id": "fl-01048930c2231cd65",
+  "pulumi_D19_flow_log_id": "fl-0af88dbba2622398d",
+  "terraform_D20_default_sg_id": "sg-0cb0532c3bd763e8b",
+  "cloudformation_D20_default_sg_id": "sg-0b18dcb5b89c600d3",
+  "pulumi_D20_default_sg_id": "sg-0f2412e13115ecc1e",
+  "terraform_D21_nacl_id": "acl-0ca3576b3b653f5d4",
+  "cloudformation_D21_nacl_id": "acl-0b81a146b168ca19f",
+  "pulumi_D21_nacl_id": "acl-036af211d8573e382",
+  "terraform_D24_original_policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Sid\": \"Enable IAM User Permissions\", \"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"arn:aws:iam::575108919391:root\"}, \"Action\": \"kms:*\", \"Resource\": \"*\"}, {\"Sid\": \"Allow CloudTrail to encrypt logs\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Action\": [\"kms:GenerateDataKey*\", \"kms:DescribeKey\"], \"Resource\": \"*\"}]}",
+  "cloudformation_D24_original_policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Sid\": \"Enable IAM User Permissions\", \"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"arn:aws:iam::575108919391:root\"}, \"Action\": \"kms:*\", \"Resource\": \"*\"}, {\"Sid\": \"Allow CloudTrail to use key\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Action\": [\"kms:GenerateDataKey*\", \"kms:DescribeKey\", \"kms:Decrypt\"], \"Resource\": \"*\"}]}",
+  "pulumi_D24_original_policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Sid\": \"Enable IAM User Permissions\", \"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"arn:aws:iam::575108919391:root\"}, \"Action\": \"kms:*\", \"Resource\": \"*\"}, {\"Sid\": \"Allow CloudTrail to use key\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Action\": [\"kms:GenerateDataKey*\", \"kms:DescribeKey\", \"kms:Decrypt\"], \"Resource\": \"*\"}]}"
+}

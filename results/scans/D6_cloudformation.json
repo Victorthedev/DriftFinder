@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0d6ebc31a26a76c20",
+      "resource_name": "DriftFinderSG",
+      "iac_tool": "cloudformation",
+      "property_path": "unrestricted_all_traffic_egress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: security group allows all outbound traffic to 0.0.0.0/0",
+      "detected_at": "2026-10-08T08:34:41.092872Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T08:34:48.712884Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 22.73,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

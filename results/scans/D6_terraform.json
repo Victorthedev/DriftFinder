@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0b158f112746d8285",
+      "resource_name": "driftfinder-sg-test",
+      "iac_tool": "terraform",
+      "property_path": "unrestricted_all_traffic_egress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: security group allows all outbound traffic to 0.0.0.0/0",
+      "detected_at": "2026-10-08T08:33:13.787837Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T08:33:26.788537Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 17.504,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

@@ -1,0 +1,91 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::575108919391:policy/driftfinder-iam-test",
+      "resource_name": "driftfinder-iam-test",
+      "iac_tool": "terraform",
+      "property_path": "has_wildcard_action",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "1.16"
+      ],
+      "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
+      "detected_at": "2026-10-08T08:41:06.561927Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::575108919391:policy/driftfinder-iam-test",
+      "resource_name": "driftfinder-iam-test",
+      "iac_tool": "terraform",
+      "property_path": "has_wildcard_resource",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "1.16"
+      ],
+      "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
+      "detected_at": "2026-10-08T08:41:06.562011Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::575108919391:policy/driftfinder-iam-test",
+      "resource_name": "driftfinder-iam-test",
+      "iac_tool": "terraform",
+      "property_path": "has_admin_access",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "1.16"
+      ],
+      "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
+      "detected_at": "2026-10-08T08:41:06.562030Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::575108919391:policy/driftfinder-iam-test",
+      "resource_name": "driftfinder-iam-test",
+      "iac_tool": "terraform",
+      "property_path": "has_explicit_deny",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
+      "detected_at": "2026-10-08T08:41:06.562043Z"
+    },
+    {
+      "resource_type": "NRMIAMPolicy",
+      "resource_id": "arn:aws:iam::575108919391:policy/driftfinder-iam-test",
+      "resource_name": "driftfinder-iam-test",
+      "iac_tool": "terraform",
+      "property_path": "policy_document_hash",
+      "declared_value": "2760a4641403269274f182fc0a8e859b049a03344769acab596a98d3766aaac1",
+      "actual_value": "8fc93fedfdb5acca3135a3aaac4e6d84578d31c83ba2870dae82f0111091b3de",
+      "drift_type": "MODIFIED",
+      "severity": "LOW",
+      "cis_controls": [],
+      "cis_description": null,
+      "detected_at": "2026-10-08T08:41:06.562057Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T08:41:17.156853Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 15.446,
+  "critical_count": 1,
+  "high_count": 2,
+  "medium_count": 1,
+  "low_count": 1
+}

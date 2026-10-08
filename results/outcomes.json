@@ -1,0 +1,122 @@
+{
+  "D1": {
+    "terraform": "FN (no drift)",
+    "cloudformation": "FN (no drift)",
+    "pulumi": "FN (no drift)"
+  },
+  "D2": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D3": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D4": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D5": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D6": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D7": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D8": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D9": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D10": {
+    "terraform": "FN (no drift)",
+    "cloudformation": "FN (no drift)",
+    "pulumi": "FN (no drift)"
+  },
+  "D11": {
+    "terraform": "FN (no drift)",
+    "cloudformation": "FN (no drift)",
+    "pulumi": "FN (no drift)"
+  },
+  "D12": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D13": {
+    "terraform": "FN (no drift)",
+    "cloudformation": "FN (no drift)",
+    "pulumi": "FN (no drift)"
+  },
+  "D14": {
+    "terraform": "FN (no drift)",
+    "cloudformation": "FN (no drift)",
+    "pulumi": "FN (no drift)"
+  },
+  "D15": {
+    "terraform": "FN (no drift)",
+    "cloudformation": "FN (no drift)",
+    "pulumi": "FN (no drift)"
+  },
+  "D16": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D17": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D18": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D19": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D20": {
+    "terraform": "TP",
+    "cloudformation": "FN",
+    "pulumi": "TP"
+  },
+  "D21": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D22": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D23": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  },
+  "D24": {
+    "terraform": "TP",
+    "cloudformation": "TP",
+    "pulumi": "TP"
+  }
+}

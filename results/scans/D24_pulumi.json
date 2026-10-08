@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMKMSKey",
+      "resource_id": "526893ee-1405-49c0-801b-cab14e743b04",
+      "resource_name": "DriftFinder experiment KMS key",
+      "iac_tool": "pulumi",
+      "property_path": "key_policy_allows_public_access",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: KMS key policy allows access to any principal",
+      "detected_at": "2026-10-08T10:07:38.118889Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T10:07:38.118975Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 10.388,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

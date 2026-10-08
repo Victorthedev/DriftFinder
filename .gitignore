@@ -82,3 +82,4 @@ experiment/pulumi/Pulumi.*.yaml
 
 # Experiment run output
 experiment-runs/
+!results/**/run.log

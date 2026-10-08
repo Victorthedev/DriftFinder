@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-02045867b7330bbfd",
+      "resource_name": "driftfinder-vpc-test",
+      "iac_tool": "pulumi",
+      "property_path": "flow_logs_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "3.7"
+      ],
+      "cis_description": "Ensure VPC flow logging is enabled in all VPCs",
+      "detected_at": "2026-10-08T09:48:17.815330Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:48:19.122344Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 13.171,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

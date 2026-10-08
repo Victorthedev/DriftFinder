@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-041aaea088015b950",
+      "resource_name": "driftfinder-sg-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "unrestricted_rdp_ingress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "5.2"
+      ],
+      "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+      "detected_at": "2026-10-08T08:32:00.517452Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T08:32:15.203694Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 22.52,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

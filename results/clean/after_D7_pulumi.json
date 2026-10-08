@@ -1,0 +1,14 @@
+{
+  "findings": [],
+  "scan_timestamp": "2026-10-08T08:40:24.454875Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 0,
+  "compliant": true,
+  "scan_duration_seconds": 12.867,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

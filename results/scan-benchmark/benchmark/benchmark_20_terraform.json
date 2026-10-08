@@ -1,0 +1,14 @@
+{
+  "findings": [],
+  "scan_timestamp": "2026-10-08T12:08:38.728802Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 0,
+  "compliant": true,
+  "scan_duration_seconds": 2.66,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

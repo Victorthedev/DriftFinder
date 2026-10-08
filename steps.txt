@@ -28,9 +28,9 @@ PART 1: BEFORE YOU START
 3. Everything runs in eu-west-1 (Ireland). The region is fixed so that
    every run uses the same AWS environment.
 
-4. Expect a full run to take several hours and to cost a few US dollars.
-   A short check (step 3 below) takes about 40 minutes and costs well
-   under one US dollar.
+4. Expect a full run to take about 2 hours, including teardown, and to
+   cost a few US dollars. A short check (step 3 below) takes about 40
+   minutes and costs well under one US dollar.
 
 5. Do not run two experiments at the same time in the same account.
    They use the same resource names and would interfere with each other.
@@ -79,6 +79,22 @@ STEP 4: Run the full experiment
   Native:  python experiment/run.py run
 
   Type "yes" when asked to confirm, or add --yes for an unattended run.
+
+  Turn off power saving for the run (macOS: Low Power Mode; Windows:
+  battery saver). It does not change detection results but slows every
+  scan considerably, so recorded scan durations would not be
+  representative. The runner records the macOS Low Power Mode setting
+  in run.json.
+
+  Keep the computer awake for the whole run. If it sleeps, the run
+  pauses until it wakes. For a native run:
+    macOS:    caffeinate -ims python experiment/run.py run
+    Linux:    systemd-inhibit python experiment/run.py run
+    Windows:  set Settings > System > Power & battery > Sleep to
+              "Never" for the duration of the run
+  For a Docker run, apply the same setting to the computer running
+  Docker (on macOS, prefix the docker run command with caffeinate -ims).
+  A laptop must also stay plugged in with the lid open.
   The runner prints its progress and writes everything to
   experiment-runs/<run id>/ in your current folder. Results are also
   uploaded to the S3 bucket driftfinder-results-<account id> after
@@ -95,6 +111,20 @@ STEP 5: Read the results
   - ground_truth.json     every injection, whether it took effect and
                           the finding that matched it
   - scans/ and clean/     every scan DriftFinder produced
+
+STEP 6 (optional): Measure scan performance
+  Docker:  driftfinder-experiment benchmark
+  Native:  python experiment/run.py benchmark
+
+  Scan duration depends on the computer and network, not only on
+  DriftFinder, so it is measured separately from the drift scenarios.
+  The benchmark provisions the three environments, runs 26 clean scans
+  per environment (interleaved across the environments), writes
+  benchmark_summary.json and tears everything down. It takes about 40
+  minutes. Turn off power saving first (macOS: System Settings > Battery
+  > Low Power Mode > Never; Windows: a non-saver power mode) and keep the
+  computer otherwise idle. On macOS the benchmark refuses to start while
+  Low Power Mode is on.
 
 IF THE RUN STOPS
   The runner stops on purpose if an environment is not clean after a
@@ -172,39 +202,37 @@ PHASE F: Teardown
 PART 4: THE 24 DRIFT SCENARIOS
 =======================================================================
 
-Mechanism: Console = emergency console change, Automation = external
-automation, Third-party = third-party tool (the three drift causes from
-Kumara et al.). All changes are made through the AWS API with boto3.
+All changes are made through the AWS API with boto3.
 
 CIS: control in CIS AWS Foundations Benchmark v3.0.0, or "none" when
 the benchmark has no control for the property.
 
-ID   Resource        Change injected                              Mechanism    Severity  CIS
----  --------------  -------------------------------------------  -----------  --------  -----
-D1   S3 bucket       Delete the default encryption configuration  Automation   HIGH      none
-D2   S3 bucket       Turn off all four Block Public Access flags  Console      CRITICAL  2.1.4
-D3   S3 bucket       Turn off server access logging               Automation   MEDIUM    none
-D4   Security group  Allow TCP 22 inbound from 0.0.0.0/0          Console      CRITICAL  5.2
-D5   Security group  Allow TCP 3389 inbound from 0.0.0.0/0        Console      CRITICAL  5.2
-D6   Security group  Allow all outbound traffic to 0.0.0.0/0      Automation   MEDIUM    none
-D7   IAM policy      New default version: Action * on Resource *  Console      CRITICAL  1.16
-D8   IAM policy      New default version: administrator access    Automation   HIGH      1.16
-D9   IAM policy      New default version without explicit deny    Console      MEDIUM    none
-D10  RDS instance    None (storage encryption is immutable)       Console      CRITICAL  2.3.1
-D11  RDS instance    Set PubliclyAccessible to true               Console      HIGH      2.3.3
-D12  RDS instance    Set backup retention to 0 days               Automation   MEDIUM    none
-D13  EBS volume      None (volume encryption is immutable)        Automation   CRITICAL  2.2.1
-D14  EBS volume      Create a snapshot of the volume              Console      HIGH      2.2.1
-D15  EBS volume      None (observation of delete-on-termination)  Third-party  MEDIUM    none
-D16  CloudTrail      Turn off multi-region logging                Console      HIGH      3.1
-D17  CloudTrail      Turn off log file validation                 Automation   HIGH      3.2
-D18  CloudTrail      Remove the CloudWatch Logs integration       Console      MEDIUM    none
-D19  VPC             Delete the VPC flow log                      Console      HIGH      3.7
-D20  VPC             Allow TCP 80 inbound on the default SG       Automation   CRITICAL  5.4
-D21  VPC             Network ACL rule allowing all inbound        Console      MEDIUM    5.1
-D22  KMS key         Turn off automatic key rotation              Console      HIGH      3.6
-D23  KMS key         Disable the key                              Automation   CRITICAL  none
-D24  KMS key         Add a key policy statement for principal *   Console      HIGH      none
+ID   Resource        Change injected                              Severity  CIS
+---  --------------  -------------------------------------------  --------  -----
+D1   S3 bucket       Delete the default encryption configuration  HIGH      none
+D2   S3 bucket       Turn off all four Block Public Access flags  CRITICAL  2.1.4
+D3   S3 bucket       Turn off server access logging               MEDIUM    none
+D4   Security group  Allow TCP 22 inbound from 0.0.0.0/0          CRITICAL  5.2
+D5   Security group  Allow TCP 3389 inbound from 0.0.0.0/0        CRITICAL  5.2
+D6   Security group  Allow all outbound traffic to 0.0.0.0/0      MEDIUM    none
+D7   IAM policy      New default version: Action * on Resource *  CRITICAL  1.16
+D8   IAM policy      New default version: administrator access    HIGH      1.16
+D9   IAM policy      New default version without explicit deny    MEDIUM    none
+D10  RDS instance    None: not injectable (immutable)             CRITICAL  2.3.1
+D11  RDS instance    Set PubliclyAccessible to true               HIGH      2.3.3
+D12  RDS instance    Set backup retention to 0 days               MEDIUM    none
+D13  EBS volume      None: not injectable (immutable)             CRITICAL  2.2.1
+D14  EBS volume      Create a snapshot of the volume              HIGH      2.2.1
+D15  EBS volume      None: not injectable (volume not attached)   MEDIUM    none
+D16  CloudTrail      Turn off multi-region logging                HIGH      3.1
+D17  CloudTrail      Turn off log file validation                 HIGH      3.2
+D18  CloudTrail      Remove the CloudWatch Logs integration       MEDIUM    none
+D19  VPC             Delete the VPC flow log                      HIGH      3.7
+D20  VPC             Allow TCP 80 inbound on the default SG       CRITICAL  5.4
+D21  VPC             Network ACL rule allowing all inbound        MEDIUM    5.1
+D22  KMS key         Turn off automatic key rotation              HIGH      3.6
+D23  KMS key         Disable the key                              CRITICAL  none
+D24  KMS key         Add a key policy statement for principal *   HIGH      none
 
 Scenarios where no drift reaches the account. These are recorded with
 "injected": false in ground_truth.json and reported separately:

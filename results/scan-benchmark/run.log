@@ -1,0 +1,2947 @@
+[11:42:20] Run 20261008T114210Z started. Output: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z
+[11:42:20] Results are uploaded to s3://driftfinder-results-575108919391/20261008T114210Z/
+[11:42:20] $ terraform init -input=false -no-color
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Installing hashicorp/aws v5.63.1...
+- Installed hashicorp/aws v5.63.1 (unauthenticated)
+
+Terraform has been successfully initialized!
+[11:42:25] $ terraform apply -auto-approve -input=false -no-color
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_cloudtrail.driftfinder_test will be created
+  + resource "aws_cloudtrail" "driftfinder_test" {
+      + arn                           = (known after apply)
+      + cloud_watch_logs_group_arn    = (known after apply)
+      + cloud_watch_logs_role_arn     = (known after apply)
+      + enable_log_file_validation    = true
+      + enable_logging                = true
+      + home_region                   = (known after apply)
+      + id                            = (known after apply)
+      + include_global_service_events = true
+      + is_multi_region_trail         = true
+      + is_organization_trail         = false
+      + kms_key_id                    = (known after apply)
+      + name                          = "driftfinder-trail-test"
+      + s3_bucket_name                = "driftfinder-ct-logs-575108919391-tf"
+      + tags                          = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-trail-test"
+        }
+      + tags_all                      = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-trail-test"
+        }
+    }
+
+  # aws_cloudwatch_log_group.cloudtrail will be created
+  + resource "aws_cloudwatch_log_group" "cloudtrail" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + log_group_class   = (known after apply)
+      + name              = "/driftfinder/cloudtrail-tf"
+      + name_prefix       = (known after apply)
+      + retention_in_days = 7
+      + skip_destroy      = false
+      + tags_all          = (known after apply)
+    }
+
+  # aws_cloudwatch_log_group.flow_logs will be created
+  + resource "aws_cloudwatch_log_group" "flow_logs" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + log_group_class   = (known after apply)
+      + name              = "/driftfinder/vpc-flow-logs-tf"
+      + name_prefix       = (known after apply)
+      + retention_in_days = 7
+      + skip_destroy      = false
+      + tags_all          = (known after apply)
+    }
+
+  # aws_db_instance.driftfinder_test will be created
+  + resource "aws_db_instance" "driftfinder_test" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 20
+      + apply_immediately                     = false
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = 7
+      + backup_target                         = (known after apply)
+      + backup_window                         = (known after apply)
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + db_name                               = (known after apply)
+      + db_subnet_group_name                  = "driftfinder-rds-subnet-group-tf"
+      + dedicated_log_volume                  = false
+      + delete_automated_backups              = true
+      + deletion_protection                   = false
+      + domain_fqdn                           = (known after apply)
+      + endpoint                              = (known after apply)
+      + engine                                = "mysql"
+      + engine_lifecycle_support              = (known after apply)
+      + engine_version                        = "8.4"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = "driftfinder-rds-test"
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t3.micro"
+      + iops                                  = (known after apply)
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + listener_endpoint                     = (known after apply)
+      + maintenance_window                    = (known after apply)
+      + master_user_secret                    = (known after apply)
+      + master_user_secret_kms_key_id         = (known after apply)
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = false
+      + nchar_character_set_name              = (known after apply)
+      + network_type                          = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + password                              = (sensitive value)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = (known after apply)
+      + publicly_accessible                   = false
+      + replica_mode                          = (known after apply)
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_encrypted                     = true
+      + storage_throughput                    = (known after apply)
+      + storage_type                          = (known after apply)
+      + tags                                  = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-rds-test"
+        }
+      + tags_all                              = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-rds-test"
+        }
+      + timezone                              = (known after apply)
+      + username                              = "admin"
+      + vpc_security_group_ids                = (known after apply)
+    }
+
+  # aws_db_subnet_group.driftfinder_test will be created
+  + resource "aws_db_subnet_group" "driftfinder_test" {
+      + arn                     = (known after apply)
+      + description             = "Managed by Terraform"
+      + id                      = (known after apply)
+      + name                    = "driftfinder-rds-subnet-group-tf"
+      + name_prefix             = (known after apply)
+      + subnet_ids              = (known after apply)
+      + supported_network_types = (known after apply)
+      + tags                    = {
+          + "Name" = "driftfinder-rds-subnet-group-tf"
+        }
+      + tags_all                = {
+          + "Name" = "driftfinder-rds-subnet-group-tf"
+        }
+      + vpc_id                  = (known after apply)
+    }
+
+  # aws_default_network_acl.driftfinder_test will be created
+  + resource "aws_default_network_acl" "driftfinder_test" {
+      + arn                    = (known after apply)
+      + default_network_acl_id = (known after apply)
+      + id                     = (known after apply)
+      + owner_id               = (known after apply)
+      + tags                   = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-default-nacl-tf"
+        }
+      + tags_all               = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-default-nacl-tf"
+        }
+      + vpc_id                 = (known after apply)
+
+      + egress {
+          + action          = "allow"
+          + cidr_block      = "0.0.0.0/0"
+          + from_port       = 0
+          + protocol        = "-1"
+          + rule_no         = 100
+          + to_port         = 0
+            # (1 unchanged attribute hidden)
+        }
+
+      + ingress {
+          + action          = "allow"
+          + cidr_block      = "0.0.0.0/0"
+          + from_port       = 1024
+          + protocol        = "6"
+          + rule_no         = 200
+          + to_port         = 65535
+            # (1 unchanged attribute hidden)
+        }
+      + ingress {
+          + action          = "allow"
+          + cidr_block      = "0.0.0.0/0"
+          + from_port       = 443
+          + protocol        = "6"
+          + rule_no         = 100
+          + to_port         = 443
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_default_security_group.driftfinder_test will be created
+  + resource "aws_default_security_group" "driftfinder_test" {
+      + arn                    = (known after apply)
+      + description            = (known after apply)
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = (known after apply)
+      + name                   = (known after apply)
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-default-sg-tf"
+        }
+      + tags_all               = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-default-sg-tf"
+        }
+      + vpc_id                 = (known after apply)
+    }
+
+  # aws_ebs_volume.driftfinder_test will be created
+  + resource "aws_ebs_volume" "driftfinder_test" {
+      + arn               = (known after apply)
+      + availability_zone = "eu-west-1a"
+      + encrypted         = true
+      + final_snapshot    = false
+      + id                = (known after apply)
+      + iops              = (known after apply)
+      + kms_key_id        = (known after apply)
+      + size              = 1
+      + snapshot_id       = (known after apply)
+      + tags              = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-ebs-test"
+        }
+      + tags_all          = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-ebs-test"
+        }
+      + throughput        = (known after apply)
+      + type              = "gp2"
+    }
+
+  # aws_flow_log.driftfinder_test will be created
+  + resource "aws_flow_log" "driftfinder_test" {
+      + arn                      = (known after apply)
+      + iam_role_arn             = (known after apply)
+      + id                       = (known after apply)
+      + log_destination          = (known after apply)
+      + log_destination_type     = "cloud-watch-logs"
+      + log_format               = (known after apply)
+      + log_group_name           = (known after apply)
+      + max_aggregation_interval = 600
+      + tags                     = {
+          + "Name" = "driftfinder-flow-log"
+        }
+      + tags_all                 = {
+          + "Name" = "driftfinder-flow-log"
+        }
+      + traffic_type             = "ALL"
+      + vpc_id                   = (known after apply)
+    }
+
+  # aws_iam_policy.driftfinder_test will be created
+  + resource "aws_iam_policy" "driftfinder_test" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "DriftFinder experiment IAM policy - compliant baseline"
+      + id               = (known after apply)
+      + name             = "driftfinder-iam-test"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "s3:GetObject",
+                          + "s3:ListBucket",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = [
+                          + "arn:aws:s3:::driftfinder-*",
+                          + "arn:aws:s3:::driftfinder-*/*",
+                        ]
+                      + Sid      = "AllowS3ReadOnly"
+                    },
+                  + {
+                      + Action   = [
+                          + "s3:DeleteObject",
+                          + "s3:DeleteBucket",
+                        ]
+                      + Effect   = "Deny"
+                      + Resource = "*"
+                      + Sid      = "ExplicitDenyDestructive"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags             = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-iam-test"
+        }
+      + tags_all         = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-iam-test"
+        }
+    }
+
+  # aws_iam_role.cloudtrail_cw will be created
+  + resource "aws_iam_role" "cloudtrail_cw" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "cloudtrail.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "driftfinder-cloudtrail-cw-tf"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = (known after apply)
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # aws_iam_role.flow_logs will be created
+  + resource "aws_iam_role" "flow_logs" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "vpc-flow-logs.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "driftfinder-flow-logs-tf"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = (known after apply)
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # aws_iam_role_policy.cloudtrail_cw will be created
+  + resource "aws_iam_role_policy" "cloudtrail_cw" {
+      + id          = (known after apply)
+      + name        = "driftfinder-cloudtrail-cw-policy-tf"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + role        = (known after apply)
+    }
+
+  # aws_iam_role_policy.flow_logs will be created
+  + resource "aws_iam_role_policy" "flow_logs" {
+      + id          = (known after apply)
+      + name        = "driftfinder-flow-logs-policy-tf"
+      + name_prefix = (known after apply)
+      + policy      = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "logs:CreateLogGroup",
+                          + "logs:CreateLogStream",
+                          + "logs:PutLogEvents",
+                          + "logs:DescribeLogGroups",
+                          + "logs:DescribeLogStreams",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + role        = (known after apply)
+    }
+
+  # aws_kms_alias.driftfinder_test will be created
+  + resource "aws_kms_alias" "driftfinder_test" {
+      + arn            = (known after apply)
+      + id             = (known after apply)
+      + name           = "alias/driftfinder-test-terraform"
+      + name_prefix    = (known after apply)
+      + target_key_arn = (known after apply)
+      + target_key_id  = (known after apply)
+    }
+
+  # aws_kms_key.driftfinder_test will be created
+  + resource "aws_kms_key" "driftfinder_test" {
+      + arn                                = (known after apply)
+      + bypass_policy_lockout_safety_check = false
+      + customer_master_key_spec           = "SYMMETRIC_DEFAULT"
+      + deletion_window_in_days            = 7
+      + description                        = "DriftFinder experiment KMS key"
+      + enable_key_rotation                = true
+      + id                                 = (known after apply)
+      + is_enabled                         = true
+      + key_id                             = (known after apply)
+      + key_usage                          = "ENCRYPT_DECRYPT"
+      + multi_region                       = (known after apply)
+      + policy                             = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "kms:*"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + AWS = "arn:aws:iam::575108919391:root"
+                        }
+                      + Resource  = "*"
+                      + Sid       = "Enable IAM User Permissions"
+                    },
+                  + {
+                      + Action    = [
+                          + "kms:GenerateDataKey*",
+                          + "kms:DescribeKey",
+                        ]
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "cloudtrail.amazonaws.com"
+                        }
+                      + Resource  = "*"
+                      + Sid       = "Allow CloudTrail to encrypt logs"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + rotation_period_in_days            = (known after apply)
+      + tags                               = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-kms-test"
+        }
+      + tags_all                           = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-kms-test"
+        }
+    }
+
+  # aws_s3_bucket.cloudtrail_logs will be created
+  + resource "aws_s3_bucket" "cloudtrail_logs" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "driftfinder-ct-logs-575108919391-tf"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "Name" = "driftfinder-cloudtrail-logs-tf"
+        }
+      + tags_all                    = {
+          + "Name" = "driftfinder-cloudtrail-logs-tf"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # aws_s3_bucket.driftfinder_test will be created
+  + resource "aws_s3_bucket" "driftfinder_test" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "driftfinder-s3-test-575108919391-tf"
+      + bucket_domain_name          = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = true
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-s3-test"
+        }
+      + tags_all                    = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-s3-test"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # aws_s3_bucket_logging.driftfinder_test will be created
+  + resource "aws_s3_bucket_logging" "driftfinder_test" {
+      + bucket        = (known after apply)
+      + id            = (known after apply)
+      + target_bucket = (known after apply)
+      + target_prefix = "s3-access-logs/"
+    }
+
+  # aws_s3_bucket_policy.cloudtrail_logs will be created
+  + resource "aws_s3_bucket_policy" "cloudtrail_logs" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+      + policy = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "s3:GetBucketAcl"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "cloudtrail.amazonaws.com"
+                        }
+                      + Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf"
+                      + Sid       = "AWSCloudTrailAclCheck"
+                    },
+                  + {
+                      + Action    = "s3:PutObject"
+                      + Condition = {
+                          + StringEquals = {
+                              + "s3:x-amz-acl" = "bucket-owner-full-control"
+                            }
+                        }
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "cloudtrail.amazonaws.com"
+                        }
+                      + Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf/AWSLogs/575108919391/*"
+                      + Sid       = "AWSCloudTrailWrite"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+    }
+
+  # aws_s3_bucket_public_access_block.cloudtrail_logs will be created
+  + resource "aws_s3_bucket_public_access_block" "cloudtrail_logs" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # aws_s3_bucket_public_access_block.driftfinder_test will be created
+  + resource "aws_s3_bucket_public_access_block" "driftfinder_test" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # aws_s3_bucket_server_side_encryption_configuration.driftfinder_test will be created
+  + resource "aws_s3_bucket_server_side_encryption_configuration" "driftfinder_test" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + rule {
+          + apply_server_side_encryption_by_default {
+              + sse_algorithm     = "AES256"
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # aws_s3_bucket_versioning.driftfinder_test will be created
+  + resource "aws_s3_bucket_versioning" "driftfinder_test" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+  # aws_security_group.driftfinder_test will be created
+  + resource "aws_security_group" "driftfinder_test" {
+      + arn                    = (known after apply)
+      + description            = "DriftFinder experiment security group - compliant baseline"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = "HTTPS outbound only"
+              + from_port        = 443
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 443
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "10.0.0.0/8",
+                ]
+              + description      = "HTTPS from internal only"
+              + from_port        = 443
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 443
+            },
+        ]
+      + name                   = "driftfinder-sg-test"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-sg-test"
+        }
+      + tags_all               = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-sg-test"
+        }
+      + vpc_id                 = (known after apply)
+    }
+
+  # aws_subnet.a will be created
+  + resource "aws_subnet" "a" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = "eu-west-1a"
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.100.1.0/24"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = false
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags                                           = {
+          + "Name" = "driftfinder-subnet-a"
+        }
+      + tags_all                                       = {
+          + "Name" = "driftfinder-subnet-a"
+        }
+      + vpc_id                                         = (known after apply)
+    }
+
+  # aws_subnet.b will be created
+  + resource "aws_subnet" "b" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = "eu-west-1b"
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.100.2.0/24"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = false
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + tags                                           = {
+          + "Name" = "driftfinder-subnet-b"
+        }
+      + tags_all                                       = {
+          + "Name" = "driftfinder-subnet-b"
+        }
+      + vpc_id                                         = (known after apply)
+    }
+
+  # aws_vpc.driftfinder_test will be created
+  + resource "aws_vpc" "driftfinder_test" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.100.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_dns_hostnames                 = true
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags                                 = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-vpc-test"
+        }
+      + tags_all                             = {
+          + "Environment" = "driftfinder-experiment"
+          + "IaCTool"     = "terraform"
+          + "Name"        = "driftfinder-vpc-test"
+        }
+    }
+
+Plan: 28 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + cloudtrail_cw_log_group_arn = (known after apply)
+  + cloudtrail_cw_role_arn      = (known after apply)
+  + cloudtrail_name             = "driftfinder-trail-test"
+  + ct_log_bucket_name          = "driftfinder-ct-logs-575108919391-tf"
+  + ebs_volume_id               = (known after apply)
+  + flow_log_role_arn           = (known after apply)
+  + iam_policy_arn              = (known after apply)
+  + kms_key_arn                 = (known after apply)
+  + kms_key_id                  = (known after apply)
+  + rds_instance_id             = "driftfinder-rds-test"
+  + s3_bucket_name              = "driftfinder-s3-test-575108919391-tf"
+  + security_group_id           = (known after apply)
+  + vpc_flow_log_group_name     = "/driftfinder/vpc-flow-logs-tf"
+  + vpc_id                      = (known after apply)
+aws_iam_role.flow_logs: Creating...
+aws_iam_policy.driftfinder_test: Creating...
+aws_cloudwatch_log_group.cloudtrail: Creating...
+aws_vpc.driftfinder_test: Creating...
+aws_cloudwatch_log_group.flow_logs: Creating...
+aws_kms_key.driftfinder_test: Creating...
+aws_iam_role.cloudtrail_cw: Creating...
+aws_s3_bucket.cloudtrail_logs: Creating...
+aws_s3_bucket.driftfinder_test: Creating...
+aws_cloudwatch_log_group.cloudtrail: Creation complete after 1s [id=/driftfinder/cloudtrail-tf]
+aws_cloudwatch_log_group.flow_logs: Creation complete after 1s [id=/driftfinder/vpc-flow-logs-tf]
+aws_iam_role.flow_logs: Creation complete after 1s [id=driftfinder-flow-logs-tf]
+aws_iam_role_policy.flow_logs: Creating...
+aws_iam_policy.driftfinder_test: Creation complete after 1s [id=arn:aws:iam::575108919391:policy/driftfinder-iam-test]
+aws_iam_role.cloudtrail_cw: Creation complete after 1s [id=driftfinder-cloudtrail-cw-tf]
+aws_iam_role_policy.cloudtrail_cw: Creating...
+aws_iam_role_policy.flow_logs: Creation complete after 0s [id=driftfinder-flow-logs-tf:driftfinder-flow-logs-policy-tf]
+aws_iam_role_policy.cloudtrail_cw: Creation complete after 1s [id=driftfinder-cloudtrail-cw-tf:driftfinder-cloudtrail-cw-policy-tf]
+aws_s3_bucket.cloudtrail_logs: Creation complete after 2s [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket_public_access_block.cloudtrail_logs: Creating...
+aws_s3_bucket.driftfinder_test: Creation complete after 2s [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_public_access_block.driftfinder_test: Creating...
+aws_s3_bucket_logging.driftfinder_test: Creating...
+aws_s3_bucket_versioning.driftfinder_test: Creating...
+aws_s3_bucket_server_side_encryption_configuration.driftfinder_test: Creating...
+aws_s3_bucket_public_access_block.cloudtrail_logs: Creation complete after 0s [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket_policy.cloudtrail_logs: Creating...
+aws_s3_bucket_public_access_block.driftfinder_test: Creation complete after 0s [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_policy.cloudtrail_logs: Creation complete after 0s [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket_logging.driftfinder_test: Creation complete after 0s [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_server_side_encryption_configuration.driftfinder_test: Creation complete after 1s [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_versioning.driftfinder_test: Creation complete after 2s [id=driftfinder-s3-test-575108919391-tf]
+aws_kms_key.driftfinder_test: Still creating... [00m10s elapsed]
+aws_vpc.driftfinder_test: Still creating... [00m10s elapsed]
+aws_vpc.driftfinder_test: Creation complete after 12s [id=vpc-028faa076a8b65715]
+aws_subnet.a: Creating...
+aws_default_security_group.driftfinder_test: Creating...
+aws_flow_log.driftfinder_test: Creating...
+aws_security_group.driftfinder_test: Creating...
+aws_subnet.b: Creating...
+aws_default_network_acl.driftfinder_test: Creating...
+aws_flow_log.driftfinder_test: Creation complete after 0s [id=fl-0b0bf5a2f41130bcc]
+aws_subnet.b: Creation complete after 1s [id=subnet-058f207a2f473c265]
+aws_subnet.a: Creation complete after 1s [id=subnet-06564b06af0996438]
+aws_db_subnet_group.driftfinder_test: Creating...
+aws_default_network_acl.driftfinder_test: Creation complete after 1s [id=acl-02b7a42e34bc608f8]
+aws_kms_key.driftfinder_test: Creation complete after 13s [id=6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5]
+aws_kms_alias.driftfinder_test: Creating...
+aws_ebs_volume.driftfinder_test: Creating...
+aws_cloudtrail.driftfinder_test: Creating...
+aws_kms_alias.driftfinder_test: Creation complete after 0s [id=alias/driftfinder-test-terraform]
+aws_default_security_group.driftfinder_test: Creation complete after 1s [id=sg-0db3c829ba9a66c37]
+aws_db_subnet_group.driftfinder_test: Creation complete after 1s [id=driftfinder-rds-subnet-group-tf]
+aws_cloudtrail.driftfinder_test: Creation complete after 1s [id=arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test]
+aws_security_group.driftfinder_test: Creation complete after 2s [id=sg-070e777ee0127d0ab]
+aws_db_instance.driftfinder_test: Creating...
+aws_ebs_volume.driftfinder_test: Still creating... [00m10s elapsed]
+aws_ebs_volume.driftfinder_test: Creation complete after 11s [id=vol-04df14d9615cc50fc]
+aws_db_instance.driftfinder_test: Still creating... [00m10s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [00m20s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [00m30s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [00m40s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [00m50s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [01m00s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [01m10s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [01m20s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [01m30s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [01m40s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [01m50s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [02m00s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [02m10s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [02m20s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [02m30s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [02m40s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [02m50s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [03m00s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [03m10s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [03m20s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [03m30s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [03m40s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [03m50s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [04m00s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [04m11s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [04m21s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [04m31s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [04m41s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [04m51s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [05m01s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [05m11s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [05m21s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [05m31s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [05m41s elapsed]
+aws_db_instance.driftfinder_test: Still creating... [05m51s elapsed]
+aws_db_instance.driftfinder_test: Creation complete after 5m56s [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI]
+
+Apply complete! Resources: 28 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+cloudtrail_cw_log_group_arn = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf:*"
+cloudtrail_cw_role_arn = "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-tf"
+cloudtrail_name = "driftfinder-trail-test"
+ct_log_bucket_name = "driftfinder-ct-logs-575108919391-tf"
+ebs_volume_id = "vol-04df14d9615cc50fc"
+flow_log_role_arn = "arn:aws:iam::575108919391:role/driftfinder-flow-logs-tf"
+iam_policy_arn = "arn:aws:iam::575108919391:policy/driftfinder-iam-test"
+kms_key_arn = "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5"
+kms_key_id = "6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5"
+rds_instance_id = "driftfinder-rds-test"
+s3_bucket_name = "driftfinder-s3-test-575108919391-tf"
+security_group_id = "sg-070e777ee0127d0ab"
+vpc_flow_log_group_name = "/driftfinder/vpc-flow-logs-tf"
+vpc_id = "vpc-028faa076a8b65715"
+[11:48:43] Creating CloudFormation stack driftfinder-experiment-cf
+[11:48:43] Waiting for CloudFormation stack to finish creating
+[11:55:46] $ pulumi stack select --create driftfinder-experiment --non-interactive
+Created stack 'driftfinder-experiment'
+[11:55:51] $ pulumi config set account_id 575108919391 --non-interactive
+[11:55:51] $ pulumi config set region eu-west-1 --non-interactive
+[11:55:52] $ pulumi config set --secret db_password --non-interactive
+[11:55:54] $ pulumi up --yes --skip-preview --non-interactive
+Updating (driftfinder-experiment):
+@ updating....
+
+@ updating......
+    pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment  warning: BucketServerSideEncryptionConfigurationV2 is deprecated: aws.s3/bucketserversideencryptionconfigurationv2.BucketServerSideEncryptionConfigurationV2 has been deprecated in favor of aws.s3/bucketserversideencryptionconfiguration.BucketServerSideEncryptionConfiguration
+    pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment  warning: BucketVersioningV2 is deprecated: aws.s3/bucketversioningv2.BucketVersioningV2 has been deprecated in favor of aws.s3/bucketversioning.BucketVersioning
+    pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment  warning: BucketLoggingV2 is deprecated: aws.s3/bucketloggingv2.BucketLoggingV2 has been deprecated in favor of aws.s3/bucketlogging.BucketLogging
+@ updating.....
+ +  pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment creating (0s) warning: BucketLoggingV2 is deprecated: aws.s3/bucketloggingv2.BucketLoggingV2 has been deprecated in favor of aws.s3/bucketlogging.BucketLogging
+@ updating..................
+ +  aws:iam:Role driftfinder-cloudtrail-cw-role creating (0s) 
+ +  aws:cloudwatch:LogGroup driftfinder-cloudtrail-lg creating (0s) 
+ +  aws:ec2:Vpc driftfinder-vpc-test creating (0s) 
+ +  aws:iam:Role driftfinder-flow-log-role creating (0s) 
+ +  aws:s3:Bucket driftfinder-ct-logs creating (0s) 
+ +  aws:kms:Key driftfinder-kms-test creating (0s) 
+ +  aws:cloudwatch:LogGroup driftfinder-vpc-flow-lg creating (0s) 
+ +  aws:iam:Policy driftfinder-iam-test creating (0s) 
+ +  aws:s3:Bucket driftfinder-s3-test creating (0s) 
+@ updating....
+ +  aws:cloudwatch:LogGroup driftfinder-cloudtrail-lg created (0.47s) 
+ +  aws:cloudwatch:LogGroup driftfinder-vpc-flow-lg created (0.35s) 
+ +  aws:iam:Policy driftfinder-iam-test created (0.65s) 
+ +  aws:iam:Role driftfinder-cloudtrail-cw-role created (0.96s) 
+ +  aws:iam:RolePolicy driftfinder-cloudtrail-cw-policy creating (0s) 
+ +  aws:iam:Role driftfinder-flow-log-role created (1s) 
+ +  aws:iam:RolePolicy driftfinder-flow-log-policy creating (0s) 
+@ updating....
+ +  aws:s3:Bucket driftfinder-ct-logs created (1s) 
+ +  aws:s3:Bucket driftfinder-s3-test created (1s) 
+ +  aws:iam:RolePolicy driftfinder-cloudtrail-cw-policy created (0.41s) 
+ +  aws:s3:BucketPublicAccessBlock ct-log-public-access-block creating (0s) 
+ +  aws:s3:BucketServerSideEncryptionConfigurationV2 driftfinder-s3-sse creating (0s) 
+ +  aws:s3:BucketPublicAccessBlock driftfinder-s3-pab creating (0s) 
+ +  aws:s3:BucketLoggingV2 driftfinder-s3-logging creating (0s) 
+ +  aws:s3:BucketVersioningV2 driftfinder-s3-versioning creating (0s) 
+ +  aws:s3:BucketPolicy ct-log-bucket-policy creating (0s) 
+ +  aws:iam:RolePolicy driftfinder-flow-log-policy created (0.39s) 
+ +  aws:s3:BucketPublicAccessBlock ct-log-public-access-block created (0.18s) 
+ +  aws:s3:BucketServerSideEncryptionConfigurationV2 driftfinder-s3-sse created (0.33s) 
+ +  aws:s3:BucketPolicy ct-log-bucket-policy created (0.38s) 
+ +  aws:s3:BucketLoggingV2 driftfinder-s3-logging created (0.38s) 
+ +  aws:s3:BucketPublicAccessBlock driftfinder-s3-pab created (0.43s) 
+ +  aws:ec2:Vpc driftfinder-vpc-test created (1s) 
+ +  aws:ec2:Subnet driftfinder-subnet-a creating (0s) 
+ +  aws:ec2:SecurityGroup driftfinder-sg-test creating (0s) 
+ +  aws:ec2:Subnet driftfinder-subnet-b creating (0s) 
+ +  aws:ec2:DefaultSecurityGroup driftfinder-default-sg creating (0s) 
+ +  aws:ec2:DefaultNetworkAcl driftfinder-default-nacl creating (0s) 
+ +  aws:ec2:FlowLog driftfinder-flow-log creating (0s) 
+@ updating....
+ +  aws:ec2:FlowLog driftfinder-flow-log created (0.52s) 
+ +  aws:ec2:Subnet driftfinder-subnet-a created (0.67s) 
+ +  aws:ec2:Subnet driftfinder-subnet-b created (0.86s) 
+ +  aws:rds:SubnetGroup driftfinder-rds-subnet-group creating (0s) 
+ +  aws:s3:BucketVersioningV2 driftfinder-s3-versioning created (1s) 
+@ updating....
+ +  aws:ec2:DefaultNetworkAcl driftfinder-default-nacl created (1s) 
+ +  aws:ec2:DefaultSecurityGroup driftfinder-default-sg created (1s) 
+ +  aws:rds:SubnetGroup driftfinder-rds-subnet-group created (1s) 
+@ updating....
+ +  aws:ec2:SecurityGroup driftfinder-sg-test created (2s) 
+@ updating...........
+ +  aws:kms:Key driftfinder-kms-test created (12s) 
+ +  aws:kms:Alias driftfinder-kms-alias creating (0s) 
+ +  aws:ebs:Volume driftfinder-ebs-test creating (0s) 
+ +  aws:cloudtrail:Trail driftfinder-trail-test creating (0s) 
+ +  aws:rds:Instance driftfinder-rds-test creating (0s) 
+ +  aws:kms:Alias driftfinder-kms-alias created (0.09s) 
+@ updating....
+ +  aws:cloudtrail:Trail driftfinder-trail-test created (0.81s) 
+@ updating.............
+ +  aws:ebs:Volume driftfinder-ebs-test created (10s) 
+@ updating......................................................................................................................................................................................................................................................................................................................................................................................................................................................
+ +  aws:rds:Instance driftfinder-rds-test created (446s) 
+@ updating....
+ +  pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment created (474s) 3 warnings
+Diagnostics:
+  pulumi:pulumi:Stack (driftfinder-experiment-driftfinder-experiment):
+    warning: BucketServerSideEncryptionConfigurationV2 is deprecated: aws.s3/bucketserversideencryptionconfigurationv2.BucketServerSideEncryptionConfigurationV2 has been deprecated in favor of aws.s3/bucketserversideencryptionconfiguration.BucketServerSideEncryptionConfiguration
+    warning: BucketVersioningV2 is deprecated: aws.s3/bucketversioningv2.BucketVersioningV2 has been deprecated in favor of aws.s3/bucketversioning.BucketVersioning
+    warning: BucketLoggingV2 is deprecated: aws.s3/bucketloggingv2.BucketLoggingV2 has been deprecated in favor of aws.s3/bucketlogging.BucketLogging
+
+Outputs:
+    cloudtrail_cw_log_group_arn: "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-pulumi:*"
+    cloudtrail_cw_role_arn     : "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-pulumi"
+    cloudtrail_name            : "driftfinder-trail-test-pulumi"
+    ct_log_bucket_name         : "driftfinder-ct-logs-575108919391-pulumi"
+    ebs_volume_id              : "vol-0eac1fc4314bad2b2"
+    flow_log_role_arn          : "arn:aws:iam::575108919391:role/driftfinder-flow-logs-pulumi"
+    iam_policy_arn             : "arn:aws:iam::575108919391:policy/driftfinder-iam-test-pulumi"
+    kms_key_arn                : "arn:aws:kms:eu-west-1:575108919391:key/499dc298-d624-42f9-bf0a-9c78a69e285d"
+    kms_key_id                 : "499dc298-d624-42f9-bf0a-9c78a69e285d"
+    rds_instance_id            : "driftfinder-rds-test-pulumi"
+    s3_bucket_name             : "driftfinder-s3-test-575108919391-pulumi"
+    security_group_id          : "sg-097ad4954291cade2"
+    vpc_flow_log_group_name    : "/driftfinder/vpc-flow-logs-pulumi"
+    vpc_id                     : "vpc-0503bbd9d6ed8dfcc"
+
+Resources:
+    + 29 created
+
+Duration: 8m0s
+
+[12:03:58] $ pulumi stack export --file /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/pulumi_stack_export.json --non-interactive
+[12:04:00] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/scans/baseline_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 4.148s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/scans/baseline_terraform.json
+[12:04:06] Clean: terraform has no findings (baseline_terraform)
+[12:04:06] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/scans/baseline_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 4.029s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/scans/baseline_cloudformation.json
+[12:04:11] Clean: cloudformation has no findings (baseline_cloudformation)
+[12:04:12] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/scans/baseline_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.876s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/scans/baseline_pulumi.json
+[12:04:17] Clean: pulumi has no findings (baseline_pulumi)
+[12:04:17] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_01_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.024s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_01_terraform.json
+[12:04:21] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_01_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.951s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_01_cloudformation.json
+[12:04:26] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_01_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.477s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_01_pulumi.json
+[12:04:30] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_02_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.975s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_02_terraform.json
+[12:04:34] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_02_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.835s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_02_cloudformation.json
+[12:04:39] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_02_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.454s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_02_pulumi.json
+[12:04:43] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_03_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.835s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_03_terraform.json
+[12:04:48] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_03_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.698s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_03_cloudformation.json
+[12:04:52] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_03_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.543s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_03_pulumi.json
+[12:04:56] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_04_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.708s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_04_terraform.json
+[12:05:01] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_04_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.616s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_04_cloudformation.json
+[12:05:06] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_04_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.58s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_04_pulumi.json
+[12:05:10] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_05_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.717s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_05_terraform.json
+[12:05:15] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_05_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.784s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_05_cloudformation.json
+[12:05:19] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_05_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.518s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_05_pulumi.json
+[12:05:23] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_06_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.832s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_06_terraform.json
+[12:05:28] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_06_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.686s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_06_cloudformation.json
+[12:05:32] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_06_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.56s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_06_pulumi.json
+[12:05:36] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_07_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.741s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_07_terraform.json
+[12:05:40] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_07_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.847s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_07_cloudformation.json
+[12:05:45] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_07_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 4.658s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_07_pulumi.json
+[12:05:52] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_08_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.804s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_08_terraform.json
+[12:05:56] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_08_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.005s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_08_cloudformation.json
+[12:06:01] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_08_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.577s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_08_pulumi.json
+[12:06:05] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_09_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.949s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_09_terraform.json
+[12:06:10] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_09_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.798s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_09_cloudformation.json
+[12:06:14] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_09_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.524s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_09_pulumi.json
+[12:06:18] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_10_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.758s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_10_terraform.json
+[12:06:23] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_10_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.945s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_10_cloudformation.json
+[12:06:27] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_10_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.589s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_10_pulumi.json
+[12:06:31] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_11_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.697s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_11_terraform.json
+[12:06:35] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_11_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.796s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_11_cloudformation.json
+[12:06:40] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_11_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.631s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_11_pulumi.json
+[12:06:44] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_12_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.942s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_12_terraform.json
+[12:06:50] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_12_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.768s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_12_cloudformation.json
+[12:06:55] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_12_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.505s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_12_pulumi.json
+[12:07:00] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_13_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.672s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_13_terraform.json
+[12:07:04] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_13_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.847s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_13_cloudformation.json
+[12:07:09] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_13_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.479s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_13_pulumi.json
+[12:07:13] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_14_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.006s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_14_terraform.json
+[12:07:18] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_14_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.762s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_14_cloudformation.json
+[12:07:23] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_14_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.544s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_14_pulumi.json
+[12:07:27] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_15_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.372s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_15_terraform.json
+[12:07:32] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_15_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.837s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_15_cloudformation.json
+[12:07:37] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_15_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.465s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_15_pulumi.json
+[12:07:41] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_16_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.837s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_16_terraform.json
+[12:07:46] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_16_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.864s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_16_cloudformation.json
+[12:07:51] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_16_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.51s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_16_pulumi.json
+[12:07:54] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_17_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.817s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_17_terraform.json
+[12:07:59] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_17_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.813s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_17_cloudformation.json
+[12:08:04] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_17_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.545s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_17_pulumi.json
+[12:08:08] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_18_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.811s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_18_terraform.json
+[12:08:12] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_18_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.96s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_18_cloudformation.json
+[12:08:17] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_18_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.586s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_18_pulumi.json
+[12:08:21] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_19_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.876s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_19_terraform.json
+[12:08:26] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_19_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.761s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_19_cloudformation.json
+[12:08:30] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_19_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.552s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_19_pulumi.json
+[12:08:34] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_20_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.66s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_20_terraform.json
+[12:08:39] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_20_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.761s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_20_cloudformation.json
+[12:08:43] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_20_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.574s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_20_pulumi.json
+[12:08:48] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_21_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.656s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_21_terraform.json
+[12:08:52] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_21_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.779s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_21_cloudformation.json
+[12:08:57] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_21_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.618s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_21_pulumi.json
+[12:09:01] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_22_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.922s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_22_terraform.json
+[12:09:06] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_22_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.762s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_22_cloudformation.json
+[12:09:10] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_22_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.718s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_22_pulumi.json
+[12:09:15] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_23_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.756s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_23_terraform.json
+[12:09:19] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_23_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.88s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_23_cloudformation.json
+[12:09:24] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_23_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.619s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_23_pulumi.json
+[12:09:28] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_24_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.984s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_24_terraform.json
+[12:09:33] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_24_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 4.189s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_24_cloudformation.json
+[12:09:39] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_24_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 3.336s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_24_pulumi.json
+[12:09:45] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_25_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.704s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_25_terraform.json
+[12:09:49] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_25_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.892s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_25_cloudformation.json
+[12:09:54] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_25_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.43s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_25_pulumi.json
+[12:09:58] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-terraform.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_26_terraform --format json
+
+  Resources scanned  : 11
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.791s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_26_terraform.json
+[12:10:02] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-cloudformation.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_26_cloudformation --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.724s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_26_cloudformation.json
+[12:10:06] $ /Users/wikiwoo/DriftFinder/.venv/bin/python -c from driftfinder.cli.main import cli; cli() scan --config /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/configs/.driftfinder-pulumi.yml --output /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_26_pulumi --format json
+
+  Resources scanned  : 9
+  Resources with drift: 0
+  Findings           : 0  (CRITICAL=0 HIGH=0 MEDIUM=0 LOW=0)
+  Duration           : 2.492s
+
+  No drift detected. All resources comply.
+
+  JSON report: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/benchmark/benchmark_26_pulumi.json
+[12:10:10] terraform: 26 scans, [11] resources, median 2.82s, range 2.656 to 3.984s, 0 with findings
+[12:10:10] cloudformation: 26 scans, [9] resources, median 2.84s, range 2.686 to 4.189s, 0 with findings
+[12:10:10] pulumi: 26 scans, [9] resources, median 2.56s, range 2.43 to 4.658s, 0 with findings
+[12:10:10] all: 78 scans, [9, 11] resources, median 2.77s, range 2.43 to 4.658s, 0 with findings
+[12:10:11] Teardown: starting
+[12:10:13] Teardown: Terraform
+[12:10:13] $ terraform destroy -auto-approve -input=false -no-color
+aws_iam_role.flow_logs: Refreshing state... [id=driftfinder-flow-logs-tf]
+aws_vpc.driftfinder_test: Refreshing state... [id=vpc-028faa076a8b65715]
+aws_iam_policy.driftfinder_test: Refreshing state... [id=arn:aws:iam::575108919391:policy/driftfinder-iam-test]
+aws_cloudwatch_log_group.flow_logs: Refreshing state... [id=/driftfinder/vpc-flow-logs-tf]
+aws_kms_key.driftfinder_test: Refreshing state... [id=6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5]
+aws_iam_role.cloudtrail_cw: Refreshing state... [id=driftfinder-cloudtrail-cw-tf]
+aws_s3_bucket.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_cloudwatch_log_group.cloudtrail: Refreshing state... [id=/driftfinder/cloudtrail-tf]
+aws_s3_bucket.cloudtrail_logs: Refreshing state... [id=driftfinder-ct-logs-575108919391-tf]
+aws_kms_alias.driftfinder_test: Refreshing state... [id=alias/driftfinder-test-terraform]
+aws_ebs_volume.driftfinder_test: Refreshing state... [id=vol-04df14d9615cc50fc]
+aws_s3_bucket_public_access_block.cloudtrail_logs: Refreshing state... [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket_policy.cloudtrail_logs: Refreshing state... [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket_versioning.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_logging.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_public_access_block.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_server_side_encryption_configuration.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_default_security_group.driftfinder_test: Refreshing state... [id=sg-0db3c829ba9a66c37]
+aws_subnet.a: Refreshing state... [id=subnet-06564b06af0996438]
+aws_security_group.driftfinder_test: Refreshing state... [id=sg-070e777ee0127d0ab]
+aws_subnet.b: Refreshing state... [id=subnet-058f207a2f473c265]
+aws_default_network_acl.driftfinder_test: Refreshing state... [id=acl-02b7a42e34bc608f8]
+aws_iam_role_policy.cloudtrail_cw: Refreshing state... [id=driftfinder-cloudtrail-cw-tf:driftfinder-cloudtrail-cw-policy-tf]
+aws_cloudtrail.driftfinder_test: Refreshing state... [id=arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test]
+aws_db_subnet_group.driftfinder_test: Refreshing state... [id=driftfinder-rds-subnet-group-tf]
+aws_iam_role_policy.flow_logs: Refreshing state... [id=driftfinder-flow-logs-tf:driftfinder-flow-logs-policy-tf]
+aws_flow_log.driftfinder_test: Refreshing state... [id=fl-0b0bf5a2f41130bcc]
+aws_db_instance.driftfinder_test: Refreshing state... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_cloudtrail.driftfinder_test will be destroyed
+  - resource "aws_cloudtrail" "driftfinder_test" {
+      - arn                           = "arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test" -> null
+      - cloud_watch_logs_group_arn    = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf:*" -> null
+      - cloud_watch_logs_role_arn     = "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-tf" -> null
+      - enable_log_file_validation    = true -> null
+      - enable_logging                = true -> null
+      - home_region                   = "eu-west-1" -> null
+      - id                            = "arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test" -> null
+      - include_global_service_events = true -> null
+      - is_multi_region_trail         = true -> null
+      - is_organization_trail         = false -> null
+      - kms_key_id                    = "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+      - name                          = "driftfinder-trail-test" -> null
+      - s3_bucket_name                = "driftfinder-ct-logs-575108919391-tf" -> null
+      - tags                          = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-trail-test"
+        } -> null
+      - tags_all                      = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-trail-test"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_cloudwatch_log_group.cloudtrail will be destroyed
+  - resource "aws_cloudwatch_log_group" "cloudtrail" {
+      - arn               = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf" -> null
+      - id                = "/driftfinder/cloudtrail-tf" -> null
+      - log_group_class   = "STANDARD" -> null
+      - name              = "/driftfinder/cloudtrail-tf" -> null
+      - retention_in_days = 7 -> null
+      - skip_destroy      = false -> null
+      - tags              = {} -> null
+      - tags_all          = {} -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_cloudwatch_log_group.flow_logs will be destroyed
+  - resource "aws_cloudwatch_log_group" "flow_logs" {
+      - arn               = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/vpc-flow-logs-tf" -> null
+      - id                = "/driftfinder/vpc-flow-logs-tf" -> null
+      - log_group_class   = "STANDARD" -> null
+      - name              = "/driftfinder/vpc-flow-logs-tf" -> null
+      - retention_in_days = 7 -> null
+      - skip_destroy      = false -> null
+      - tags              = {} -> null
+      - tags_all          = {} -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_db_instance.driftfinder_test will be destroyed
+  - resource "aws_db_instance" "driftfinder_test" {
+      - address                               = "driftfinder-rds-test.c9i44keagnz4.eu-west-1.rds.amazonaws.com" -> null
+      - allocated_storage                     = 20 -> null
+      - apply_immediately                     = false -> null
+      - arn                                   = "arn:aws:rds:eu-west-1:575108919391:db:driftfinder-rds-test" -> null
+      - auto_minor_version_upgrade            = true -> null
+      - availability_zone                     = "eu-west-1a" -> null
+      - backup_retention_period               = 7 -> null
+      - backup_target                         = "region" -> null
+      - backup_window                         = "01:44-02:14" -> null
+      - ca_cert_identifier                    = "rds-ca-rsa2048-g1" -> null
+      - copy_tags_to_snapshot                 = false -> null
+      - customer_owned_ip_enabled             = false -> null
+      - db_subnet_group_name                  = "driftfinder-rds-subnet-group-tf" -> null
+      - dedicated_log_volume                  = false -> null
+      - delete_automated_backups              = true -> null
+      - deletion_protection                   = false -> null
+      - domain_dns_ips                        = [] -> null
+      - enabled_cloudwatch_logs_exports       = [] -> null
+      - endpoint                              = "driftfinder-rds-test.c9i44keagnz4.eu-west-1.rds.amazonaws.com:3306" -> null
+      - engine                                = "mysql" -> null
+      - engine_lifecycle_support              = "open-source-rds-extended-support" -> null
+      - engine_version                        = "8.4" -> null
+      - engine_version_actual                 = "8.4.9" -> null
+      - hosted_zone_id                        = "Z29XKXDKYMONMX" -> null
+      - iam_database_authentication_enabled   = false -> null
+      - id                                    = "db-FE4WBGLWWU2F5FY64VC7SAH3RI" -> null
+      - identifier                            = "driftfinder-rds-test" -> null
+      - instance_class                        = "db.t3.micro" -> null
+      - iops                                  = 0 -> null
+      - kms_key_id                            = "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+      - latest_restorable_time                = "2026-10-08T12:04:25Z" -> null
+      - license_model                         = "general-public-license" -> null
+      - listener_endpoint                     = [] -> null
+      - maintenance_window                    = "sun:23:05-sun:23:35" -> null
+      - master_user_secret                    = [] -> null
+      - max_allocated_storage                 = 0 -> null
+      - monitoring_interval                   = 0 -> null
+      - multi_az                              = false -> null
+      - network_type                          = "IPV4" -> null
+      - option_group_name                     = "default:mysql-8-4" -> null
+      - parameter_group_name                  = "default.mysql8.4" -> null
+      - password                              = (sensitive value) -> null
+      - performance_insights_enabled          = false -> null
+      - performance_insights_retention_period = 0 -> null
+      - port                                  = 3306 -> null
+      - publicly_accessible                   = false -> null
+      - replicas                              = [] -> null
+      - resource_id                           = "db-FE4WBGLWWU2F5FY64VC7SAH3RI" -> null
+      - skip_final_snapshot                   = true -> null
+      - status                                = "available" -> null
+      - storage_encrypted                     = true -> null
+      - storage_throughput                    = 0 -> null
+      - storage_type                          = "gp2" -> null
+      - tags                                  = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-rds-test"
+        } -> null
+      - tags_all                              = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-rds-test"
+        } -> null
+      - username                              = "admin" -> null
+      - vpc_security_group_ids                = [
+          - "sg-070e777ee0127d0ab",
+        ] -> null
+        # (15 unchanged attributes hidden)
+    }
+
+  # aws_db_subnet_group.driftfinder_test will be destroyed
+  - resource "aws_db_subnet_group" "driftfinder_test" {
+      - arn                     = "arn:aws:rds:eu-west-1:575108919391:subgrp:driftfinder-rds-subnet-group-tf" -> null
+      - description             = "Managed by Terraform" -> null
+      - id                      = "driftfinder-rds-subnet-group-tf" -> null
+      - name                    = "driftfinder-rds-subnet-group-tf" -> null
+      - subnet_ids              = [
+          - "subnet-058f207a2f473c265",
+          - "subnet-06564b06af0996438",
+        ] -> null
+      - supported_network_types = [
+          - "IPV4",
+        ] -> null
+      - tags                    = {
+          - "Name" = "driftfinder-rds-subnet-group-tf"
+        } -> null
+      - tags_all                = {
+          - "Name" = "driftfinder-rds-subnet-group-tf"
+        } -> null
+      - vpc_id                  = "vpc-028faa076a8b65715" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_default_network_acl.driftfinder_test will be destroyed
+  - resource "aws_default_network_acl" "driftfinder_test" {
+      - arn                    = "arn:aws:ec2:eu-west-1:575108919391:network-acl/acl-02b7a42e34bc608f8" -> null
+      - default_network_acl_id = "acl-02b7a42e34bc608f8" -> null
+      - id                     = "acl-02b7a42e34bc608f8" -> null
+      - owner_id               = "575108919391" -> null
+      - subnet_ids             = [
+          - "subnet-058f207a2f473c265",
+          - "subnet-06564b06af0996438",
+        ] -> null
+      - tags                   = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-default-nacl-tf"
+        } -> null
+      - tags_all               = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-default-nacl-tf"
+        } -> null
+      - vpc_id                 = "vpc-028faa076a8b65715" -> null
+
+      - egress {
+          - action          = "allow" -> null
+          - cidr_block      = "0.0.0.0/0" -> null
+          - from_port       = 0 -> null
+          - icmp_code       = 0 -> null
+          - icmp_type       = 0 -> null
+          - protocol        = "-1" -> null
+          - rule_no         = 100 -> null
+          - to_port         = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - ingress {
+          - action          = "allow" -> null
+          - cidr_block      = "0.0.0.0/0" -> null
+          - from_port       = 1024 -> null
+          - icmp_code       = 0 -> null
+          - icmp_type       = 0 -> null
+          - protocol        = "6" -> null
+          - rule_no         = 200 -> null
+          - to_port         = 65535 -> null
+            # (1 unchanged attribute hidden)
+        }
+      - ingress {
+          - action          = "allow" -> null
+          - cidr_block      = "0.0.0.0/0" -> null
+          - from_port       = 443 -> null
+          - icmp_code       = 0 -> null
+          - icmp_type       = 0 -> null
+          - protocol        = "6" -> null
+          - rule_no         = 100 -> null
+          - to_port         = 443 -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_default_security_group.driftfinder_test will be destroyed
+  - resource "aws_default_security_group" "driftfinder_test" {
+      - arn                    = "arn:aws:ec2:eu-west-1:575108919391:security-group/sg-0db3c829ba9a66c37" -> null
+      - description            = "default VPC security group" -> null
+      - egress                 = [] -> null
+      - id                     = "sg-0db3c829ba9a66c37" -> null
+      - ingress                = [] -> null
+      - name                   = "default" -> null
+      - owner_id               = "575108919391" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-default-sg-tf"
+        } -> null
+      - tags_all               = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-default-sg-tf"
+        } -> null
+      - vpc_id                 = "vpc-028faa076a8b65715" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_ebs_volume.driftfinder_test will be destroyed
+  - resource "aws_ebs_volume" "driftfinder_test" {
+      - arn                  = "arn:aws:ec2:eu-west-1:575108919391:volume/vol-04df14d9615cc50fc" -> null
+      - availability_zone    = "eu-west-1a" -> null
+      - encrypted            = true -> null
+      - final_snapshot       = false -> null
+      - id                   = "vol-04df14d9615cc50fc" -> null
+      - iops                 = 100 -> null
+      - kms_key_id           = "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+      - multi_attach_enabled = false -> null
+      - size                 = 1 -> null
+      - tags                 = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-ebs-test"
+        } -> null
+      - tags_all             = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-ebs-test"
+        } -> null
+      - throughput           = 0 -> null
+      - type                 = "gp2" -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_iam_policy.driftfinder_test will be destroyed
+  - resource "aws_iam_policy" "driftfinder_test" {
+      - arn              = "arn:aws:iam::575108919391:policy/driftfinder-iam-test" -> null
+      - attachment_count = 0 -> null
+      - description      = "DriftFinder experiment IAM policy - compliant baseline" -> null
+      - id               = "arn:aws:iam::575108919391:policy/driftfinder-iam-test" -> null
+      - name             = "driftfinder-iam-test" -> null
+      - path             = "/" -> null
+      - policy           = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "s3:GetObject",
+                          - "s3:ListBucket",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:s3:::driftfinder-*",
+                          - "arn:aws:s3:::driftfinder-*/*",
+                        ]
+                      - Sid      = "AllowS3ReadOnly"
+                    },
+                  - {
+                      - Action   = [
+                          - "s3:DeleteObject",
+                          - "s3:DeleteBucket",
+                        ]
+                      - Effect   = "Deny"
+                      - Resource = "*"
+                      - Sid      = "ExplicitDenyDestructive"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - policy_id        = "ANPAYLZZJWBPT5IYF2YNN" -> null
+      - tags             = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-iam-test"
+        } -> null
+      - tags_all         = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-iam-test"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_iam_role.cloudtrail_cw will be destroyed
+  - resource "aws_iam_role" "cloudtrail_cw" {
+      - arn                   = "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-tf" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudtrail.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-10-08T11:42:34Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "driftfinder-cloudtrail-cw-tf" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "driftfinder-cloudtrail-cw-tf" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {} -> null
+      - unique_id             = "AROAYLZZJWBP7PX3FNLTX" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "driftfinder-cloudtrail-cw-policy-tf" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "logs:CreateLogStream",
+                              - "logs:PutLogEvents",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf:*"
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role.flow_logs will be destroyed
+  - resource "aws_iam_role" "flow_logs" {
+      - arn                   = "arn:aws:iam::575108919391:role/driftfinder-flow-logs-tf" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "vpc-flow-logs.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-10-08T11:42:34Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "driftfinder-flow-logs-tf" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "driftfinder-flow-logs-tf" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {} -> null
+      - unique_id             = "AROAYLZZJWBPZ2PBJEYGM" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "driftfinder-flow-logs-policy-tf" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "logs:CreateLogGroup",
+                              - "logs:CreateLogStream",
+                              - "logs:PutLogEvents",
+                              - "logs:DescribeLogGroups",
+                              - "logs:DescribeLogStreams",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role_policy.cloudtrail_cw will be destroyed
+  - resource "aws_iam_role_policy" "cloudtrail_cw" {
+      - id          = "driftfinder-cloudtrail-cw-tf:driftfinder-cloudtrail-cw-policy-tf" -> null
+      - name        = "driftfinder-cloudtrail-cw-policy-tf" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "logs:CreateLogStream",
+                          - "logs:PutLogEvents",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf:*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "driftfinder-cloudtrail-cw-tf" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_iam_role_policy.flow_logs will be destroyed
+  - resource "aws_iam_role_policy" "flow_logs" {
+      - id          = "driftfinder-flow-logs-tf:driftfinder-flow-logs-policy-tf" -> null
+      - name        = "driftfinder-flow-logs-policy-tf" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "logs:CreateLogGroup",
+                          - "logs:CreateLogStream",
+                          - "logs:PutLogEvents",
+                          - "logs:DescribeLogGroups",
+                          - "logs:DescribeLogStreams",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "driftfinder-flow-logs-tf" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_kms_alias.driftfinder_test will be destroyed
+  - resource "aws_kms_alias" "driftfinder_test" {
+      - arn            = "arn:aws:kms:eu-west-1:575108919391:alias/driftfinder-test-terraform" -> null
+      - id             = "alias/driftfinder-test-terraform" -> null
+      - name           = "alias/driftfinder-test-terraform" -> null
+      - target_key_arn = "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+      - target_key_id  = "6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_kms_key.driftfinder_test will be destroyed
+  - resource "aws_kms_key" "driftfinder_test" {
+      - arn                                = "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+      - bypass_policy_lockout_safety_check = false -> null
+      - customer_master_key_spec           = "SYMMETRIC_DEFAULT" -> null
+      - deletion_window_in_days            = 7 -> null
+      - description                        = "DriftFinder experiment KMS key" -> null
+      - enable_key_rotation                = true -> null
+      - id                                 = "6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+      - is_enabled                         = true -> null
+      - key_id                             = "6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+      - key_usage                          = "ENCRYPT_DECRYPT" -> null
+      - multi_region                       = false -> null
+      - policy                             = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "kms:*"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - AWS = "arn:aws:iam::575108919391:root"
+                        }
+                      - Resource  = "*"
+                      - Sid       = "Enable IAM User Permissions"
+                    },
+                  - {
+                      - Action    = [
+                          - "kms:GenerateDataKey*",
+                          - "kms:DescribeKey",
+                        ]
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudtrail.amazonaws.com"
+                        }
+                      - Resource  = "*"
+                      - Sid       = "Allow CloudTrail to encrypt logs"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - rotation_period_in_days            = 365 -> null
+      - tags                               = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-kms-test"
+        } -> null
+      - tags_all                           = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-kms-test"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_s3_bucket.cloudtrail_logs will be destroyed
+  - resource "aws_s3_bucket" "cloudtrail_logs" {
+      - arn                         = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf" -> null
+      - bucket                      = "driftfinder-ct-logs-575108919391-tf" -> null
+      - bucket_domain_name          = "driftfinder-ct-logs-575108919391-tf.s3.amazonaws.com" -> null
+      - bucket_regional_domain_name = "driftfinder-ct-logs-575108919391-tf.s3.eu-west-1.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z1BKCTXD74EZPE" -> null
+      - id                          = "driftfinder-ct-logs-575108919391-tf" -> null
+      - object_lock_enabled         = false -> null
+      - policy                      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "s3:GetBucketAcl"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudtrail.amazonaws.com"
+                        }
+                      - Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf"
+                      - Sid       = "AWSCloudTrailAclCheck"
+                    },
+                  - {
+                      - Action    = "s3:PutObject"
+                      - Condition = {
+                          - StringEquals = {
+                              - "s3:x-amz-acl" = "bucket-owner-full-control"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudtrail.amazonaws.com"
+                        }
+                      - Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf/AWSLogs/575108919391/*"
+                      - Sid       = "AWSCloudTrailWrite"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - region                      = "eu-west-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "Name" = "driftfinder-cloudtrail-logs-tf"
+        } -> null
+      - tags_all                    = {
+          - "Name" = "driftfinder-cloudtrail-logs-tf"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - grant {
+          - id          = "4828a2d5fe544245eae9b50b9adc363a601f687832e3d61ca4b79e1250409024" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket.driftfinder_test will be destroyed
+  - resource "aws_s3_bucket" "driftfinder_test" {
+      - arn                         = "arn:aws:s3:::driftfinder-s3-test-575108919391-tf" -> null
+      - bucket                      = "driftfinder-s3-test-575108919391-tf" -> null
+      - bucket_domain_name          = "driftfinder-s3-test-575108919391-tf.s3.amazonaws.com" -> null
+      - bucket_regional_domain_name = "driftfinder-s3-test-575108919391-tf.s3.eu-west-1.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z1BKCTXD74EZPE" -> null
+      - id                          = "driftfinder-s3-test-575108919391-tf" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "eu-west-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-s3-test"
+        } -> null
+      - tags_all                    = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-s3-test"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "4828a2d5fe544245eae9b50b9adc363a601f687832e3d61ca4b79e1250409024" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - logging {
+          - target_bucket = "driftfinder-ct-logs-575108919391-tf" -> null
+          - target_prefix = "s3-access-logs/" -> null
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = true -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_logging.driftfinder_test will be destroyed
+  - resource "aws_s3_bucket_logging" "driftfinder_test" {
+      - bucket                = "driftfinder-s3-test-575108919391-tf" -> null
+      - id                    = "driftfinder-s3-test-575108919391-tf" -> null
+      - target_bucket         = "driftfinder-ct-logs-575108919391-tf" -> null
+      - target_prefix         = "s3-access-logs/" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_bucket_policy.cloudtrail_logs will be destroyed
+  - resource "aws_s3_bucket_policy" "cloudtrail_logs" {
+      - bucket = "driftfinder-ct-logs-575108919391-tf" -> null
+      - id     = "driftfinder-ct-logs-575108919391-tf" -> null
+      - policy = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "s3:GetBucketAcl"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudtrail.amazonaws.com"
+                        }
+                      - Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf"
+                      - Sid       = "AWSCloudTrailAclCheck"
+                    },
+                  - {
+                      - Action    = "s3:PutObject"
+                      - Condition = {
+                          - StringEquals = {
+                              - "s3:x-amz-acl" = "bucket-owner-full-control"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudtrail.amazonaws.com"
+                        }
+                      - Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf/AWSLogs/575108919391/*"
+                      - Sid       = "AWSCloudTrailWrite"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+    }
+
+  # aws_s3_bucket_public_access_block.cloudtrail_logs will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "cloudtrail_logs" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "driftfinder-ct-logs-575108919391-tf" -> null
+      - id                      = "driftfinder-ct-logs-575108919391-tf" -> null
+      - ignore_public_acls      = true -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # aws_s3_bucket_public_access_block.driftfinder_test will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "driftfinder_test" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "driftfinder-s3-test-575108919391-tf" -> null
+      - id                      = "driftfinder-s3-test-575108919391-tf" -> null
+      - ignore_public_acls      = true -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # aws_s3_bucket_server_side_encryption_configuration.driftfinder_test will be destroyed
+  - resource "aws_s3_bucket_server_side_encryption_configuration" "driftfinder_test" {
+      - bucket                = "driftfinder-s3-test-575108919391-tf" -> null
+      - id                    = "driftfinder-s3-test-575108919391-tf" -> null
+        # (1 unchanged attribute hidden)
+
+      - rule {
+          - bucket_key_enabled = false -> null
+
+          - apply_server_side_encryption_by_default {
+              - sse_algorithm     = "AES256" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # aws_s3_bucket_versioning.driftfinder_test will be destroyed
+  - resource "aws_s3_bucket_versioning" "driftfinder_test" {
+      - bucket                = "driftfinder-s3-test-575108919391-tf" -> null
+      - id                    = "driftfinder-s3-test-575108919391-tf" -> null
+        # (1 unchanged attribute hidden)
+
+      - versioning_configuration {
+          - status     = "Enabled" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_security_group.driftfinder_test will be destroyed
+  - resource "aws_security_group" "driftfinder_test" {
+      - arn                    = "arn:aws:ec2:eu-west-1:575108919391:security-group/sg-070e777ee0127d0ab" -> null
+      - description            = "DriftFinder experiment security group - compliant baseline" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "HTTPS outbound only"
+              - from_port        = 443
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 443
+            },
+        ] -> null
+      - id                     = "sg-070e777ee0127d0ab" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = [
+                  - "10.0.0.0/8",
+                ]
+              - description      = "HTTPS from internal only"
+              - from_port        = 443
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 443
+            },
+        ] -> null
+      - name                   = "driftfinder-sg-test" -> null
+      - owner_id               = "575108919391" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-sg-test"
+        } -> null
+      - tags_all               = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-sg-test"
+        } -> null
+      - vpc_id                 = "vpc-028faa076a8b65715" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_subnet.a will be destroyed
+  - resource "aws_subnet" "a" {
+      - arn                                            = "arn:aws:ec2:eu-west-1:575108919391:subnet/subnet-06564b06af0996438" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-west-1a" -> null
+      - availability_zone_id                           = "euw1-az2" -> null
+      - cidr_block                                     = "10.100.1.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-06564b06af0996438" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "575108919391" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "driftfinder-subnet-a"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "driftfinder-subnet-a"
+        } -> null
+      - vpc_id                                         = "vpc-028faa076a8b65715" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_subnet.b will be destroyed
+  - resource "aws_subnet" "b" {
+      - arn                                            = "arn:aws:ec2:eu-west-1:575108919391:subnet/subnet-058f207a2f473c265" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-west-1b" -> null
+      - availability_zone_id                           = "euw1-az3" -> null
+      - cidr_block                                     = "10.100.2.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-058f207a2f473c265" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "575108919391" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "driftfinder-subnet-b"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "driftfinder-subnet-b"
+        } -> null
+      - vpc_id                                         = "vpc-028faa076a8b65715" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_vpc.driftfinder_test will be destroyed
+  - resource "aws_vpc" "driftfinder_test" {
+      - arn                                  = "arn:aws:ec2:eu-west-1:575108919391:vpc/vpc-028faa076a8b65715" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.100.0.0/16" -> null
+      - default_network_acl_id               = "acl-02b7a42e34bc608f8" -> null
+      - default_route_table_id               = "rtb-0e0a9dd005de996c5" -> null
+      - default_security_group_id            = "sg-0db3c829ba9a66c37" -> null
+      - dhcp_options_id                      = "dopt-0c668ccd421b713be" -> null
+      - enable_dns_hostnames                 = true -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-028faa076a8b65715" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-0e0a9dd005de996c5" -> null
+      - owner_id                             = "575108919391" -> null
+      - tags                                 = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-vpc-test"
+        } -> null
+      - tags_all                             = {
+          - "Environment" = "driftfinder-experiment"
+          - "IaCTool"     = "terraform"
+          - "Name"        = "driftfinder-vpc-test"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 0 to change, 27 to destroy.
+
+Changes to Outputs:
+  - cloudtrail_cw_log_group_arn = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf:*" -> null
+  - cloudtrail_cw_role_arn      = "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-tf" -> null
+  - cloudtrail_name             = "driftfinder-trail-test" -> null
+  - ct_log_bucket_name          = "driftfinder-ct-logs-575108919391-tf" -> null
+  - ebs_volume_id               = "vol-04df14d9615cc50fc" -> null
+  - flow_log_role_arn           = "arn:aws:iam::575108919391:role/driftfinder-flow-logs-tf" -> null
+  - iam_policy_arn              = "arn:aws:iam::575108919391:policy/driftfinder-iam-test" -> null
+  - kms_key_arn                 = "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+  - kms_key_id                  = "6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5" -> null
+  - rds_instance_id             = "driftfinder-rds-test" -> null
+  - s3_bucket_name              = "driftfinder-s3-test-575108919391-tf" -> null
+  - security_group_id           = "sg-070e777ee0127d0ab" -> null
+  - vpc_flow_log_group_name     = "/driftfinder/vpc-flow-logs-tf" -> null
+  - vpc_id                      = "vpc-028faa076a8b65715" -> null
+aws_s3_bucket_public_access_block.driftfinder_test: Destroying... [id=driftfinder-s3-test-575108919391-tf]
+aws_kms_alias.driftfinder_test: Destroying... [id=alias/driftfinder-test-terraform]
+aws_default_security_group.driftfinder_test: Destroying... [id=sg-0db3c829ba9a66c37]
+aws_ebs_volume.driftfinder_test: Destroying... [id=vol-04df14d9615cc50fc]
+aws_cloudwatch_log_group.flow_logs: Destroying... [id=/driftfinder/vpc-flow-logs-tf]
+aws_s3_bucket_versioning.driftfinder_test: Destroying... [id=driftfinder-s3-test-575108919391-tf]
+aws_iam_role_policy.flow_logs: Destroying... [id=driftfinder-flow-logs-tf:driftfinder-flow-logs-policy-tf]
+aws_iam_role_policy.cloudtrail_cw: Destroying... [id=driftfinder-cloudtrail-cw-tf:driftfinder-cloudtrail-cw-policy-tf]
+aws_iam_policy.driftfinder_test: Destroying... [id=arn:aws:iam::575108919391:policy/driftfinder-iam-test]
+aws_db_instance.driftfinder_test: Destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI]
+aws_default_security_group.driftfinder_test: Destruction complete after 0s
+aws_default_network_acl.driftfinder_test: Destroying... [id=acl-02b7a42e34bc608f8]
+aws_default_network_acl.driftfinder_test: Destruction complete after 0s
+aws_s3_bucket_logging.driftfinder_test: Destroying... [id=driftfinder-s3-test-575108919391-tf]
+aws_kms_alias.driftfinder_test: Destruction complete after 0s
+aws_s3_bucket_server_side_encryption_configuration.driftfinder_test: Destroying... [id=driftfinder-s3-test-575108919391-tf]
+aws_cloudwatch_log_group.flow_logs: Destruction complete after 0s
+aws_cloudtrail.driftfinder_test: Destroying... [id=arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test]
+aws_s3_bucket_logging.driftfinder_test: Destruction complete after 0s
+aws_cloudtrail.driftfinder_test: Destruction complete after 0s
+aws_s3_bucket_policy.cloudtrail_logs: Destroying... [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket_server_side_encryption_configuration.driftfinder_test: Destruction complete after 0s
+aws_iam_role_policy.flow_logs: Destruction complete after 0s
+aws_iam_role_policy.cloudtrail_cw: Destruction complete after 0s
+aws_iam_role.flow_logs: Destroying... [id=driftfinder-flow-logs-tf]
+aws_cloudwatch_log_group.cloudtrail: Destroying... [id=/driftfinder/cloudtrail-tf]
+aws_iam_role.cloudtrail_cw: Destroying... [id=driftfinder-cloudtrail-cw-tf]
+aws_s3_bucket_versioning.driftfinder_test: Destruction complete after 0s
+aws_s3_bucket_public_access_block.driftfinder_test: Destruction complete after 0s
+aws_s3_bucket.driftfinder_test: Destroying... [id=driftfinder-s3-test-575108919391-tf]
+aws_cloudwatch_log_group.cloudtrail: Destruction complete after 0s
+aws_iam_policy.driftfinder_test: Destruction complete after 0s
+aws_s3_bucket_policy.cloudtrail_logs: Destruction complete after 0s
+aws_s3_bucket_public_access_block.cloudtrail_logs: Destroying... [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket.driftfinder_test: Destruction complete after 1s
+aws_iam_role.cloudtrail_cw: Destruction complete after 1s
+aws_s3_bucket_public_access_block.cloudtrail_logs: Destruction complete after 1s
+aws_iam_role.flow_logs: Destruction complete after 1s
+aws_s3_bucket.cloudtrail_logs: Destroying... [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket.cloudtrail_logs: Destruction complete after 1s
+aws_ebs_volume.driftfinder_test: Still destroying... [id=vol-04df14d9615cc50fc, 00m10s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 00m10s elapsed]
+aws_ebs_volume.driftfinder_test: Destruction complete after 10s
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 00m20s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 00m30s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 00m40s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 00m50s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 01m00s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 01m10s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 01m20s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 01m30s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 01m40s elapsed]
+aws_db_instance.driftfinder_test: Still destroying... [id=db-FE4WBGLWWU2F5FY64VC7SAH3RI, 01m50s elapsed]
+aws_db_instance.driftfinder_test: Destruction complete after 1m51s
+aws_db_subnet_group.driftfinder_test: Destroying... [id=driftfinder-rds-subnet-group-tf]
+aws_kms_key.driftfinder_test: Destroying... [id=6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5]
+aws_security_group.driftfinder_test: Destroying... [id=sg-070e777ee0127d0ab]
+aws_db_subnet_group.driftfinder_test: Destruction complete after 0s
+aws_subnet.a: Destroying... [id=subnet-06564b06af0996438]
+aws_subnet.b: Destroying... [id=subnet-058f207a2f473c265]
+aws_kms_key.driftfinder_test: Destruction complete after 0s
+aws_subnet.b: Destruction complete after 0s
+aws_subnet.a: Destruction complete after 0s
+aws_security_group.driftfinder_test: Destruction complete after 0s
+aws_vpc.driftfinder_test: Destroying... [id=vpc-028faa076a8b65715]
+aws_vpc.driftfinder_test: Destruction complete after 1s
+
+Destroy complete! Resources: 27 destroyed.
+[12:12:16] Teardown: CloudFormation
+[12:15:49] Teardown: Pulumi
+[12:15:49] $ pulumi destroy --stack driftfinder-experiment --yes --skip-preview --non-interactive
+Destroying (driftfinder-experiment):
+@ destroying....
+
+@ destroying.............
+ -  aws:rds:Instance driftfinder-rds-test deleting (0s) 
+@ destroying............................................................................................................................................................................................................................................
+ -  aws:rds:Instance driftfinder-rds-test deleted (233s) 
+ -  aws:rds:SubnetGroup driftfinder-rds-subnet-group deleting (0s) 
+ -  aws:cloudtrail:Trail driftfinder-trail-test deleting (0s) 
+ -  aws:rds:SubnetGroup driftfinder-rds-subnet-group deleted (0.11s) 
+ -  aws:cloudtrail:Trail driftfinder-trail-test deleted (0.25s) 
+ -  aws:iam:RolePolicy driftfinder-flow-log-policy deleting (0s) 
+ -  aws:iam:RolePolicy driftfinder-cloudtrail-cw-policy deleting (0s) 
+ -  aws:s3:BucketPublicAccessBlock driftfinder-s3-pab deleting (0s) 
+ -  aws:s3:BucketPolicy ct-log-bucket-policy deleting (0s) 
+ -  aws:ec2:DefaultSecurityGroup driftfinder-default-sg deleting (0s) 
+ -  aws:s3:BucketLoggingV2 driftfinder-s3-logging deleting (0s) 
+ -  aws:s3:BucketServerSideEncryptionConfigurationV2 driftfinder-s3-sse deleting (0s) 
+ -  aws:ec2:DefaultNetworkAcl driftfinder-default-nacl deleting (0s) 
+ -  aws:ec2:Subnet driftfinder-subnet-b deleting (0s) 
+ -  aws:s3:BucketPublicAccessBlock ct-log-public-access-block deleting (0s) 
+ -  aws:s3:BucketVersioningV2 driftfinder-s3-versioning deleting (0s) 
+ -  aws:kms:Alias driftfinder-kms-alias deleting (0s) 
+ -  aws:ec2:Subnet driftfinder-subnet-a deleting (0s) 
+ -  aws:ec2:FlowLog driftfinder-flow-log deleting (0s) 
+ -  aws:ebs:Volume driftfinder-ebs-test deleting (0s) 
+ -  aws:ec2:SecurityGroup driftfinder-sg-test deleting (0s) 
+ -  aws:ec2:DefaultSecurityGroup driftfinder-default-sg deleted (0.03s) 
+@ destroying....
+ -  aws:ec2:DefaultNetworkAcl driftfinder-default-nacl deleted (0.09s) 
+ -  aws:kms:Alias driftfinder-kms-alias deleted (0.25s) 
+ -  aws:iam:RolePolicy driftfinder-cloudtrail-cw-policy deleted (0.35s) 
+ -  aws:ec2:FlowLog driftfinder-flow-log deleted (0.38s) 
+ -  aws:s3:BucketVersioningV2 driftfinder-s3-versioning deleted (0.38s) 
+ -  aws:iam:RolePolicy driftfinder-flow-log-policy deleted (0.39s) 
+ -  aws:s3:BucketLoggingV2 driftfinder-s3-logging deleted (0.42s) 
+ -  aws:s3:BucketPublicAccessBlock ct-log-public-access-block deleted (0.43s) 
+ -  aws:s3:BucketPublicAccessBlock driftfinder-s3-pab deleted (0.56s) 
+ -  aws:s3:BucketPolicy ct-log-bucket-policy deleted (0.62s) 
+ -  aws:ec2:Subnet driftfinder-subnet-b deleted (0.63s) 
+ -  aws:ec2:Subnet driftfinder-subnet-a deleted (0.79s) 
+ -  aws:ec2:SecurityGroup driftfinder-sg-test deleted (0.82s) 
+ -  aws:s3:BucketServerSideEncryptionConfigurationV2 driftfinder-s3-sse deleted (0.86s) 
+@ destroying.............
+ -  aws:ebs:Volume driftfinder-ebs-test deleted (10s) 
+ -  aws:cloudwatch:LogGroup driftfinder-cloudtrail-lg deleting (0s) 
+ -  aws:iam:Policy driftfinder-iam-test deleting (0s) 
+ -  aws:iam:Role driftfinder-flow-log-role deleting (0s) 
+ -  aws:cloudwatch:LogGroup driftfinder-vpc-flow-lg deleting (0s) 
+ -  aws:kms:Key driftfinder-kms-test deleting (0s) 
+ -  aws:iam:Role driftfinder-cloudtrail-cw-role deleting (0s) 
+ -  aws:s3:Bucket driftfinder-s3-test deleting (0s) 
+ -  aws:ec2:Vpc driftfinder-vpc-test deleting (0s) 
+ -  aws:s3:Bucket driftfinder-ct-logs deleting (0s) 
+ -  aws:cloudwatch:LogGroup driftfinder-vpc-flow-lg deleted (0.14s) 
+ -  aws:cloudwatch:LogGroup driftfinder-cloudtrail-lg deleted (0.14s) 
+ -  aws:kms:Key driftfinder-kms-test deleted (0.16s) 
+ -  aws:iam:Policy driftfinder-iam-test deleted (0.36s) 
+ -  aws:iam:Role driftfinder-cloudtrail-cw-role deleted (0.40s) 
+ -  aws:iam:Role driftfinder-flow-log-role deleted (0.41s) 
+ -  aws:s3:Bucket driftfinder-s3-test deleted (0.41s) 
+@ destroying....
+ -  aws:ec2:Vpc driftfinder-vpc-test deleted (0.63s) 
+ -  aws:s3:Bucket driftfinder-ct-logs deleted (1s) 
+ -  pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment deleting (0s) 
+ -  pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment deleted (0.00s) 
+    pulumi:pulumi:Stack driftfinder-experiment-driftfinder-experiment  
+Resources:
+    - 29 deleted
+
+Duration: 4m16s
+
+The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained. 
+If you want to remove the stack completely, run `pulumi stack rm driftfinder-experiment`.
+[12:20:07] Teardown: removing log groups recreated by in-flight log delivery
+[12:20:07] Teardown: checking for leftover resources
+[12:20:11] Teardown: complete, nothing left behind
