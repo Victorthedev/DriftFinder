@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test-pulumi",
+      "resource_name": "driftfinder-trail-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "cloudwatch_logs_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
+      "detected_at": "2026-10-08T09:44:19.942311Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:44:21.739927Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 13.351,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

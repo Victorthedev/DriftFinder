@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-0b158f112746d8285",
+      "resource_name": "driftfinder-sg-test",
+      "iac_tool": "terraform",
+      "property_path": "unrestricted_rdp_ingress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "5.2"
+      ],
+      "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
+      "detected_at": "2026-10-08T08:28:57.548116Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T08:29:10.028550Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 15.814,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

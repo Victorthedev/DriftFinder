@@ -1,0 +1,47 @@
+{
+  "terraform": {
+    "scans": 26,
+    "resources": [
+      11
+    ],
+    "median_seconds": 2.82,
+    "mean_seconds": 2.96,
+    "min_seconds": 2.656,
+    "max_seconds": 3.984,
+    "scans_with_findings": 0
+  },
+  "cloudformation": {
+    "scans": 26,
+    "resources": [
+      9
+    ],
+    "median_seconds": 2.84,
+    "mean_seconds": 2.94,
+    "min_seconds": 2.686,
+    "max_seconds": 4.189,
+    "scans_with_findings": 0
+  },
+  "pulumi": {
+    "scans": 26,
+    "resources": [
+      9
+    ],
+    "median_seconds": 2.56,
+    "mean_seconds": 2.7,
+    "min_seconds": 2.43,
+    "max_seconds": 4.658,
+    "scans_with_findings": 0
+  },
+  "all": {
+    "scans": 78,
+    "resources": [
+      9,
+      11
+    ],
+    "median_seconds": 2.77,
+    "mean_seconds": 2.87,
+    "min_seconds": 2.43,
+    "max_seconds": 4.658,
+    "scans_with_findings": 0
+  }
+}

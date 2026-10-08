@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-0f5849a615bf0681a",
+      "resource_name": "driftfinder_test",
+      "iac_tool": "terraform",
+      "property_path": "default_sg_has_no_rules",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "5.4"
+      ],
+      "cis_description": "Ensure the default security group of every VPC restricts all traffic",
+      "detected_at": "2026-10-08T09:49:26.549309Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:49:27.910285Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 15.17,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

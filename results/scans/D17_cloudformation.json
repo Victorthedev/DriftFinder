@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-cf",
+      "resource_name": "DriftFinderTrail",
+      "iac_tool": "cloudformation",
+      "property_path": "log_file_validation_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "3.2"
+      ],
+      "cis_description": "Ensure CloudTrail log file validation is enabled",
+      "detected_at": "2026-10-08T09:38:05.254707Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:38:30.960994Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 49.205,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

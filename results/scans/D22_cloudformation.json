@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMKMSKey",
+      "resource_id": "3ad96e93-85ce-419a-a79e-bce2fb23e993",
+      "resource_name": "DriftFinderKMSKey",
+      "iac_tool": "cloudformation",
+      "property_path": "key_rotation_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "HIGH",
+      "cis_controls": [
+        "3.6"
+      ],
+      "cis_description": "Ensure rotation for customer-created symmetric CMKs is enabled",
+      "detected_at": "2026-10-08T09:58:28.073103Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:58:42.174503Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 32.955,
+  "critical_count": 0,
+  "high_count": 1,
+  "medium_count": 0,
+  "low_count": 0
+}

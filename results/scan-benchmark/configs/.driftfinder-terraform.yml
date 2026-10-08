@@ -1,0 +1,5 @@
+iac_tool: terraform
+aws_region: eu-west-1
+fail_on: LOW
+output_format: json
+state_file: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T114210Z/work/terraform/terraform.tfstate

@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-02045867b7330bbfd",
+      "resource_name": "driftfinder-vpc-test",
+      "iac_tool": "pulumi",
+      "property_path": "nacl_unrestricted_ingress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "5.1"
+      ],
+      "cis_description": "Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports",
+      "detected_at": "2026-10-08T09:56:04.402593Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:56:05.743664Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 12.384,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

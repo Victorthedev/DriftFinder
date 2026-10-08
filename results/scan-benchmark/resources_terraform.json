@@ -1,0 +1,16 @@
+{
+  "cloudtrail_cw_log_group_arn": "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf:*",
+  "cloudtrail_cw_role_arn": "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-tf",
+  "cloudtrail_name": "driftfinder-trail-test",
+  "ct_log_bucket_name": "driftfinder-ct-logs-575108919391-tf",
+  "ebs_volume_id": "vol-04df14d9615cc50fc",
+  "flow_log_role_arn": "arn:aws:iam::575108919391:role/driftfinder-flow-logs-tf",
+  "iam_policy_arn": "arn:aws:iam::575108919391:policy/driftfinder-iam-test",
+  "kms_key_arn": "arn:aws:kms:eu-west-1:575108919391:key/6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5",
+  "kms_key_id": "6a7d9b42-2c07-4ea8-9a02-647b99c2f1e5",
+  "rds_instance_id": "driftfinder-rds-test",
+  "s3_bucket_name": "driftfinder-s3-test-575108919391-tf",
+  "security_group_id": "sg-070e777ee0127d0ab",
+  "vpc_flow_log_group_name": "/driftfinder/vpc-flow-logs-tf",
+  "vpc_id": "vpc-028faa076a8b65715"
+}

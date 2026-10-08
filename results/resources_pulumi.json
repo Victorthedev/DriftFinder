@@ -1,0 +1,16 @@
+{
+  "cloudtrail_cw_log_group_arn": "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-pulumi:*",
+  "cloudtrail_cw_role_arn": "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-pulumi",
+  "cloudtrail_name": "driftfinder-trail-test-pulumi",
+  "ct_log_bucket_name": "driftfinder-ct-logs-575108919391-pulumi",
+  "ebs_volume_id": "vol-0b58c56927f3042b8",
+  "flow_log_role_arn": "arn:aws:iam::575108919391:role/driftfinder-flow-logs-pulumi",
+  "iam_policy_arn": "arn:aws:iam::575108919391:policy/driftfinder-iam-test-pulumi",
+  "kms_key_arn": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
+  "kms_key_id": "526893ee-1405-49c0-801b-cab14e743b04",
+  "rds_instance_id": "driftfinder-rds-test-pulumi",
+  "s3_bucket_name": "driftfinder-s3-test-575108919391-pulumi",
+  "security_group_id": "sg-041aaea088015b950",
+  "vpc_flow_log_group_name": "/driftfinder/vpc-flow-logs-pulumi",
+  "vpc_id": "vpc-02045867b7330bbfd"
+}

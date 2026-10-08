@@ -1,0 +1,5 @@
+iac_tool: cloudformation
+aws_region: eu-west-1
+fail_on: LOW
+output_format: json
+stack_name: driftfinder-experiment-cf

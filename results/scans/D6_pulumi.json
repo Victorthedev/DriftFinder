@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMSecurityGroup",
+      "resource_id": "sg-041aaea088015b950",
+      "resource_name": "driftfinder-sg-test-pulumi",
+      "iac_tool": "pulumi",
+      "property_path": "unrestricted_all_traffic_egress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: security group allows all outbound traffic to 0.0.0.0/0",
+      "detected_at": "2026-10-08T08:35:58.724737Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T08:36:08.436820Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 13.177,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

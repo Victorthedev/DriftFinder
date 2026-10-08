@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test",
+      "resource_name": "driftfinder-trail-test",
+      "iac_tool": "terraform",
+      "property_path": "cloudwatch_logs_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
+      "detected_at": "2026-10-08T09:41:44.048291Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:41:48.596682Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 19.453,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

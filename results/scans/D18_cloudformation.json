@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMCloudTrail",
+      "resource_id": "driftfinder-trail-test-cf",
+      "resource_name": "DriftFinderTrail",
+      "iac_tool": "cloudformation",
+      "property_path": "cloudwatch_logs_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
+      "detected_at": "2026-10-08T09:42:56.844102Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:43:05.763123Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 19.863,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

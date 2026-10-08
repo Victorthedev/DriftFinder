@@ -284,6 +284,7 @@ The experiment provisions three identical AWS environments (one per IaC tool), i
 |---|---|---|
 | `driftfinder-experiment preflight` | `python experiment/run.py preflight` | Checks tool versions, AWS access, account settings and leftover resources. Creates nothing. |
 | `driftfinder-experiment run` | `python experiment/run.py run` | Runs the full experiment, uploads results and tears everything down |
+| `driftfinder-experiment benchmark` | `python experiment/run.py benchmark` | Measures scan duration: provisions the environments, runs 26 clean scans per environment, records the timings and tears down. Refuses to run while macOS Low Power Mode is on. |
 | `driftfinder-experiment resume <run folder>` | `python experiment/run.py resume <run folder>` | Continues an interrupted run |
 | `driftfinder-experiment teardown <run folder>` | `python experiment/run.py teardown <run folder>` | Deletes everything a run created |
 
@@ -333,7 +334,7 @@ Results are uploaded to S3 after every step, so nothing is lost if the run stops
 
 ### Time and cost
 
-A full run takes several hours, mostly waiting for RDS instances to be created, modified and deleted. It typically costs a few US dollars. After teardown, the three KMS keys stay in "Pending deletion" for 7 days, the minimum AWS allows. This is expected.
+A full run takes about 2 hours including teardown, mostly waiting for RDS instances to be created, modified and deleted. It typically costs a few US dollars. Keep the computer awake for the whole run (see `steps.txt`, step 4, for how on each operating system). After teardown, the three KMS keys stay in "Pending deletion" for 7 days, the minimum AWS allows. This is expected.
 
 ### Permissions
 
@@ -354,19 +355,41 @@ Each run writes a folder under `experiment-runs/<run id>/` in your current direc
 | `clean/` | The clean scan after every reset |
 | `resources_<env>.json` | IDs of the resources created in each environment |
 | `teardown.json` | Teardown result and any leftover resources |
+| `benchmark/` and `benchmark_summary.json` | Benchmark runs only: every timed scan, and the median, mean and range per environment |
 
 ### Published results
 
-The results reported in the paper are in `results/` (the 78 scan reports) and `experiment/ground_truth.json`.
+The results reported in the paper are in [`results/`](results/): the complete output of one full run of the experiment runner, run natively on macOS from the United Kingdom against AWS eu-west-1. It contains the same files as any run folder (see [Output](#output)): 81 scans in `scans/` (3 baselines, 72 scenario scans and 6 control scans), 72 post-reset clean scans in `clean/`, the ground truth and the summary.
 
-| Tool | Precision | Recall | F1 |
-|---|---|---|---|
-| Terraform | 1.000 | 0.750 | 0.857 |
-| CloudFormation | 1.000 | 0.708 | 0.829 |
-| Pulumi | 1.000 | 0.750 | 0.857 |
-| **Overall** | **1.000** | **0.736** | **0.848** |
+The same experiment was also run in the Docker image on a GitHub-hosted Linux runner. All 78 scenario and control results were identical between the two runs.
 
-Zero false positives across all 78 scans and 6 control cases.
+| Tool | TP | FN | FP | Precision | Recall (all runs) | F1 (all runs) | Recall (drift injected) | F1 (drift injected) |
+|---|---|---|---|---|---|---|---|---|
+| Terraform | 18 | 6 | 0 | 1.000 | 0.750 | 0.857 | 1.000 | 1.000 |
+| CloudFormation | 17 | 7 | 0 | 1.000 | 0.708 | 0.829 | 0.944 | 0.971 |
+| Pulumi | 18 | 6 | 0 | 1.000 | 0.750 | 0.857 | 1.000 | 1.000 |
+| **Overall** | **53** | **19** | **0** | **1.000** | **0.736** | **0.848** | **0.981** | **0.991** |
+
+- Zero false positives across all 72 scenario scans and 6 control scans.
+- Drift reached the account in 54 of the 72 scenario runs. DriftFinder detected 53 of them. The one miss is D20 on CloudFormation, where the CloudFormation parser does not read the implicit default security group.
+- The other 18 misses are runs where no drift reached the account: D1, D10, D11, D13, D14 and D15 in every environment (see `steps.txt`, Part 4).
+- All 53 detections reported the expected severity and CIS v3.0.0 control.
+- Every reset was verified by a clean scan on the first attempt.
+
+**Scan performance** was measured separately with the `benchmark` command, so that timings are not affected by the waits and changes of the drift run. The benchmark is in [`results/scan-benchmark/`](results/scan-benchmark/): 26 clean scans per environment, run natively on a MacBook Pro (2017, Intel Core i5-7267U 3.1 GHz, 16 GB RAM, macOS 13.7.8) with Low Power Mode off, from the United Kingdom against AWS eu-west-1.
+
+| Environment | Scans | Resources | Median | Range |
+|---|---|---|---|---|
+| Terraform | 26 | 11 | 2.82 s | 2.66 to 3.98 s |
+| CloudFormation | 26 | 9 | 2.84 s | 2.69 to 4.19 s |
+| Pulumi | 26 | 9 | 2.56 s | 2.43 to 4.66 s |
+| **All** | **78** | **9 to 11** | **2.77 s** | **2.43 to 4.66 s** |
+
+Scan time depends on the computer and network as well as on DriftFinder. The drift run in `results/` was made on the same Mac with Low Power Mode on, which throttles the processor: its scans had a median of 19.5 s. The Docker run on a GitHub-hosted runner had a median of 6.3 s.
+
+The original manually executed run is kept in the git history of this repository.
+
+After the run, the descriptive `notes` text of D10, D13 and D15 in `results/ground_truth.json` and `results/results_summary.json` was corrected to state that these scenarios are not injectable and that no change request was sent to AWS. The earlier wording, left over from the manual protocol, wrongly described tests that were never performed. No measured value was changed, and `results/run.log` is as recorded.
 
 ---
 
@@ -395,10 +418,9 @@ driftfinder/
 │   ├── pulumi/               # Pulumi environment
 │   ├── run.py                # Experiment runner (preflight, run, resume, teardown)
 │   ├── inject.py             # Drift injection and reset for scenarios D1 to D24
-│   ├── ground_truth_logger.py  # Ground truth logger
-│   └── ground_truth.json     # Ground truth record of the published run
+│   └── ground_truth_logger.py  # Ground truth logger
 │
-├── results/                  # Scan results from all 78 published experimental runs
+├── results/                  # Complete output of the published run (scans, ground truth, summary)
 ├── steps.txt                 # Experiment protocol, step by step
 ├── Dockerfile                # Image with every pinned tool version
 ├── requirements.lock         # Exact Python package versions with hashes

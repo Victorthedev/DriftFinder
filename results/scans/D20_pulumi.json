@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-02045867b7330bbfd",
+      "resource_name": "driftfinder-vpc-test",
+      "iac_tool": "pulumi",
+      "property_path": "default_sg_has_no_rules",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [
+        "5.4"
+      ],
+      "cis_description": "Ensure the default security group of every VPC restricts all traffic",
+      "detected_at": "2026-10-08T09:52:08.833418Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:52:09.029187Z",
+  "iac_tool": "pulumi",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 16.364,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}

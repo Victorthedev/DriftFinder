@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMRDSInstance",
+      "resource_id": "driftfinder-rds-test",
+      "resource_name": "driftfinder-rds-test",
+      "iac_tool": "terraform",
+      "property_path": "backup_retention_days",
+      "declared_value": 7,
+      "actual_value": 0,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: RDS automated backup retention changed",
+      "detected_at": "2026-10-08T09:00:40.640666Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:00:46.212016Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 14.697,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

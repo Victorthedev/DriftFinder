@@ -5,6 +5,7 @@ import platform
 import re
 import secrets
 import shutil
+import statistics
 import subprocess
 import sys
 import time
@@ -338,6 +339,17 @@ def account_settings(session, account: str) -> dict:
     return settings
 
 
+def power_settings() -> dict:
+    if sys.platform != "darwin":
+        return {}
+    try:
+        output = subprocess.run(["pmset", "-g"], capture_output=True, text=True).stdout
+    except OSError:
+        return {}
+    match = re.search(r"^\s*lowpowermode\s+(\d)", output, re.MULTILINE)
+    return {"low_power_mode": match.group(1) == "1"} if match else {}
+
+
 def preflight(session, allow_version_mismatch: bool, check_leftovers: bool = True):
     log("Preflight: checking tool versions")
     versions, version_blocking, version_warnings = check_versions()
@@ -369,6 +381,11 @@ def preflight(session, allow_version_mismatch: bool, check_leftovers: bool = Tru
     org = settings.get("organization")
     if isinstance(org, dict) and org.get("member"):
         log("  Note: account is in an AWS Organization. Service control policies may block or revert injections.")
+    power = power_settings()
+    if power:
+        log(f"  power: {power}")
+    if power.get("low_power_mode"):
+        log("  Note: Low Power Mode is on. Scans will be slower. Detection results are not affected.")
     vpcs = settings.get("vpcs")
     if isinstance(vpcs, dict) and vpcs["limit"] - vpcs["used"] < len(ENVS):
         blocking.append(f"Not enough VPC capacity in {REGION}: {vpcs['used']} of {vpcs['limit']} used, 3 needed.")
@@ -385,7 +402,7 @@ def preflight(session, allow_version_mismatch: bool, check_leftovers: bool = Tru
 
     return {"account": account, "arn": identity["Arn"], "versions": versions,
             "version_differences": version_blocking + version_warnings,
-            "account_settings": settings}, blocking
+            "account_settings": settings, "power": power}, blocking
 
 
 class Run:
@@ -851,7 +868,49 @@ def teardown(run: Run) -> bool:
     return ok
 
 
+def write_benchmark_summary(run: Run):
+    def summarise(reports):
+        durations = [r["scan_duration_seconds"] for r in reports]
+        return {
+            "scans": len(reports),
+            "resources": sorted({r["resources_scanned"] for r in reports}),
+            "median_seconds": round(statistics.median(durations), 2),
+            "mean_seconds": round(statistics.mean(durations), 2),
+            "min_seconds": min(durations),
+            "max_seconds": max(durations),
+            "scans_with_findings": sum(1 for r in reports if r["findings"]),
+        }
+
+    by_env = {
+        env: [json.loads(p.read_text(encoding="utf-8"))
+              for p in sorted((run.dir / "benchmark").glob(f"benchmark_*_{env}.json"))]
+        for env in run.meta["envs"]
+    }
+    summary = {env: summarise(reports) for env, reports in by_env.items()}
+    summary["all"] = summarise([r for reports in by_env.values() for r in reports])
+    write_json(run.dir / "benchmark_summary.json", summary)
+    for name, s in summary.items():
+        log(f"{name}: {s['scans']} scans, {s['resources']} resources, median {s['median_seconds']}s, "
+            f"range {s['min_seconds']} to {s['max_seconds']}s, {s['scans_with_findings']} with findings")
+
+
+def execute_benchmark(run: Run) -> bool:
+    envs = run.meta["envs"]
+    for env in envs:
+        run.step(f"provision:{env}", lambda e=env: PROVISIONERS[e](run))
+    for env in envs:
+        run.step(f"baseline:{env}", lambda e=env: wait_clean(run, e, f"baseline_{e}", folder="scans"))
+    for number in range(1, run.meta["scans_per_env"] + 1):
+        for env in envs:
+            run.step(f"benchmark{number}:{env}",
+                     lambda n=number, e=env: scan(run, e, f"benchmark_{n:02d}_{e}", folder="benchmark"))
+    run.step("summary", lambda: write_benchmark_summary(run))
+    return True
+
+
 def execute(run: Run) -> bool:
+    if run.meta.get("mode") == "benchmark":
+        return execute_benchmark(run)
     envs = run.meta["envs"]
     recover(run)
     for env in envs:
@@ -899,13 +958,14 @@ def attach_log(run_dir: Path):
     sys.stdout = Tee(run_dir / "run.log")
 
 
-def confirm(args, envs, scenarios) -> bool:
+def confirm(args, envs, plan: str) -> bool:
     if args.yes:
         return True
     print(
         f"\nThis creates billable AWS resources in {REGION} for: {', '.join(envs)}"
         f"\n(RDS db.t3.micro, KMS keys, CloudTrail trails, VPC flow logs per environment)."
-        f"\nScenarios: {len(scenarios)} x {len(envs)} environments. A full run takes several hours."
+        f"\n{plan}"
+        f"\nKeep the computer awake until it finishes (see steps.txt, step 4)."
         f"\nEverything is torn down at the end unless --keep is given.\n"
     )
     return input("Type 'yes' to continue: ").strip().lower() == "yes"
@@ -928,6 +988,18 @@ def cmd_run(args) -> int:
         print(f"Unknown scenarios: {', '.join(unknown)}")
         return 2
     scenarios = [s for s in inject.SCENARIOS if s in scenarios]
+    plan = f"Scenarios: {len(scenarios)} x {len(envs)} environments. A full run takes about 2 hours."
+    return start(args, envs, scenarios, {"settle_seconds": args.settle_seconds}, plan)
+
+
+def cmd_benchmark(args) -> int:
+    envs = args.envs or ENVS
+    plan = (f"Benchmark: {args.scans} clean scans per environment, no drift injected. "
+            "Takes about 40 minutes.")
+    return start(args, envs, [], {"mode": "benchmark", "scans_per_env": args.scans}, plan)
+
+
+def start(args, envs, scenarios, extra_meta: dict, plan: str) -> int:
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_dir = Path(args.output_dir or Path.cwd() / "experiment-runs" / run_id).resolve()
     if (run_dir / "run.json").exists():
@@ -936,12 +1008,14 @@ def cmd_run(args) -> int:
 
     session = boto3.Session(region_name=REGION)
     report, blocking = preflight(session, args.allow_version_mismatch)
+    if extra_meta.get("mode") == "benchmark" and report["power"].get("low_power_mode"):
+        blocking.append("Low Power Mode is on, so scan times would not be representative. Turn it off first.")
     if blocking:
         for reason in blocking:
             log(f"BLOCKED: {reason}")
         return 1
     bucket = None if args.no_upload else (args.results_bucket or f"driftfinder-results-{report['account']}")
-    if not confirm(args, envs, scenarios):
+    if not confirm(args, envs, plan):
         print("Cancelled.")
         return 1
 
@@ -958,7 +1032,7 @@ def cmd_run(args) -> int:
         "region": REGION,
         "envs": envs,
         "scenarios": scenarios,
-        "settle_seconds": args.settle_seconds,
+        **extra_meta,
         "clean_attempts": CLEAN_ATTEMPTS,
         "clean_delay_seconds": CLEAN_DELAY_SECONDS,
         "results_bucket": bucket,
@@ -1032,6 +1106,17 @@ def main() -> int:
     p.add_argument("--yes", action="store_true", help="Skip the confirmation prompt")
     p.add_argument("--allow-version-mismatch", action="store_true")
     p.set_defaults(fn=cmd_run)
+
+    p = sub.add_parser("benchmark", help="Measure scan duration on clean environments, then tear down")
+    p.add_argument("--scans", type=int, default=26, help="Clean scans per environment (default: 26)")
+    p.add_argument("--output-dir", help="Run folder (default: ./experiment-runs/<run id>)")
+    p.add_argument("--envs", nargs="+", choices=ENVS, help="Subset of environments")
+    p.add_argument("--results-bucket", help="S3 bucket for results (default: driftfinder-results-<account>)")
+    p.add_argument("--no-upload", action="store_true", help="Keep results locally only")
+    p.add_argument("--keep", action="store_true", help="Do not tear down at the end")
+    p.add_argument("--yes", action="store_true", help="Skip the confirmation prompt")
+    p.add_argument("--allow-version-mismatch", action="store_true")
+    p.set_defaults(fn=cmd_benchmark)
 
     p = sub.add_parser("resume", help="Continue an interrupted run")
     p.add_argument("run_dir")

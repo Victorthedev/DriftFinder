@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMS3Bucket",
+      "resource_id": "driftfinder-s3-test-575108919391-tf",
+      "resource_name": "driftfinder-s3-test-575108919391-tf",
+      "iac_tool": "terraform",
+      "property_path": "access_logging_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: S3 server access logging is disabled",
+      "detected_at": "2026-10-08T08:21:03.751382Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T08:21:16.949963Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 18.469,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

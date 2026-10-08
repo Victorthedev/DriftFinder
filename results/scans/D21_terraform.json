@@ -1,0 +1,31 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMVPC",
+      "resource_id": "vpc-0f5849a615bf0681a",
+      "resource_name": "driftfinder_test",
+      "iac_tool": "terraform",
+      "property_path": "nacl_unrestricted_ingress",
+      "declared_value": false,
+      "actual_value": true,
+      "drift_type": "MODIFIED",
+      "severity": "MEDIUM",
+      "cis_controls": [
+        "5.1"
+      ],
+      "cis_description": "Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports",
+      "detected_at": "2026-10-08T09:53:21.840748Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T09:53:23.160161Z",
+  "iac_tool": "terraform",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "resources_scanned": 11,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 17.619,
+  "critical_count": 0,
+  "high_count": 0,
+  "medium_count": 1,
+  "low_count": 0
+}

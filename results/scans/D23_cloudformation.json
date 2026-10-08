@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "resource_type": "NRMKMSKey",
+      "resource_id": "3ad96e93-85ce-419a-a79e-bce2fb23e993",
+      "resource_name": "DriftFinderKMSKey",
+      "iac_tool": "cloudformation",
+      "property_path": "key_enabled",
+      "declared_value": true,
+      "actual_value": false,
+      "drift_type": "MODIFIED",
+      "severity": "CRITICAL",
+      "cis_controls": [],
+      "cis_description": "No CIS v3.0.0 control: KMS key is disabled",
+      "detected_at": "2026-10-08T10:02:19.372055Z"
+    }
+  ],
+  "scan_timestamp": "2026-10-08T10:02:36.068776Z",
+  "iac_tool": "cloudformation",
+  "state_source": "driftfinder-experiment-cf",
+  "resources_scanned": 9,
+  "resources_with_drift": 1,
+  "compliant": false,
+  "scan_duration_seconds": 23.881,
+  "critical_count": 1,
+  "high_count": 0,
+  "medium_count": 0,
+  "low_count": 0
+}
