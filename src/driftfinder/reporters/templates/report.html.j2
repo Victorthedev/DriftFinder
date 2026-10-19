@@ -149,9 +149,17 @@
     &#10003; All resources are compliant — no drift detected.
   </div>
   {% else %}
+  {% if result.findings %}
   <div class="status-banner non-compliant">
     &#9888; Drift detected across {{ result.resources_with_drift }} resource(s). Review the findings below.
   </div>
+  {% endif %}
+  {% if result.scan_errors %}
+  <div class="status-banner non-compliant">
+    &#9888; Scan incomplete: {{ result.scan_errors | length }} resource(s) could not be checked.
+    {% for e in result.scan_errors %}<br>{{ e.resource_type }} {{ e.resource_id }}: {{ e.error }}{% endfor %}
+  </div>
+  {% endif %}
   {% endif %}
 
   <div class="summary-grid">

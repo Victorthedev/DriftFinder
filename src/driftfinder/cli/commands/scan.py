@@ -38,8 +38,21 @@ def _print_summary(result) -> None:  # type: ignore[type-arg]
     click.echo(f"  Duration           : {result.scan_duration_seconds}s")
     click.echo("")
 
+    if result.scan_errors:
+        click.secho(
+            f"  {len(result.scan_errors)} resource(s) could not be checked. The scan is incomplete:",
+            fg="red",
+            bold=True,
+        )
+        for e in result.scan_errors:
+            click.secho(f"    {e.resource_type} {e.resource_id}: {e.error}", fg="red")
+        click.echo("")
+
     if not result.findings:
-        click.secho("  No drift detected. All resources comply.", fg="green")
+        if not result.scan_errors:
+            click.secho("  No drift detected. All resources comply.", fg="green")
+        else:
+            click.secho("  No drift found in the resources that could be checked.", fg="yellow")
         click.echo("")
         return
 
@@ -111,7 +124,8 @@ def scan_command(
 ) -> None:
     """Run a drift detection scan against live AWS state.
 
-    Exit codes: 0=compliant, 1=drift found at or above --fail-on severity, 2=error.
+    Exit codes: 0=compliant, 1=drift found at or above --fail-on severity,
+    2=error, including any declared resource that could not be checked.
     """
     configure_logging(verbose=verbose)
 
@@ -177,6 +191,14 @@ def scan_command(
     if fmt in (OutputFormat.HTML, OutputFormat.BOTH):
         write_html(result, f"{base}.html")
         click.echo(f"  HTML report: {base}.html")
+
+    if result.scan_errors:
+        click.secho(
+            f"Scan incomplete: {len(result.scan_errors)} resource(s) could not be checked.",
+            fg="red",
+            err=True,
+        )
+        sys.exit(2)
 
     if config.mode == ScanMode.REPORT_ONLY:
         sys.exit(0)

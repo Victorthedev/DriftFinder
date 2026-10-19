@@ -235,7 +235,7 @@ driftfinder scan --config .driftfinder.yml --output results/my-scan --format jso
 |---|---|
 | `0` | No findings at or above the `fail_on` severity |
 | `1` | Findings detected at or above the `fail_on` severity |
-| `2` | Scan error (missing config, AWS auth failure, inaccessible state file) |
+| `2` | Scan error (missing config, AWS auth failure, inaccessible state file), or an incomplete scan: one or more declared resources could not be checked, for example because of a permissions error or a failed AWS API call. The affected resources are listed in the output and in `scan_errors` in the report, and the scan is never reported as compliant. This applies in report-only mode too. |
 
 ---
 

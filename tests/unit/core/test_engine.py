@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 from driftfinder.core.engine import DriftFinderEngine
 from driftfinder.mappers.cis_mapper import CISMapper
 from driftfinder.models.enums import DriftType, IaCTool, Severity
@@ -111,6 +113,59 @@ class TestDetectDrift:
         mfa_finding = next((f for f in findings if f.property_path == "mfa_delete_enabled"), None)
         assert mfa_finding is not None
         assert mfa_finding.cis_controls == ["2.1.2"]
+
+
+class _FakeParser:
+    def __init__(self, resources):
+        self.resources = resources
+
+    def parse(self, source):
+        return self.resources
+
+
+class _FakeRuntime:
+    def __init__(self, error=None):
+        self.error = error
+
+    def query(self, declared):
+        if self.error:
+            raise self.error
+        return declared
+
+
+def _scanning_engine(resources, error=None) -> DriftFinderEngine:
+    eng = _engine()
+    eng.config = SimpleNamespace(iac_tool=IaCTool.TERRAFORM)
+    eng.parser = _FakeParser(resources)
+    eng.runtime = _FakeRuntime(error)
+    eng._state_source = lambda: "terraform.tfstate"
+    return eng
+
+
+def _bucket() -> NRMS3Bucket:
+    return NRMS3Bucket(
+        resource_id="my-bucket",
+        resource_name="my-bucket",
+        iac_tool=IaCTool.TERRAFORM,
+        region="eu-west-1",
+        server_side_encryption_enabled=True,
+    )
+
+
+class TestScanErrors:
+    def test_query_error_is_recorded_and_scan_is_not_compliant(self):
+        result = _scanning_engine([_bucket()], error=RuntimeError("AccessDenied")).scan()
+        assert result.findings == []
+        assert result.compliant is False
+        assert len(result.scan_errors) == 1
+        assert result.scan_errors[0].resource_id == "my-bucket"
+        assert "AccessDenied" in result.scan_errors[0].error
+
+    def test_clean_scan_without_errors_is_compliant(self):
+        result = _scanning_engine([_bucket()]).scan()
+        assert result.findings == []
+        assert result.scan_errors == []
+        assert result.compliant is True
 
 
 class TestClassifyDriftType:

@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from driftfinder.core.config import DriftFinderConfig
 from driftfinder.mappers.cis_mapper import CISMapper
 from driftfinder.models.enums import DriftType, IaCTool, Severity
-from driftfinder.models.findings import DriftFinding, ScanResult
+from driftfinder.models.findings import DriftFinding, ScanError, ScanResult
 from driftfinder.models.nrm import NRM_METADATA_FIELDS, NRMResource
 from driftfinder.parsers.base import BaseParser
 from driftfinder.parsers.cloudformation import CloudFormationParser
@@ -47,6 +47,7 @@ class DriftFinderEngine:
         logger.info("Found %d declared resources", len(declared_resources))
 
         findings: list[DriftFinding] = []
+        scan_errors: list[ScanError] = []
         resources_with_drift: set[str] = set()
 
         for declared in declared_resources:
@@ -65,6 +66,13 @@ class DriftFinderEngine:
                     type(declared).__name__,
                     declared.resource_id,
                     exc,
+                )
+                scan_errors.append(
+                    ScanError(
+                        resource_type=type(declared).__name__,
+                        resource_id=declared.resource_id,
+                        error=f"{type(exc).__name__}: {exc}",
+                    )
                 )
                 continue
 
@@ -88,8 +96,9 @@ class DriftFinderEngine:
             state_source=source,
             resources_scanned=len(declared_resources),
             resources_with_drift=len(resources_with_drift),
-            compliant=len(findings) == 0,
+            compliant=not findings and not scan_errors,
             scan_duration_seconds=round(duration, 3),
+            scan_errors=scan_errors,
         )
 
     # Internal helpers
