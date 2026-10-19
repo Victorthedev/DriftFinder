@@ -28,6 +28,14 @@ class DriftFinding(BaseModel):
     detected_at: datetime | None = None
 
 
+class ScanError(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    resource_type: str
+    resource_id: str
+    error: str
+
+
 class ScanResult(BaseModel):
     """Complete result of one drift detection scan."""
 
@@ -41,6 +49,7 @@ class ScanResult(BaseModel):
     resources_with_drift: int
     compliant: bool
     scan_duration_seconds: float
+    scan_errors: list[ScanError] = []
 
     @computed_field  # type: ignore[misc]
     @property
