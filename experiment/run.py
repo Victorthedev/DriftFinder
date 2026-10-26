@@ -23,6 +23,7 @@ REPO_DIR = EXPERIMENT_DIR.parent
 sys.path.insert(0, str(EXPERIMENT_DIR))
 
 import inject  # noqa: E402
+import native  # noqa: E402
 from ground_truth_logger import GroundTruthLogger  # noqa: E402
 
 REGION = inject.REGION
@@ -46,6 +47,8 @@ MINIMUM_PYTHON = (3, 11)
 PINNED_TOOLS = {"terraform": "1.13.3", "pulumi": "3.250.0"}
 RESULT_AFFECTING_PACKAGES = {"pulumi-aws"}
 LOCK_IGNORE = {"pip", "setuptools", "wheel"}
+SCAN_ATTEMPTS = 3
+SCAN_RETRY_SECONDS = 30
 CLEAN_ATTEMPTS = 5
 CLEAN_DELAY_SECONDS = 30
 CF_OUTPUT_KEYS = {
@@ -579,19 +582,24 @@ PROVISIONERS = {
 }
 
 
-def scan(run: Run, env: str, name: str, folder: str = "scans") -> list:
+def scan(run: Run, env: str, name: str, folder: str = "scans") -> dict:
     base = run.dir / folder / name
     base.parent.mkdir(parents=True, exist_ok=True)
-    rc = stream(
-        [sys.executable, "-c", "from driftfinder.cli.main import cli; cli()",
-         "scan", "--config", run.config_path(env), "--output", base, "--format", "json"],
-        env=run.tool_env(),
-        check=False,
-    )
+    for attempt in range(1, SCAN_ATTEMPTS + 1):
+        rc = stream(
+            [sys.executable, "-c", "from driftfinder.cli.main import cli; cli()",
+             "scan", "--config", run.config_path(env), "--output", base, "--format", "json"],
+            env=run.tool_env(),
+            check=False,
+        )
+        if rc != 2 or attempt == SCAN_ATTEMPTS:
+            break
+        log(f"Scan incomplete (attempt {attempt}/{SCAN_ATTEMPTS}), retrying in {SCAN_RETRY_SECONDS}s")
+        time.sleep(SCAN_RETRY_SECONDS)
     report = Path(f"{base}.json")
     if rc not in (0, 1) or not report.exists():
         raise RunAborted(f"DriftFinder scan failed for {env} ({name}) with exit code {rc}")
-    return json.loads(report.read_text(encoding="utf-8"))["findings"]
+    return json.loads(report.read_text(encoding="utf-8"))
 
 
 def describe(findings: list) -> str:
@@ -601,7 +609,7 @@ def describe(findings: list) -> str:
 def wait_clean(run: Run, env: str, label: str, folder: str = "clean"):
     for attempt in range(1, CLEAN_ATTEMPTS + 1):
         name = label if attempt == 1 else f"{label}_retry{attempt - 1}"
-        findings = scan(run, env, name, folder)
+        findings = scan(run, env, name, folder)["findings"]
         if not findings:
             log(f"Clean: {env} has no findings ({name})")
             return
@@ -619,7 +627,8 @@ def same_resource(finding_id: str, truth_id: str) -> bool:
     )
 
 
-def score(run: Run, scenario_id: str, env: str, findings: list):
+def score(run: Run, scenario_id: str, env: str, report: dict):
+    findings = report["findings"]
     entry = next(
         (e for e in run.logger.data["entries"] if e["scenario_id"] == scenario_id and e["environment"] == env),
         None,
@@ -648,6 +657,8 @@ def score(run: Run, scenario_id: str, env: str, findings: list):
         )
     else:
         run.logger.record_result(scenario_id, env, detected=False)
+    entry["driftfinder_result"]["scan_errors"] = len(report.get("scan_errors", []))
+    run.logger._save()
     record_false_positives(
         run, env, [f for f in findings if not (on_resource(f) and f["property_path"] in allowed)], source
     )
@@ -672,20 +683,38 @@ def run_scenario(run: Run, scenario_id: str, env: str):
     inject_fn(resources, run.logger, env)
     log(f"Waiting {run.meta['settle_seconds']}s before scanning")
     time.sleep(run.meta["settle_seconds"])
-    findings = scan(run, env, f"{scenario_id}_{env}")
-    score(run, scenario_id, env, findings)
+    report = scan(run, env, f"{scenario_id}_{env}")
+    score(run, scenario_id, env, report)
+    native_check(run, env, scenario_id)
     log(f"=== {scenario_id} [{env}]: reset")
     reset_fn(resources, env)
     wait_clean(run, env, f"after_{scenario_id}_{env}")
+    native_check(run, env, f"after_{scenario_id}")
 
 
 def run_control(run: Run, control_id: str, env: str):
     log(f"=== {control_id} [{env}]: control scan")
-    findings = scan(run, env, f"{control_id}_{env}")
+    report = scan(run, env, f"{control_id}_{env}")
+    findings = report["findings"]
     source = f"{control_id}:{env}"
     run.logger.remove_entries_from_source(source)
     run.logger.record_control(control_id, env, len(findings))
+    control = next(e for e in run.logger.data["entries"] if e["scenario_id"] == control_id and e["environment"] == env)
+    control["driftfinder_result"]["scan_errors"] = len(report.get("scan_errors", []))
+    run.logger._save()
     record_false_positives(run, env, findings, source)
+    native_check(run, env, control_id)
+
+
+def native_check(run: Run, env: str, label: str):
+    if not run.meta.get("native"):
+        return
+    log(f"Native check ({native.TOOL_FOR_ENV[env]}): {label} [{env}]")
+    result = native.check(run, env, label, {"cloudformation": CF_STACK, "pulumi": PULUMI_STACK})
+    if result["ok"]:
+        log(f"  {len(result['changes'])} change(s) reported in {result['duration_seconds']}s")
+    else:
+        log(f"  Native check error: {result['error']}")
 
 
 def recover(run: Run):
@@ -718,6 +747,18 @@ def write_summary(run: Run):
         outcomes.setdefault(e["scenario_id"], {})[e["environment"]] = label
     ordered = {sid: outcomes[sid] for sid in inject.SCENARIOS if sid in outcomes}
     write_json(run.dir / "outcomes.json", ordered)
+    if run.meta.get("native"):
+        comparison = native.score(run.dir, run.logger.data["entries"], run.meta["scenarios"], run.meta["envs"], CONTROLS)
+        run.logger._save()
+        summary_path = run.dir / "results_summary.json"
+        summary = read_json(summary_path, {})
+        summary["native_comparison"] = comparison
+        write_json(summary_path, summary)
+        print("\nNative drift checks (detected / missed / no_drift / not_declared / not_checked / error):")
+        for tool, t in comparison["per_tool"].items():
+            print(f"  {tool:<15} {t['detected']} / {t['missed']} / {t['no_drift']} / {t['not_declared']} / "
+                  f"{t['not_checked']} / {t['error']}   other changes: {t['other_changes_in_scenario_runs']} "
+                  f"in scenarios, {t['other_changes_in_control_scans']} in controls")
     envs = run.meta["envs"]
     fps = [e for e in run.logger.data["entries"] if e["scenario_id"] == "FP"]
     print(f"\nFalse positives: {len(fps)}")
@@ -917,6 +958,9 @@ def execute(run: Run) -> bool:
         run.step(f"provision:{env}", lambda e=env: PROVISIONERS[e](run))
     for env in envs:
         run.step(f"baseline:{env}", lambda e=env: wait_clean(run, e, f"baseline_{e}", folder="scans"))
+    if run.meta.get("native"):
+        for env in envs:
+            run.step(f"native-baseline:{env}", lambda e=env: native_check(run, e, "baseline"))
     for scenario_id in run.meta["scenarios"]:
         for env in envs:
             run.step(f"{scenario_id}:{env}", lambda s=scenario_id, e=env: run_scenario(run, s, e))
@@ -988,8 +1032,18 @@ def cmd_run(args) -> int:
         print(f"Unknown scenarios: {', '.join(unknown)}")
         return 2
     scenarios = [s for s in inject.SCENARIOS if s in scenarios]
-    plan = f"Scenarios: {len(scenarios)} x {len(envs)} environments. A full run takes about 2 hours."
-    return start(args, envs, scenarios, {"settle_seconds": args.settle_seconds}, plan)
+    use_native = not args.no_native
+    plan = (f"Scenarios: {len(scenarios)} x {len(envs)} environments. A full run takes about "
+            f"{'5 to 6 hours with the native drift checks' if use_native else '2 hours'}.")
+    meta = {"settle_seconds": args.settle_seconds, "native": use_native}
+    if use_native:
+        meta["native_mapping"] = native.mapping_info()
+        meta["native_commands"] = {
+            "terraform": "terraform plan -refresh-only -lock=false -detailed-exitcode, then terraform show -json",
+            "cloudformation": "detect_stack_drift, then describe_stack_resource_drifts (all statuses)",
+            "pulumi": f"pulumi refresh --preview-only --json --non-interactive --stack {PULUMI_STACK}",
+        }
+    return start(args, envs, scenarios, meta, plan)
 
 
 def cmd_benchmark(args) -> int:
@@ -1069,6 +1123,27 @@ def cmd_resume(args) -> int:
     return drive(run, args.keep)
 
 
+def cmd_rescore_native(args) -> int:
+    run_dir = Path(args.run_dir).resolve()
+    if not (run_dir / "run.json").exists():
+        print(f"No run found in {run_dir}")
+        return 2
+    run = Run(run_dir, boto3.Session(region_name=REGION))
+    if not run.meta.get("native"):
+        print("This run has no native drift checks.")
+        return 2
+    previous = run.meta.get("native_mapping")
+    current = native.mapping_info()
+    run.meta.setdefault("native_rescored", []).append(
+        {"at": now_iso(), "previous_mapping": previous, "mapping": current, "reason": args.reason}
+    )
+    run.meta["native_mapping"] = current
+    run.save_meta()
+    native.reparse(run.dir)
+    write_summary(run)
+    return 0
+
+
 def cmd_teardown(args) -> int:
     run_dir = Path(args.run_dir).resolve()
     if not (run_dir / "run.json").exists():
@@ -1105,6 +1180,7 @@ def main() -> int:
     p.add_argument("--keep", action="store_true", help="Do not tear down at the end")
     p.add_argument("--yes", action="store_true", help="Skip the confirmation prompt")
     p.add_argument("--allow-version-mismatch", action="store_true")
+    p.add_argument("--no-native", action="store_true", help="Skip the IaC tools' own drift checks")
     p.set_defaults(fn=cmd_run)
 
     p = sub.add_parser("benchmark", help="Measure scan duration on clean environments, then tear down")
@@ -1123,6 +1199,11 @@ def main() -> int:
     p.add_argument("--keep", action="store_true")
     p.add_argument("--allow-version-mismatch", action="store_true")
     p.set_defaults(fn=cmd_resume)
+
+    p = sub.add_parser("rescore-native", help="Rescore saved native drift checks with the current mapping file")
+    p.add_argument("run_dir")
+    p.add_argument("--reason", required=True, help="Why the mapping changed (recorded in run.json)")
+    p.set_defaults(fn=cmd_rescore_native)
 
     p = sub.add_parser("teardown", help="Destroy everything a run created")
     p.add_argument("run_dir")

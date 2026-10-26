@@ -1,0 +1,28 @@
+{
+  "command": "pulumi refresh --preview-only --json --non-interactive --stack driftfinder-experiment",
+  "changes": [
+    [
+      "driftfinder-flow-log",
+      "deleted",
+      "deleted"
+    ],
+    [
+      "driftfinder-default-nacl",
+      "subnetIds",
+      "0ecebeefe2263cb9"
+    ],
+    [
+      "driftfinder-kms-test",
+      "policy",
+      "80906643e06b0384"
+    ]
+  ],
+  "exit_code": 0,
+  "attempts": 1,
+  "tool": "pulumi",
+  "env": "pulumi",
+  "label": "D24",
+  "checked_at": "2026-10-26T15:04:59.060657+00:00",
+  "duration_seconds": 20.52,
+  "ok": true
+}

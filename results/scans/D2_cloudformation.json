@@ -14,7 +14,7 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'",
-      "detected_at": "2026-10-08T08:13:53.767419Z"
+      "detected_at": "2026-10-26T13:31:19.594948Z"
     },
     {
       "resource_type": "NRMS3Bucket",
@@ -30,7 +30,7 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)' (BlockPublicAcls)",
-      "detected_at": "2026-10-08T08:13:53.770979Z"
+      "detected_at": "2026-10-26T13:31:19.597646Z"
     },
     {
       "resource_type": "NRMS3Bucket",
@@ -46,7 +46,7 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)' (IgnorePublicAcls)",
-      "detected_at": "2026-10-08T08:13:53.771034Z"
+      "detected_at": "2026-10-26T13:31:19.597691Z"
     },
     {
       "resource_type": "NRMS3Bucket",
@@ -62,7 +62,7 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)' (BlockPublicPolicy)",
-      "detected_at": "2026-10-08T08:13:53.771148Z"
+      "detected_at": "2026-10-26T13:31:19.597707Z"
     },
     {
       "resource_type": "NRMS3Bucket",
@@ -78,16 +78,17 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)' (RestrictPublicBuckets)",
-      "detected_at": "2026-10-08T08:13:53.771201Z"
+      "detected_at": "2026-10-26T13:31:19.597722Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:14:29.631667Z",
+  "scan_timestamp": "2026-10-26T13:31:22.250292Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 89.212,
+  "scan_duration_seconds": 3.824,
+  "scan_errors": [],
   "critical_count": 5,
   "high_count": 0,
   "medium_count": 0,

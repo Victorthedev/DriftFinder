@@ -1,0 +1,38 @@
+{
+  "command": "pulumi refresh --preview-only --json --non-interactive --stack driftfinder-experiment",
+  "changes": [
+    [
+      "driftfinder-s3-pab",
+      "blockPublicAcls",
+      "fcbcf165908dd18a"
+    ],
+    [
+      "driftfinder-s3-pab",
+      "blockPublicPolicy",
+      "fcbcf165908dd18a"
+    ],
+    [
+      "driftfinder-s3-pab",
+      "ignorePublicAcls",
+      "fcbcf165908dd18a"
+    ],
+    [
+      "driftfinder-s3-pab",
+      "restrictPublicBuckets",
+      "fcbcf165908dd18a"
+    ],
+    [
+      "driftfinder-default-nacl",
+      "subnetIds",
+      "0ecebeefe2263cb9"
+    ]
+  ],
+  "exit_code": 0,
+  "attempts": 1,
+  "tool": "pulumi",
+  "env": "pulumi",
+  "label": "D2",
+  "checked_at": "2026-10-26T13:32:41.708871+00:00",
+  "duration_seconds": 12.82,
+  "ok": true
+}

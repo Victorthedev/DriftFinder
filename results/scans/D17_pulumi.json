@@ -14,16 +14,17 @@
         "3.2"
       ],
       "cis_description": "Ensure CloudTrail log file validation is enabled",
-      "detected_at": "2026-10-08T09:40:30.705941Z"
+      "detected_at": "2026-10-26T14:43:16.149650Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:40:33.729945Z",
+  "scan_timestamp": "2026-10-26T14:43:16.800635Z",
   "iac_tool": "pulumi",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/pulumi_stack_export.json",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 23.928,
+  "scan_duration_seconds": 3.665,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 1,
   "medium_count": 0,

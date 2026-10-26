@@ -1,0 +1,23 @@
+{
+  "command": "detect_stack_drift(StackName=driftfinder-experiment-cf) and describe_stack_resource_drifts",
+  "changes": [
+    [
+      "DriftFinderEBS",
+      "KmsKeyId",
+      "98ae2130d99214a7"
+    ],
+    [
+      "DriftFinderSG",
+      "SecurityGroupIngress",
+      "d002a7732efed021"
+    ]
+  ],
+  "not_checked": [],
+  "attempts": 1,
+  "tool": "cloudformation",
+  "env": "cloudformation",
+  "label": "D4",
+  "checked_at": "2026-10-26T13:37:49.832504+00:00",
+  "duration_seconds": 10.52,
+  "ok": true
+}

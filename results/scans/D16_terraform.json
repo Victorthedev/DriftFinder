@@ -14,16 +14,17 @@
         "3.1"
       ],
       "cis_description": "Ensure CloudTrail is enabled in all regions",
-      "detected_at": "2026-10-08T09:32:49.797514Z"
+      "detected_at": "2026-10-26T14:38:00.965097Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:32:52.911063Z",
+  "scan_timestamp": "2026-10-26T14:38:01.628626Z",
   "iac_tool": "terraform",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/work/terraform/terraform.tfstate",
   "resources_scanned": 11,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 15.708,
+  "scan_duration_seconds": 3.964,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 1,
   "medium_count": 0,

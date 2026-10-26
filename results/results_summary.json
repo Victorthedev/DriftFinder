@@ -9,7 +9,7 @@
     "scenarios": 24,
     "controls": 6,
     "region": "eu-west-1",
-    "exported_at": "2026-10-08T10:10:15.172601+00:00"
+    "exported_at": "2026-10-26T15:08:51.018711+00:00"
   },
   "metrics_per_environment": {
     "terraform": {
@@ -167,7 +167,7 @@
           "2.1.4"
         ],
         "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'",
-        "detected_at": "2026-10-08T08:09:36.826505Z"
+        "detected_at": "2026-10-26T13:30:13.700199Z"
       },
       "notes": null
     },
@@ -201,7 +201,7 @@
           "2.1.4"
         ],
         "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'",
-        "detected_at": "2026-10-08T08:13:53.767419Z"
+        "detected_at": "2026-10-26T13:31:19.594948Z"
       },
       "notes": null
     },
@@ -235,7 +235,7 @@
           "2.1.4"
         ],
         "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'",
-        "detected_at": "2026-10-08T08:17:36.950150Z"
+        "detected_at": "2026-10-26T13:32:25.140120Z"
       },
       "notes": null
     },
@@ -265,7 +265,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: S3 server access logging is disabled",
-        "detected_at": "2026-10-08T08:21:03.751382Z"
+        "detected_at": "2026-10-26T13:33:25.528178Z"
       },
       "notes": null
     },
@@ -295,7 +295,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: S3 server access logging is disabled",
-        "detected_at": "2026-10-08T08:22:34.024470Z"
+        "detected_at": "2026-10-26T13:34:28.468244Z"
       },
       "notes": null
     },
@@ -325,7 +325,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: S3 server access logging is disabled",
-        "detected_at": "2026-10-08T08:23:53.001168Z"
+        "detected_at": "2026-10-26T13:35:30.613400Z"
       },
       "notes": null
     },
@@ -347,7 +347,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-0b158f112746d8285",
+        "resource_id": "sg-06ed35506fd6eb9a5",
         "resource_name": "driftfinder-sg-test",
         "iac_tool": "terraform",
         "property_path": "unrestricted_ssh_ingress",
@@ -359,7 +359,7 @@
           "5.2"
         ],
         "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T08:25:03.180096Z"
+        "detected_at": "2026-10-26T13:36:35.511424Z"
       },
       "notes": null
     },
@@ -381,7 +381,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-0d6ebc31a26a76c20",
+        "resource_id": "sg-0e1a6f46a4b022023",
         "resource_name": "DriftFinderSG",
         "iac_tool": "cloudformation",
         "property_path": "unrestricted_ssh_ingress",
@@ -393,7 +393,7 @@
           "5.2"
         ],
         "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T08:26:24.311038Z"
+        "detected_at": "2026-10-26T13:37:36.829284Z"
       },
       "notes": null
     },
@@ -415,7 +415,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-041aaea088015b950",
+        "resource_id": "sg-0f0458a821d64f42e",
         "resource_name": "driftfinder-sg-test-pulumi",
         "iac_tool": "pulumi",
         "property_path": "unrestricted_ssh_ingress",
@@ -427,7 +427,7 @@
           "5.2"
         ],
         "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T08:27:45.997157Z"
+        "detected_at": "2026-10-26T13:38:38.786556Z"
       },
       "notes": null
     },
@@ -449,7 +449,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-0b158f112746d8285",
+        "resource_id": "sg-06ed35506fd6eb9a5",
         "resource_name": "driftfinder-sg-test",
         "iac_tool": "terraform",
         "property_path": "unrestricted_rdp_ingress",
@@ -461,7 +461,7 @@
           "5.2"
         ],
         "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T08:28:57.548116Z"
+        "detected_at": "2026-10-26T13:39:46.561552Z"
       },
       "notes": null
     },
@@ -483,7 +483,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-0d6ebc31a26a76c20",
+        "resource_id": "sg-0e1a6f46a4b022023",
         "resource_name": "DriftFinderSG",
         "iac_tool": "cloudformation",
         "property_path": "unrestricted_rdp_ingress",
@@ -495,7 +495,7 @@
           "5.2"
         ],
         "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T08:30:38.262676Z"
+        "detected_at": "2026-10-26T13:40:50.583456Z"
       },
       "notes": null
     },
@@ -517,7 +517,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-041aaea088015b950",
+        "resource_id": "sg-0f0458a821d64f42e",
         "resource_name": "driftfinder-sg-test-pulumi",
         "iac_tool": "pulumi",
         "property_path": "unrestricted_rdp_ingress",
@@ -529,7 +529,7 @@
           "5.2"
         ],
         "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T08:32:00.517452Z"
+        "detected_at": "2026-10-26T13:41:53.283734Z"
       },
       "notes": null
     },
@@ -549,7 +549,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-0b158f112746d8285",
+        "resource_id": "sg-06ed35506fd6eb9a5",
         "resource_name": "driftfinder-sg-test",
         "iac_tool": "terraform",
         "property_path": "unrestricted_all_traffic_egress",
@@ -559,7 +559,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: security group allows all outbound traffic to 0.0.0.0/0",
-        "detected_at": "2026-10-08T08:33:13.787837Z"
+        "detected_at": "2026-10-26T13:42:58.380751Z"
       },
       "notes": null
     },
@@ -579,7 +579,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-0d6ebc31a26a76c20",
+        "resource_id": "sg-0e1a6f46a4b022023",
         "resource_name": "DriftFinderSG",
         "iac_tool": "cloudformation",
         "property_path": "unrestricted_all_traffic_egress",
@@ -589,7 +589,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: security group allows all outbound traffic to 0.0.0.0/0",
-        "detected_at": "2026-10-08T08:34:41.092872Z"
+        "detected_at": "2026-10-26T13:44:01.429151Z"
       },
       "notes": null
     },
@@ -609,7 +609,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMSecurityGroup",
-        "resource_id": "sg-041aaea088015b950",
+        "resource_id": "sg-0f0458a821d64f42e",
         "resource_name": "driftfinder-sg-test-pulumi",
         "iac_tool": "pulumi",
         "property_path": "unrestricted_all_traffic_egress",
@@ -619,7 +619,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: security group allows all outbound traffic to 0.0.0.0/0",
-        "detected_at": "2026-10-08T08:35:58.724737Z"
+        "detected_at": "2026-10-26T13:45:03.459078Z"
       },
       "notes": null
     },
@@ -653,7 +653,7 @@
           "1.16"
         ],
         "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-        "detected_at": "2026-10-08T08:37:11.339821Z"
+        "detected_at": "2026-10-26T13:46:31.793286Z"
       },
       "notes": null
     },
@@ -687,7 +687,7 @@
           "1.16"
         ],
         "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-        "detected_at": "2026-10-08T08:38:35.688904Z"
+        "detected_at": "2026-10-26T13:47:33.180481Z"
       },
       "notes": null
     },
@@ -721,7 +721,7 @@
           "1.16"
         ],
         "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-        "detected_at": "2026-10-08T08:39:56.382413Z"
+        "detected_at": "2026-10-26T13:48:35.493396Z"
       },
       "notes": null
     },
@@ -755,7 +755,7 @@
           "1.16"
         ],
         "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-        "detected_at": "2026-10-08T08:41:06.562030Z"
+        "detected_at": "2026-10-26T13:49:27.530748Z"
       },
       "notes": null
     },
@@ -789,7 +789,7 @@
           "1.16"
         ],
         "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-        "detected_at": "2026-10-08T08:42:33.831107Z"
+        "detected_at": "2026-10-26T13:50:29.098506Z"
       },
       "notes": null
     },
@@ -823,7 +823,7 @@
           "1.16"
         ],
         "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-        "detected_at": "2026-10-08T08:44:00.217398Z"
+        "detected_at": "2026-10-26T13:51:31.096255Z"
       },
       "notes": null
     },
@@ -853,7 +853,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-        "detected_at": "2026-10-08T08:45:18.389281Z"
+        "detected_at": "2026-10-26T13:52:33.623849Z"
       },
       "notes": null
     },
@@ -883,7 +883,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-        "detected_at": "2026-10-08T08:46:48.426197Z"
+        "detected_at": "2026-10-26T13:53:41.477993Z"
       },
       "notes": null
     },
@@ -913,7 +913,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-        "detected_at": "2026-10-08T08:48:13.023746Z"
+        "detected_at": "2026-10-26T13:54:44.530884Z"
       },
       "notes": null
     },
@@ -1045,7 +1045,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: RDS automated backup retention changed",
-        "detected_at": "2026-10-08T09:00:40.640666Z"
+        "detected_at": "2026-10-26T14:03:41.746034Z"
       },
       "notes": null
     },
@@ -1075,7 +1075,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: RDS automated backup retention changed",
-        "detected_at": "2026-10-08T09:07:30.254972Z"
+        "detected_at": "2026-10-26T14:11:22.121666Z"
       },
       "notes": null
     },
@@ -1105,7 +1105,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: RDS automated backup retention changed",
-        "detected_at": "2026-10-08T09:14:09.352244Z"
+        "detected_at": "2026-10-26T14:19:29.542916Z"
       },
       "notes": null
     },
@@ -1292,7 +1292,7 @@
           "3.1"
         ],
         "cis_description": "Ensure CloudTrail is enabled in all regions",
-        "detected_at": "2026-10-08T09:32:49.797514Z"
+        "detected_at": "2026-10-26T14:38:00.965097Z"
       },
       "notes": null
     },
@@ -1326,7 +1326,7 @@
           "3.1"
         ],
         "cis_description": "Ensure CloudTrail is enabled in all regions",
-        "detected_at": "2026-10-08T09:33:58.774741Z"
+        "detected_at": "2026-10-26T14:39:01.500825Z"
       },
       "notes": null
     },
@@ -1360,7 +1360,7 @@
           "3.1"
         ],
         "cis_description": "Ensure CloudTrail is enabled in all regions",
-        "detected_at": "2026-10-08T09:35:30.687434Z"
+        "detected_at": "2026-10-26T14:40:06.717010Z"
       },
       "notes": null
     },
@@ -1394,7 +1394,7 @@
           "3.2"
         ],
         "cis_description": "Ensure CloudTrail log file validation is enabled",
-        "detected_at": "2026-10-08T09:36:39.870902Z"
+        "detected_at": "2026-10-26T14:41:12.023660Z"
       },
       "notes": null
     },
@@ -1428,7 +1428,7 @@
           "3.2"
         ],
         "cis_description": "Ensure CloudTrail log file validation is enabled",
-        "detected_at": "2026-10-08T09:38:05.254707Z"
+        "detected_at": "2026-10-26T14:42:11.155792Z"
       },
       "notes": null
     },
@@ -1462,7 +1462,7 @@
           "3.2"
         ],
         "cis_description": "Ensure CloudTrail log file validation is enabled",
-        "detected_at": "2026-10-08T09:40:30.705941Z"
+        "detected_at": "2026-10-26T14:43:16.149650Z"
       },
       "notes": null
     },
@@ -1492,7 +1492,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
-        "detected_at": "2026-10-08T09:41:44.048291Z"
+        "detected_at": "2026-10-26T14:44:17.128294Z"
       },
       "notes": null
     },
@@ -1522,7 +1522,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
-        "detected_at": "2026-10-08T09:42:56.844102Z"
+        "detected_at": "2026-10-26T14:45:17.609684Z"
       },
       "notes": null
     },
@@ -1552,7 +1552,7 @@
         "severity": "MEDIUM",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
-        "detected_at": "2026-10-08T09:44:19.942311Z"
+        "detected_at": "2026-10-26T14:46:22.869662Z"
       },
       "notes": null
     },
@@ -1574,7 +1574,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-0f5849a615bf0681a",
+        "resource_id": "vpc-0002bf6a6276ac816",
         "resource_name": "driftfinder_test",
         "iac_tool": "terraform",
         "property_path": "flow_logs_enabled",
@@ -1586,7 +1586,7 @@
           "3.7"
         ],
         "cis_description": "Ensure VPC flow logging is enabled in all VPCs",
-        "detected_at": "2026-10-08T09:45:35.286107Z"
+        "detected_at": "2026-10-26T14:47:28.348395Z"
       },
       "notes": null
     },
@@ -1608,7 +1608,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-0ed54d33c379bac5c",
+        "resource_id": "vpc-0b0f81590a2b54cd6",
         "resource_name": "DriftFinderVPC",
         "iac_tool": "cloudformation",
         "property_path": "flow_logs_enabled",
@@ -1620,7 +1620,7 @@
           "3.7"
         ],
         "cis_description": "Ensure VPC flow logging is enabled in all VPCs",
-        "detected_at": "2026-10-08T09:46:53.541510Z"
+        "detected_at": "2026-10-26T14:48:27.709111Z"
       },
       "notes": null
     },
@@ -1642,7 +1642,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-02045867b7330bbfd",
+        "resource_id": "vpc-08d033b6f2c27b0fb",
         "resource_name": "driftfinder-vpc-test",
         "iac_tool": "pulumi",
         "property_path": "flow_logs_enabled",
@@ -1654,7 +1654,7 @@
           "3.7"
         ],
         "cis_description": "Ensure VPC flow logging is enabled in all VPCs",
-        "detected_at": "2026-10-08T09:48:17.815330Z"
+        "detected_at": "2026-10-26T14:49:32.290491Z"
       },
       "notes": null
     },
@@ -1676,7 +1676,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-0f5849a615bf0681a",
+        "resource_id": "vpc-0002bf6a6276ac816",
         "resource_name": "driftfinder_test",
         "iac_tool": "terraform",
         "property_path": "default_sg_has_no_rules",
@@ -1688,7 +1688,7 @@
           "5.4"
         ],
         "cis_description": "Ensure the default security group of every VPC restricts all traffic",
-        "detected_at": "2026-10-08T09:49:26.549309Z"
+        "detected_at": "2026-10-26T14:50:38.819243Z"
       },
       "notes": null
     },
@@ -1727,7 +1727,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-02045867b7330bbfd",
+        "resource_id": "vpc-08d033b6f2c27b0fb",
         "resource_name": "driftfinder-vpc-test",
         "iac_tool": "pulumi",
         "property_path": "default_sg_has_no_rules",
@@ -1739,7 +1739,7 @@
           "5.4"
         ],
         "cis_description": "Ensure the default security group of every VPC restricts all traffic",
-        "detected_at": "2026-10-08T09:52:08.833418Z"
+        "detected_at": "2026-10-26T14:52:43.416265Z"
       },
       "notes": null
     },
@@ -1761,7 +1761,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-0f5849a615bf0681a",
+        "resource_id": "vpc-0002bf6a6276ac816",
         "resource_name": "driftfinder_test",
         "iac_tool": "terraform",
         "property_path": "nacl_unrestricted_ingress",
@@ -1773,7 +1773,7 @@
           "5.1"
         ],
         "cis_description": "Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T09:53:21.840748Z"
+        "detected_at": "2026-10-26T14:53:48.847470Z"
       },
       "notes": null
     },
@@ -1795,7 +1795,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-0ed54d33c379bac5c",
+        "resource_id": "vpc-0b0f81590a2b54cd6",
         "resource_name": "DriftFinderVPC",
         "iac_tool": "cloudformation",
         "property_path": "nacl_unrestricted_ingress",
@@ -1807,7 +1807,7 @@
           "5.1"
         ],
         "cis_description": "Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T09:54:38.777949Z"
+        "detected_at": "2026-10-26T14:54:47.537609Z"
       },
       "notes": null
     },
@@ -1829,7 +1829,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMVPC",
-        "resource_id": "vpc-02045867b7330bbfd",
+        "resource_id": "vpc-08d033b6f2c27b0fb",
         "resource_name": "driftfinder-vpc-test",
         "iac_tool": "pulumi",
         "property_path": "nacl_unrestricted_ingress",
@@ -1841,7 +1841,7 @@
           "5.1"
         ],
         "cis_description": "Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports",
-        "detected_at": "2026-10-08T09:56:04.402593Z"
+        "detected_at": "2026-10-26T14:55:53.254813Z"
       },
       "notes": null
     },
@@ -1863,7 +1863,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "30bb257e-e6f7-420a-9644-c319d1cd69a0",
+        "resource_id": "3e10dccf-c9c2-45c3-884d-bf97b647e39c",
         "resource_name": "DriftFinder experiment KMS key",
         "iac_tool": "terraform",
         "property_path": "key_rotation_enabled",
@@ -1875,7 +1875,7 @@
           "3.6"
         ],
         "cis_description": "Ensure rotation for customer-created symmetric CMKs is enabled",
-        "detected_at": "2026-10-08T09:57:08.258511Z"
+        "detected_at": "2026-10-26T14:56:45.306783Z"
       },
       "notes": null
     },
@@ -1897,7 +1897,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "3ad96e93-85ce-419a-a79e-bce2fb23e993",
+        "resource_id": "7b499e96-0730-47cc-9eb1-3ce76beecff0",
         "resource_name": "DriftFinderKMSKey",
         "iac_tool": "cloudformation",
         "property_path": "key_rotation_enabled",
@@ -1909,7 +1909,7 @@
           "3.6"
         ],
         "cis_description": "Ensure rotation for customer-created symmetric CMKs is enabled",
-        "detected_at": "2026-10-08T09:58:28.073103Z"
+        "detected_at": "2026-10-26T14:57:40.405051Z"
       },
       "notes": null
     },
@@ -1931,7 +1931,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "526893ee-1405-49c0-801b-cab14e743b04",
+        "resource_id": "34a78ecb-cd0a-488f-8eae-c328684fa5e4",
         "resource_name": "DriftFinder experiment KMS key",
         "iac_tool": "pulumi",
         "property_path": "key_rotation_enabled",
@@ -1943,7 +1943,7 @@
           "3.6"
         ],
         "cis_description": "Ensure rotation for customer-created symmetric CMKs is enabled",
-        "detected_at": "2026-10-08T10:00:01.607509Z"
+        "detected_at": "2026-10-26T14:58:45.247744Z"
       },
       "notes": null
     },
@@ -1963,7 +1963,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "30bb257e-e6f7-420a-9644-c319d1cd69a0",
+        "resource_id": "3e10dccf-c9c2-45c3-884d-bf97b647e39c",
         "resource_name": "DriftFinder experiment KMS key",
         "iac_tool": "terraform",
         "property_path": "key_enabled",
@@ -1973,7 +1973,7 @@
         "severity": "CRITICAL",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: KMS key is disabled",
-        "detected_at": "2026-10-08T10:01:15.069640Z"
+        "detected_at": "2026-10-26T14:59:42.307444Z"
       },
       "notes": null
     },
@@ -1993,7 +1993,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "3ad96e93-85ce-419a-a79e-bce2fb23e993",
+        "resource_id": "7b499e96-0730-47cc-9eb1-3ce76beecff0",
         "resource_name": "DriftFinderKMSKey",
         "iac_tool": "cloudformation",
         "property_path": "key_enabled",
@@ -2003,7 +2003,7 @@
         "severity": "CRITICAL",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: KMS key is disabled",
-        "detected_at": "2026-10-08T10:02:19.372055Z"
+        "detected_at": "2026-10-26T15:00:38.879193Z"
       },
       "notes": null
     },
@@ -2023,7 +2023,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "526893ee-1405-49c0-801b-cab14e743b04",
+        "resource_id": "34a78ecb-cd0a-488f-8eae-c328684fa5e4",
         "resource_name": "DriftFinder experiment KMS key",
         "iac_tool": "pulumi",
         "property_path": "key_enabled",
@@ -2033,7 +2033,7 @@
         "severity": "CRITICAL",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: KMS key is disabled",
-        "detected_at": "2026-10-08T10:03:59.794091Z"
+        "detected_at": "2026-10-26T15:01:44.552238Z"
       },
       "notes": null
     },
@@ -2053,7 +2053,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "30bb257e-e6f7-420a-9644-c319d1cd69a0",
+        "resource_id": "3e10dccf-c9c2-45c3-884d-bf97b647e39c",
         "resource_name": "DriftFinder experiment KMS key",
         "iac_tool": "terraform",
         "property_path": "key_policy_allows_public_access",
@@ -2063,7 +2063,7 @@
         "severity": "HIGH",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: KMS key policy allows access to any principal",
-        "detected_at": "2026-10-08T10:05:06.479569Z"
+        "detected_at": "2026-10-26T15:02:36.488164Z"
       },
       "notes": null
     },
@@ -2083,7 +2083,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "3ad96e93-85ce-419a-a79e-bce2fb23e993",
+        "resource_id": "7b499e96-0730-47cc-9eb1-3ce76beecff0",
         "resource_name": "DriftFinderKMSKey",
         "iac_tool": "cloudformation",
         "property_path": "key_policy_allows_public_access",
@@ -2093,7 +2093,7 @@
         "severity": "HIGH",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: KMS key policy allows access to any principal",
-        "detected_at": "2026-10-08T10:06:16.088280Z"
+        "detected_at": "2026-10-26T15:03:31.558613Z"
       },
       "notes": null
     },
@@ -2113,7 +2113,7 @@
       "cis_matches": true,
       "matched_finding": {
         "resource_type": "NRMKMSKey",
-        "resource_id": "526893ee-1405-49c0-801b-cab14e743b04",
+        "resource_id": "34a78ecb-cd0a-488f-8eae-c328684fa5e4",
         "resource_name": "DriftFinder experiment KMS key",
         "iac_tool": "pulumi",
         "property_path": "key_policy_allows_public_access",
@@ -2123,9 +2123,534 @@
         "severity": "HIGH",
         "cis_controls": [],
         "cis_description": "No CIS v3.0.0 control: KMS key policy allows access to any principal",
-        "detected_at": "2026-10-08T10:07:38.118889Z"
+        "detected_at": "2026-10-26T15:04:38.310509Z"
       },
       "notes": null
     }
-  ]
+  ],
+  "native_comparison": {
+    "mapping": {
+      "path": "experiment/native_mapping.json",
+      "sha256": "6ae80ea544d3174ec2c83c3522bc8c887d54fa9f468332b9083010e59c27b85f"
+    },
+    "per_tool": {
+      "terraform": {
+        "environment": "terraform",
+        "detected": 18,
+        "missed": 0,
+        "no_drift": 4,
+        "not_declared": 2,
+        "not_checked": 0,
+        "error": 0,
+        "detection_rate_where_drift_injected_and_declared": 1.0,
+        "resource_level_detections": 18,
+        "other_changes_in_scenario_runs": 1,
+        "other_changes_in_control_scans": 0,
+        "changes_seen_in_any_clean_check": [
+          [
+            "aws_cloudwatch_log_group.cloudtrail",
+            "tags"
+          ],
+          [
+            "aws_cloudwatch_log_group.flow_logs",
+            "tags"
+          ],
+          [
+            "aws_db_instance.driftfinder_test",
+            "domain_dns_ips"
+          ],
+          [
+            "aws_db_instance.driftfinder_test",
+            "enabled_cloudwatch_logs_exports"
+          ],
+          [
+            "aws_db_instance.driftfinder_test",
+            "latest_restorable_time"
+          ],
+          [
+            "aws_default_network_acl.driftfinder_test",
+            "egress"
+          ],
+          [
+            "aws_default_network_acl.driftfinder_test",
+            "ingress"
+          ],
+          [
+            "aws_flow_log.driftfinder_test",
+            "deleted"
+          ],
+          [
+            "aws_iam_role.cloudtrail_cw",
+            "inline_policy"
+          ],
+          [
+            "aws_iam_role.cloudtrail_cw",
+            "tags"
+          ],
+          [
+            "aws_iam_role.flow_logs",
+            "inline_policy"
+          ],
+          [
+            "aws_iam_role.flow_logs",
+            "tags"
+          ],
+          [
+            "aws_s3_bucket.cloudtrail_logs",
+            "policy"
+          ],
+          [
+            "aws_s3_bucket.driftfinder_test",
+            "logging"
+          ],
+          [
+            "aws_s3_bucket.driftfinder_test",
+            "versioning"
+          ],
+          [
+            "aws_s3_bucket_server_side_encryption_configuration.driftfinder_test",
+            "rule"
+          ]
+        ],
+        "persistent_changes": [
+          {
+            "change": [
+              "aws_flow_log.driftfinder_test",
+              "deleted"
+            ],
+            "first_seen_after": "D19"
+          }
+        ],
+        "duration_seconds": {
+          "checks": 51,
+          "median": 9.36,
+          "min": 8.66,
+          "max": 16.59
+        },
+        "not_checked_resources": null,
+        "gives_severity": false,
+        "gives_cis": false
+      },
+      "cloudformation": {
+        "environment": "cloudformation",
+        "detected": 15,
+        "missed": 1,
+        "no_drift": 4,
+        "not_declared": 4,
+        "not_checked": 0,
+        "error": 0,
+        "detection_rate_where_drift_injected_and_declared": 0.9375,
+        "resource_level_detections": 15,
+        "other_changes_in_scenario_runs": 0,
+        "other_changes_in_control_scans": 0,
+        "changes_seen_in_any_clean_check": [
+          [
+            "DriftFinderEBS",
+            "KmsKeyId"
+          ],
+          [
+            "VPCFlowLog",
+            "deleted"
+          ]
+        ],
+        "persistent_changes": [
+          {
+            "change": [
+              "VPCFlowLog",
+              "deleted"
+            ],
+            "first_seen_after": "D19"
+          }
+        ],
+        "duration_seconds": {
+          "checks": 51,
+          "median": 10.6,
+          "min": 10.49,
+          "max": 13.11
+        },
+        "not_checked_resources": [],
+        "gives_severity": false,
+        "gives_cis": false
+      },
+      "pulumi": {
+        "environment": "pulumi",
+        "detected": 18,
+        "missed": 0,
+        "no_drift": 4,
+        "not_declared": 2,
+        "not_checked": 0,
+        "error": 0,
+        "detection_rate_where_drift_injected_and_declared": 1.0,
+        "resource_level_detections": 18,
+        "other_changes_in_scenario_runs": 0,
+        "other_changes_in_control_scans": 0,
+        "changes_seen_in_any_clean_check": [
+          [
+            "driftfinder-default-nacl",
+            "subnetIds"
+          ],
+          [
+            "driftfinder-flow-log",
+            "deleted"
+          ]
+        ],
+        "persistent_changes": [
+          {
+            "change": [
+              "driftfinder-flow-log",
+              "deleted"
+            ],
+            "first_seen_after": "D19"
+          }
+        ],
+        "duration_seconds": {
+          "checks": 51,
+          "median": 6.37,
+          "min": 5.15,
+          "max": 20.86
+        },
+        "not_checked_resources": null,
+        "gives_severity": false,
+        "gives_cis": false
+      }
+    },
+    "per_scenario": {
+      "D1": {
+        "terraform": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "cloudformation": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "pulumi": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        }
+      },
+      "D2": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D3": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D4": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D5": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D6": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D7": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D8": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D9": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D10": {
+        "terraform": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "cloudformation": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "pulumi": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        }
+      },
+      "D11": {
+        "terraform": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "cloudformation": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "pulumi": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        }
+      },
+      "D12": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D13": {
+        "terraform": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "cloudformation": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        },
+        "pulumi": {
+          "driftfinder": "FN (no drift)",
+          "native": "no_drift"
+        }
+      },
+      "D14": {
+        "terraform": {
+          "driftfinder": "FN (no drift)",
+          "native": "not_declared"
+        },
+        "cloudformation": {
+          "driftfinder": "FN (no drift)",
+          "native": "not_declared"
+        },
+        "pulumi": {
+          "driftfinder": "FN (no drift)",
+          "native": "not_declared"
+        }
+      },
+      "D15": {
+        "terraform": {
+          "driftfinder": "FN (no drift)",
+          "native": "not_declared"
+        },
+        "cloudformation": {
+          "driftfinder": "FN (no drift)",
+          "native": "not_declared"
+        },
+        "pulumi": {
+          "driftfinder": "FN (no drift)",
+          "native": "not_declared"
+        }
+      },
+      "D16": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D17": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D18": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D19": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D20": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "FN",
+          "native": "not_declared"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D21": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "not_declared"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D22": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D23": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      },
+      "D24": {
+        "terraform": {
+          "driftfinder": "TP",
+          "native": "detected"
+        },
+        "cloudformation": {
+          "driftfinder": "TP",
+          "native": "missed"
+        },
+        "pulumi": {
+          "driftfinder": "TP",
+          "native": "detected"
+        }
+      }
+    }
+  }
 }

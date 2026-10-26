@@ -2,14 +2,14 @@
     "version": 3,
     "deployment": {
         "manifest": {
-            "time": "2026-10-08T08:58:23.54519+01:00",
+            "time": "2026-10-26T13:25:48.022479Z",
             "magic": "9efda2e66c69194595f1be2c3587ab931ef188c15697bed0da0a960b45186d89",
             "version": "v3.250.0"
         },
         "secrets_providers": {
             "type": "passphrase",
             "state": {
-                "salt": "v1:LZDAN4T+Owg=:v1:CMHg/lpGeB4swxCu:FoaJpapH4XJFhtXazcBNslzUOLloww=="
+                "salt": "v1:MgYGPBdcIX0=:v1:R8Q+vul4mmgLti0U:vBncjBsbM9BsSRq89GiHuYf5HdMT3w=="
             }
         },
         "resources": [
@@ -22,19 +22,19 @@
                     "cloudtrail_cw_role_arn": "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-pulumi",
                     "cloudtrail_name": "driftfinder-trail-test-pulumi",
                     "ct_log_bucket_name": "driftfinder-ct-logs-575108919391-pulumi",
-                    "ebs_volume_id": "vol-0b58c56927f3042b8",
+                    "ebs_volume_id": "vol-06da7c6f38522e0ec",
                     "flow_log_role_arn": "arn:aws:iam::575108919391:role/driftfinder-flow-logs-pulumi",
                     "iam_policy_arn": "arn:aws:iam::575108919391:policy/driftfinder-iam-test-pulumi",
-                    "kms_key_arn": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
-                    "kms_key_id": "526893ee-1405-49c0-801b-cab14e743b04",
+                    "kms_key_arn": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
+                    "kms_key_id": "34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "rds_instance_id": "driftfinder-rds-test-pulumi",
                     "s3_bucket_name": "driftfinder-s3-test-575108919391-pulumi",
-                    "security_group_id": "sg-041aaea088015b950",
+                    "security_group_id": "sg-0f0458a821d64f42e",
                     "vpc_flow_log_group_name": "/driftfinder/vpc-flow-logs-pulumi",
-                    "vpc_id": "vpc-02045867b7330bbfd"
+                    "vpc_id": "vpc-08d033b6f2c27b0fb"
                 },
-                "created": "2026-10-08T07:51:31.073573Z",
-                "modified": "2026-10-08T07:51:31.073573Z",
+                "created": "2026-10-26T13:17:44.946688Z",
+                "modified": "2026-10-26T13:17:44.946688Z",
                 "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185",
                 "stackTrace": [
                     {
@@ -66,7 +66,7 @@
             {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0",
                 "custom": true,
-                "id": "7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "id": "835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "type": "pulumi:providers:aws",
                 "inputs": {
                     "__internal": {},
@@ -81,8 +81,8 @@
                     "skipRegionValidation": "true",
                     "version": "7.35.0"
                 },
-                "created": "2026-10-08T07:51:45.203655Z",
-                "modified": "2026-10-08T07:51:45.203655Z"
+                "created": "2026-10-26T13:17:58.674566Z",
+                "modified": "2026-10-26T13:17:58.674566Z"
             },
             {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-cloudtrail-lg",
@@ -120,13 +120,13 @@
                     "tagsAll": {}
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "name": [],
                     "retentionInDays": []
                 },
-                "created": "2026-10-08T07:51:49.357026Z",
-                "modified": "2026-10-08T07:51:49.357026Z",
+                "created": "2026-10-26T13:17:59.077805Z",
+                "modified": "2026-10-26T13:17:59.077805Z",
                 "sourcePosition": "project:///__main__.py#108",
                 "stackTrace": [
                     {
@@ -202,13 +202,13 @@
                     "tagsAll": {}
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "name": [],
                     "retentionInDays": []
                 },
-                "created": "2026-10-08T07:51:49.35912Z",
-                "modified": "2026-10-08T07:51:49.35912Z",
+                "created": "2026-10-26T13:17:59.210993Z",
+                "modified": "2026-10-26T13:17:59.210993Z",
                 "sourcePosition": "project:///__main__.py#224",
                 "stackTrace": [
                     {
@@ -294,7 +294,7 @@
                     "namePrefix": "",
                     "path": "/",
                     "policy": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::driftfinder-*\",\"arn:aws:s3:::driftfinder-*/*\"],\"Sid\":\"AllowS3ReadOnly\"},{\"Action\":[\"s3:DeleteObject\",\"s3:DeleteBucket\"],\"Effect\":\"Deny\",\"Resource\":\"*\",\"Sid\":\"ExplicitDenyDestructive\"}],\"Version\":\"2012-10-17\"}",
-                    "policyId": "ANPAYLZZJWBPQ3K7H7LNU",
+                    "policyId": "ANPAYLZZJWBPXKZYWOYXW",
                     "tags": {
                         "Environment": "driftfinder-experiment",
                         "IaCTool": "pulumi",
@@ -307,15 +307,15 @@
                     }
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "description": [],
                     "name": [],
                     "policy": [],
                     "tags": []
                 },
-                "created": "2026-10-08T07:51:49.652864Z",
-                "modified": "2026-10-08T07:51:49.652864Z",
+                "created": "2026-10-26T13:17:59.559041Z",
+                "modified": "2026-10-26T13:17:59.559041Z",
                 "sourcePosition": "project:///__main__.py#340",
                 "stackTrace": [
                     {
@@ -392,7 +392,7 @@
                     },
                     "arn": "arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-pulumi",
                     "assumeRolePolicy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
-                    "createDate": "2026-10-08T07:51:51Z",
+                    "createDate": "2026-10-26T13:17:59Z",
                     "description": "",
                     "forceDetachPolicies": false,
                     "id": "driftfinder-cloudtrail-cw-pulumi",
@@ -405,16 +405,16 @@
                     "permissionsBoundary": "",
                     "tags": null,
                     "tagsAll": {},
-                    "uniqueId": "AROAYLZZJWBPQN5LATX5H"
+                    "uniqueId": "AROAYLZZJWBPTYX3LGSIS"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "assumeRolePolicy": [],
                     "name": []
                 },
-                "created": "2026-10-08T07:51:49.812112Z",
-                "modified": "2026-10-08T07:51:49.812112Z",
+                "created": "2026-10-26T13:17:59.575971Z",
+                "modified": "2026-10-26T13:17:59.575971Z",
                 "sourcePosition": "project:///__main__.py#114",
                 "stackTrace": [
                     {
@@ -491,7 +491,7 @@
                     },
                     "arn": "arn:aws:iam::575108919391:role/driftfinder-flow-logs-pulumi",
                     "assumeRolePolicy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"vpc-flow-logs.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
-                    "createDate": "2026-10-08T07:51:52Z",
+                    "createDate": "2026-10-26T13:17:59Z",
                     "description": "",
                     "forceDetachPolicies": false,
                     "id": "driftfinder-flow-logs-pulumi",
@@ -504,20 +504,97 @@
                     "permissionsBoundary": "",
                     "tags": null,
                     "tagsAll": {},
-                    "uniqueId": "AROAYLZZJWBP66FQ4ZYQK"
+                    "uniqueId": "AROAYLZZJWBP77ZDIUKJR"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "assumeRolePolicy": [],
                     "name": []
                 },
-                "created": "2026-10-08T07:51:49.849677Z",
-                "modified": "2026-10-08T07:51:49.849677Z",
+                "created": "2026-10-26T13:17:59.613154Z",
+                "modified": "2026-10-26T13:17:59.613154Z",
                 "sourcePosition": "project:///__main__.py#230",
                 "stackTrace": [
                     {
                         "sourcePosition": "project:///__main__.py#230"
+                    },
+                    {},
+                    {},
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
+                    }
+                ]
+            },
+            {
+                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/rolePolicy:RolePolicy::driftfinder-cloudtrail-cw-policy",
+                "custom": true,
+                "id": "driftfinder-cloudtrail-cw-pulumi:cloudtrail-cw-policy",
+                "type": "aws:iam/rolePolicy:RolePolicy",
+                "inputs": {
+                    "__defaults": [],
+                    "name": "cloudtrail-cw-policy",
+                    "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"logs:CreateLogStream\", \"logs:PutLogEvents\"], \"Resource\": \"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-pulumi:*\"}]}",
+                    "role": "driftfinder-cloudtrail-cw-pulumi"
+                },
+                "outputs": {
+                    "__pulumi_raw_state_delta": {
+                        "obj": {}
+                    },
+                    "id": "driftfinder-cloudtrail-cw-pulumi:cloudtrail-cw-policy",
+                    "name": "cloudtrail-cw-policy",
+                    "namePrefix": "",
+                    "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-pulumi:*\"}]}",
+                    "role": "driftfinder-cloudtrail-cw-pulumi"
+                },
+                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
+                "dependencies": [
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-cloudtrail-cw-role",
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-cloudtrail-lg"
+                ],
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
+                "propertyDependencies": {
+                    "name": [],
+                    "policy": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-cloudtrail-lg"
+                    ],
+                    "role": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-cloudtrail-cw-role"
+                    ]
+                },
+                "created": "2026-10-26T13:17:59.940627Z",
+                "modified": "2026-10-26T13:17:59.940627Z",
+                "sourcePosition": "project:///__main__.py#127",
+                "stackTrace": [
+                    {
+                        "sourcePosition": "project:///__main__.py#127"
                     },
                     {},
                     {},
@@ -719,14 +796,14 @@
                     "websiteEndpoint": null
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "bucket": [],
                     "forceDestroy": [],
                     "tags": []
                 },
-                "created": "2026-10-08T07:51:51.088845Z",
-                "modified": "2026-10-08T07:51:51.088845Z",
+                "created": "2026-10-26T13:18:00.003317Z",
+                "modified": "2026-10-26T13:18:00.003317Z",
                 "sourcePosition": "project:///__main__.py#58",
                 "stackTrace": [
                     {
@@ -940,14 +1017,14 @@
                     "websiteEndpoint": null
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "bucket": [],
                     "forceDestroy": [],
                     "tags": []
                 },
-                "created": "2026-10-08T07:51:51.08967Z",
-                "modified": "2026-10-08T07:51:51.08967Z",
+                "created": "2026-10-26T13:18:00.007723Z",
+                "modified": "2026-10-26T13:18:00.007723Z",
                 "sourcePosition": "project:///__main__.py#159",
                 "stackTrace": [
                     {
@@ -1012,7 +1089,7 @@
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-flow-log-role"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "name": [],
                     "policy": [],
@@ -1020,89 +1097,12 @@
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-flow-log-role"
                     ]
                 },
-                "created": "2026-10-08T07:51:51.264346Z",
-                "modified": "2026-10-08T07:51:51.264346Z",
+                "created": "2026-10-26T13:18:00.027782Z",
+                "modified": "2026-10-26T13:18:00.027782Z",
                 "sourcePosition": "project:///__main__.py#243",
                 "stackTrace": [
                     {
                         "sourcePosition": "project:///__main__.py#243"
-                    },
-                    {},
-                    {},
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
-                    }
-                ]
-            },
-            {
-                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/rolePolicy:RolePolicy::driftfinder-cloudtrail-cw-policy",
-                "custom": true,
-                "id": "driftfinder-cloudtrail-cw-pulumi:cloudtrail-cw-policy",
-                "type": "aws:iam/rolePolicy:RolePolicy",
-                "inputs": {
-                    "__defaults": [],
-                    "name": "cloudtrail-cw-policy",
-                    "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"logs:CreateLogStream\", \"logs:PutLogEvents\"], \"Resource\": \"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-pulumi:*\"}]}",
-                    "role": "driftfinder-cloudtrail-cw-pulumi"
-                },
-                "outputs": {
-                    "__pulumi_raw_state_delta": {
-                        "obj": {}
-                    },
-                    "id": "driftfinder-cloudtrail-cw-pulumi:cloudtrail-cw-policy",
-                    "name": "cloudtrail-cw-policy",
-                    "namePrefix": "",
-                    "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-pulumi:*\"}]}",
-                    "role": "driftfinder-cloudtrail-cw-pulumi"
-                },
-                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "dependencies": [
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-cloudtrail-cw-role",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-cloudtrail-lg"
-                ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
-                "propertyDependencies": {
-                    "name": [],
-                    "policy": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-cloudtrail-lg"
-                    ],
-                    "role": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-cloudtrail-cw-role"
-                    ]
-                },
-                "created": "2026-10-08T07:51:51.264346Z",
-                "modified": "2026-10-08T07:51:51.264346Z",
-                "sourcePosition": "project:///__main__.py#127",
-                "stackTrace": [
-                    {
-                        "sourcePosition": "project:///__main__.py#127"
                     },
                     {},
                     {},
@@ -1169,7 +1169,7 @@
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "blockPublicAcls": [],
                     "blockPublicPolicy": [],
@@ -1179,130 +1179,12 @@
                     "ignorePublicAcls": [],
                     "restrictPublicBuckets": []
                 },
-                "created": "2026-10-08T07:51:51.292032Z",
-                "modified": "2026-10-08T07:51:51.292032Z",
+                "created": "2026-10-26T13:18:00.207747Z",
+                "modified": "2026-10-26T13:18:00.207747Z",
                 "sourcePosition": "project:///__main__.py#65",
                 "stackTrace": [
                     {
                         "sourcePosition": "project:///__main__.py#65"
-                    },
-                    {},
-                    {},
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
-                    }
-                ]
-            },
-            {
-                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test",
-                "custom": true,
-                "id": "vpc-02045867b7330bbfd",
-                "type": "aws:ec2/vpc:Vpc",
-                "inputs": {
-                    "__defaults": [],
-                    "cidrBlock": "10.102.0.0/16",
-                    "enableDnsHostnames": true,
-                    "enableDnsSupport": true,
-                    "region": "eu-west-1",
-                    "tags": {
-                        "Environment": "driftfinder-experiment",
-                        "IaCTool": "pulumi",
-                        "Name": "driftfinder-vpc-test"
-                    },
-                    "tagsAll": {
-                        "Environment": "driftfinder-experiment",
-                        "IaCTool": "pulumi",
-                        "Name": "driftfinder-vpc-test"
-                    }
-                },
-                "outputs": {
-                    "__meta": "{\"schema_version\":\"1\"}",
-                    "__pulumi_raw_state_delta": {
-                        "obj": {
-                            "ps": {
-                                "tags": {
-                                    "map": {}
-                                },
-                                "tagsAll": {
-                                    "map": {}
-                                }
-                            }
-                        }
-                    },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:vpc/vpc-02045867b7330bbfd",
-                    "assignGeneratedIpv6CidrBlock": false,
-                    "cidrBlock": "10.102.0.0/16",
-                    "defaultNetworkAclId": "acl-036af211d8573e382",
-                    "defaultRouteTableId": "rtb-02250ff6a3617952d",
-                    "defaultSecurityGroupId": "sg-0f2412e13115ecc1e",
-                    "dhcpOptionsId": "dopt-0c668ccd421b713be",
-                    "enableDnsHostnames": true,
-                    "enableDnsSupport": true,
-                    "enableNetworkAddressUsageMetrics": false,
-                    "id": "vpc-02045867b7330bbfd",
-                    "instanceTenancy": "default",
-                    "ipv4IpamPoolId": null,
-                    "ipv4NetmaskLength": null,
-                    "ipv6AssociationId": "",
-                    "ipv6CidrBlock": "",
-                    "ipv6CidrBlockNetworkBorderGroup": "",
-                    "ipv6IpamPoolId": "",
-                    "ipv6NetmaskLength": 0,
-                    "mainRouteTableId": "rtb-02250ff6a3617952d",
-                    "ownerId": "575108919391",
-                    "region": "eu-west-1",
-                    "tags": {
-                        "Environment": "driftfinder-experiment",
-                        "IaCTool": "pulumi",
-                        "Name": "driftfinder-vpc-test"
-                    },
-                    "tagsAll": {
-                        "Environment": "driftfinder-experiment",
-                        "IaCTool": "pulumi",
-                        "Name": "driftfinder-vpc-test"
-                    }
-                },
-                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
-                "propertyDependencies": {
-                    "cidrBlock": [],
-                    "enableDnsHostnames": [],
-                    "enableDnsSupport": [],
-                    "tags": []
-                },
-                "created": "2026-10-08T07:51:51.309509Z",
-                "modified": "2026-10-08T07:51:51.309509Z",
-                "sourcePosition": "project:///__main__.py#199",
-                "stackTrace": [
-                    {
-                        "sourcePosition": "project:///__main__.py#199"
                     },
                     {},
                     {},
@@ -1369,7 +1251,7 @@
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "blockPublicAcls": [],
                     "blockPublicPolicy": [],
@@ -1379,12 +1261,181 @@
                     "ignorePublicAcls": [],
                     "restrictPublicBuckets": []
                 },
-                "created": "2026-10-08T07:51:51.377788Z",
-                "modified": "2026-10-08T07:51:51.377788Z",
+                "created": "2026-10-26T13:18:00.224439Z",
+                "modified": "2026-10-26T13:18:00.224439Z",
                 "sourcePosition": "project:///__main__.py#176",
                 "stackTrace": [
                     {
                         "sourcePosition": "project:///__main__.py#176"
+                    },
+                    {},
+                    {},
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
+                    }
+                ]
+            },
+            {
+                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucketLoggingV2:BucketLoggingV2::driftfinder-s3-logging",
+                "custom": true,
+                "id": "driftfinder-s3-test-575108919391-pulumi",
+                "type": "aws:s3/bucketLoggingV2:BucketLoggingV2",
+                "inputs": {
+                    "__defaults": [],
+                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
+                    "region": "eu-west-1",
+                    "targetBucket": "driftfinder-ct-logs-575108919391-pulumi",
+                    "targetPrefix": "s3-access-logs/"
+                },
+                "outputs": {
+                    "__pulumi_raw_state_delta": {
+                        "obj": {
+                            "ps": {
+                                "targetGrants": {
+                                    "arr": {}
+                                },
+                                "targetObjectKeyFormat": {
+                                    "plu": {
+                                        "i": {}
+                                    }
+                                }
+                            },
+                            "renamed": {
+                                "targetGrants": "target_grant"
+                            }
+                        }
+                    },
+                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
+                    "expectedBucketOwner": "",
+                    "id": "driftfinder-s3-test-575108919391-pulumi",
+                    "region": "eu-west-1",
+                    "targetBucket": "driftfinder-ct-logs-575108919391-pulumi",
+                    "targetGrants": [],
+                    "targetObjectKeyFormat": null,
+                    "targetPrefix": "s3-access-logs/"
+                },
+                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
+                "dependencies": [
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs",
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
+                ],
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
+                "propertyDependencies": {
+                    "bucket": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
+                    ],
+                    "targetBucket": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
+                    ],
+                    "targetPrefix": []
+                },
+                "created": "2026-10-26T13:18:00.403592Z",
+                "modified": "2026-10-26T13:18:00.403592Z",
+                "sourcePosition": "project:///__main__.py#191",
+                "stackTrace": [
+                    {
+                        "sourcePosition": "project:///__main__.py#191"
+                    },
+                    {},
+                    {},
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
+                    }
+                ]
+            },
+            {
+                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucketPolicy:BucketPolicy::ct-log-bucket-policy",
+                "custom": true,
+                "id": "driftfinder-ct-logs-575108919391-pulumi",
+                "type": "aws:s3/bucketPolicy:BucketPolicy",
+                "inputs": {
+                    "__defaults": [],
+                    "bucket": "driftfinder-ct-logs-575108919391-pulumi",
+                    "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Sid\": \"AWSCloudTrailAclCheck\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Action\": \"s3:GetBucketAcl\", \"Resource\": \"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi\"}, {\"Sid\": \"AWSCloudTrailWrite\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Action\": \"s3:PutObject\", \"Resource\": \"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi/AWSLogs/575108919391/*\", \"Condition\": {\"StringEquals\": {\"s3:x-amz-acl\": \"bucket-owner-full-control\"}}}]}",
+                    "region": "eu-west-1"
+                },
+                "outputs": {
+                    "__pulumi_raw_state_delta": {
+                        "obj": {}
+                    },
+                    "bucket": "driftfinder-ct-logs-575108919391-pulumi",
+                    "id": "driftfinder-ct-logs-575108919391-pulumi",
+                    "policy": "{\"Statement\":[{\"Action\":\"s3:GetBucketAcl\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Resource\":\"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi\",\"Sid\":\"AWSCloudTrailAclCheck\"},{\"Action\":\"s3:PutObject\",\"Condition\":{\"StringEquals\":{\"s3:x-amz-acl\":\"bucket-owner-full-control\"}},\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Resource\":\"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi/AWSLogs/575108919391/*\",\"Sid\":\"AWSCloudTrailWrite\"}],\"Version\":\"2012-10-17\"}",
+                    "region": "eu-west-1"
+                },
+                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
+                "dependencies": [
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
+                ],
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
+                "propertyDependencies": {
+                    "bucket": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
+                    ],
+                    "policy": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
+                    ]
+                },
+                "created": "2026-10-26T13:18:00.439479Z",
+                "modified": "2026-10-26T13:18:00.439479Z",
+                "sourcePosition": "project:///__main__.py#74",
+                "stackTrace": [
+                    {
+                        "sourcePosition": "project:///__main__.py#74"
                     },
                     {},
                     {},
@@ -1492,15 +1543,15 @@
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "bucket": [
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
                     ],
                     "rules": []
                 },
-                "created": "2026-10-08T07:51:51.460167Z",
-                "modified": "2026-10-08T07:51:51.460167Z",
+                "created": "2026-10-26T13:18:00.727161Z",
+                "modified": "2026-10-26T13:18:00.727161Z",
                 "sourcePosition": "project:///__main__.py#166",
                 "stackTrace": [
                     {
@@ -1541,65 +1592,88 @@
                 ]
             },
             {
-                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucketLoggingV2:BucketLoggingV2::driftfinder-s3-logging",
+                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test",
                 "custom": true,
-                "id": "driftfinder-s3-test-575108919391-pulumi",
-                "type": "aws:s3/bucketLoggingV2:BucketLoggingV2",
+                "id": "vpc-08d033b6f2c27b0fb",
+                "type": "aws:ec2/vpc:Vpc",
                 "inputs": {
                     "__defaults": [],
-                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
+                    "cidrBlock": "10.102.0.0/16",
+                    "enableDnsHostnames": true,
+                    "enableDnsSupport": true,
                     "region": "eu-west-1",
-                    "targetBucket": "driftfinder-ct-logs-575108919391-pulumi",
-                    "targetPrefix": "s3-access-logs/"
+                    "tags": {
+                        "Environment": "driftfinder-experiment",
+                        "IaCTool": "pulumi",
+                        "Name": "driftfinder-vpc-test"
+                    },
+                    "tagsAll": {
+                        "Environment": "driftfinder-experiment",
+                        "IaCTool": "pulumi",
+                        "Name": "driftfinder-vpc-test"
+                    }
                 },
                 "outputs": {
+                    "__meta": "{\"schema_version\":\"1\"}",
                     "__pulumi_raw_state_delta": {
                         "obj": {
                             "ps": {
-                                "targetGrants": {
-                                    "arr": {}
+                                "tags": {
+                                    "map": {}
                                 },
-                                "targetObjectKeyFormat": {
-                                    "plu": {
-                                        "i": {}
-                                    }
+                                "tagsAll": {
+                                    "map": {}
                                 }
-                            },
-                            "renamed": {
-                                "targetGrants": "target_grant"
                             }
                         }
                     },
-                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
-                    "expectedBucketOwner": "",
-                    "id": "driftfinder-s3-test-575108919391-pulumi",
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:vpc/vpc-08d033b6f2c27b0fb",
+                    "assignGeneratedIpv6CidrBlock": false,
+                    "cidrBlock": "10.102.0.0/16",
+                    "defaultNetworkAclId": "acl-0b2a56d61fd296835",
+                    "defaultRouteTableId": "rtb-069e77313c8dece9a",
+                    "defaultSecurityGroupId": "sg-025badfc256b39f92",
+                    "dhcpOptionsId": "dopt-0c668ccd421b713be",
+                    "enableDnsHostnames": true,
+                    "enableDnsSupport": true,
+                    "enableNetworkAddressUsageMetrics": false,
+                    "id": "vpc-08d033b6f2c27b0fb",
+                    "instanceTenancy": "default",
+                    "ipv4IpamPoolId": null,
+                    "ipv4NetmaskLength": null,
+                    "ipv6AssociationId": "",
+                    "ipv6CidrBlock": "",
+                    "ipv6CidrBlockNetworkBorderGroup": "",
+                    "ipv6IpamPoolId": "",
+                    "ipv6NetmaskLength": 0,
+                    "mainRouteTableId": "rtb-069e77313c8dece9a",
+                    "ownerId": "575108919391",
                     "region": "eu-west-1",
-                    "targetBucket": "driftfinder-ct-logs-575108919391-pulumi",
-                    "targetGrants": [],
-                    "targetObjectKeyFormat": null,
-                    "targetPrefix": "s3-access-logs/"
+                    "tags": {
+                        "Environment": "driftfinder-experiment",
+                        "IaCTool": "pulumi",
+                        "Name": "driftfinder-vpc-test"
+                    },
+                    "tagsAll": {
+                        "Environment": "driftfinder-experiment",
+                        "IaCTool": "pulumi",
+                        "Name": "driftfinder-vpc-test"
+                    }
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "dependencies": [
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
-                ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
-                    "bucket": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
-                    ],
-                    "targetBucket": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
-                    ],
-                    "targetPrefix": []
+                    "cidrBlock": [],
+                    "enableDnsHostnames": [],
+                    "enableDnsSupport": [],
+                    "tags": []
                 },
-                "created": "2026-10-08T07:51:53.494648Z",
-                "modified": "2026-10-08T07:51:53.494648Z",
-                "sourcePosition": "project:///__main__.py#191",
+                "created": "2026-10-26T13:18:00.819422Z",
+                "modified": "2026-10-26T13:18:00.819422Z",
+                "sourcePosition": "project:///__main__.py#199",
                 "stackTrace": [
                     {
-                        "sourcePosition": "project:///__main__.py#191"
+                        "sourcePosition": "project:///__main__.py#199"
                     },
                     {},
                     {},
@@ -1638,7 +1712,7 @@
             {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/flowLog:FlowLog::driftfinder-flow-log",
                 "custom": true,
-                "id": "fl-0af88dbba2622398d",
+                "id": "fl-0306e800f94e790be",
                 "type": "aws:ec2/flowLog:FlowLog",
                 "inputs": {
                     "__defaults": [
@@ -1657,7 +1731,7 @@
                         "Name": "driftfinder-flow-log-pulumi"
                     },
                     "trafficType": "ALL",
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "outputs": {
                     "__meta": "{\"schema_version\":\"1\"}",
@@ -1678,12 +1752,12 @@
                             }
                         }
                     },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:vpc-flow-log/fl-0af88dbba2622398d",
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:vpc-flow-log/fl-0306e800f94e790be",
                     "deliverCrossAccountRole": "",
                     "destinationOptions": null,
                     "eniId": null,
                     "iamRoleArn": "arn:aws:iam::575108919391:role/driftfinder-flow-logs-pulumi",
-                    "id": "fl-0af88dbba2622398d",
+                    "id": "fl-0306e800f94e790be",
                     "logDestination": "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/vpc-flow-logs-pulumi",
                     "logDestinationType": "cloud-watch-logs",
                     "logFormat": "${version} ${account-id} ${interface-id} ${srcaddr} ${dstaddr} ${srcport} ${dstport} ${protocol} ${packets} ${bytes} ${start} ${end} ${action} ${log-status}",
@@ -1700,15 +1774,15 @@
                     "trafficType": "ALL",
                     "transitGatewayAttachmentId": null,
                     "transitGatewayId": null,
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-vpc-flow-lg",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-flow-log-role",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test",
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-flow-log-role"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "iamRoleArn": [
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-flow-log-role"
@@ -1722,8 +1796,8 @@
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                     ]
                 },
-                "created": "2026-10-08T07:51:54.562739Z",
-                "modified": "2026-10-08T07:51:54.562739Z",
+                "created": "2026-10-26T13:18:01.32767Z",
+                "modified": "2026-10-26T13:18:01.32767Z",
                 "sourcePosition": "project:///__main__.py#263",
                 "stackTrace": [
                     {
@@ -1764,291 +1838,9 @@
                 ]
             },
             {
-                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucketPolicy:BucketPolicy::ct-log-bucket-policy",
-                "custom": true,
-                "id": "driftfinder-ct-logs-575108919391-pulumi",
-                "type": "aws:s3/bucketPolicy:BucketPolicy",
-                "inputs": {
-                    "__defaults": [],
-                    "bucket": "driftfinder-ct-logs-575108919391-pulumi",
-                    "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Sid\": \"AWSCloudTrailAclCheck\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Action\": \"s3:GetBucketAcl\", \"Resource\": \"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi\"}, {\"Sid\": \"AWSCloudTrailWrite\", \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Action\": \"s3:PutObject\", \"Resource\": \"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi/AWSLogs/575108919391/*\", \"Condition\": {\"StringEquals\": {\"s3:x-amz-acl\": \"bucket-owner-full-control\"}}}]}",
-                    "region": "eu-west-1"
-                },
-                "outputs": {
-                    "__pulumi_raw_state_delta": {
-                        "obj": {}
-                    },
-                    "bucket": "driftfinder-ct-logs-575108919391-pulumi",
-                    "id": "driftfinder-ct-logs-575108919391-pulumi",
-                    "policy": "{\"Statement\":[{\"Action\":\"s3:GetBucketAcl\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Resource\":\"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi\",\"Sid\":\"AWSCloudTrailAclCheck\"},{\"Action\":\"s3:PutObject\",\"Condition\":{\"StringEquals\":{\"s3:x-amz-acl\":\"bucket-owner-full-control\"}},\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Resource\":\"arn:aws:s3:::driftfinder-ct-logs-575108919391-pulumi/AWSLogs/575108919391/*\",\"Sid\":\"AWSCloudTrailWrite\"}],\"Version\":\"2012-10-17\"}",
-                    "region": "eu-west-1"
-                },
-                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "dependencies": [
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
-                ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
-                "propertyDependencies": {
-                    "bucket": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
-                    ],
-                    "policy": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
-                    ]
-                },
-                "created": "2026-10-08T07:51:54.563025Z",
-                "modified": "2026-10-08T07:51:54.563025Z",
-                "sourcePosition": "project:///__main__.py#74",
-                "stackTrace": [
-                    {
-                        "sourcePosition": "project:///__main__.py#74"
-                    },
-                    {},
-                    {},
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
-                    }
-                ]
-            },
-            {
-                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucketVersioningV2:BucketVersioningV2::driftfinder-s3-versioning",
-                "custom": true,
-                "id": "driftfinder-s3-test-575108919391-pulumi",
-                "type": "aws:s3/bucketVersioningV2:BucketVersioningV2",
-                "inputs": {
-                    "__defaults": [],
-                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
-                    "region": "eu-west-1",
-                    "versioningConfiguration": {
-                        "__defaults": [],
-                        "status": "Enabled"
-                    }
-                },
-                "outputs": {
-                    "__pulumi_raw_state_delta": {
-                        "obj": {
-                            "ps": {
-                                "versioningConfiguration": {
-                                    "plu": {
-                                        "i": {
-                                            "obj": {}
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
-                    "expectedBucketOwner": "",
-                    "id": "driftfinder-s3-test-575108919391-pulumi",
-                    "mfa": null,
-                    "region": "eu-west-1",
-                    "versioningConfiguration": {
-                        "mfaDelete": "Disabled",
-                        "status": "Enabled"
-                    }
-                },
-                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "dependencies": [
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
-                ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
-                "propertyDependencies": {
-                    "bucket": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
-                    ],
-                    "versioningConfiguration": []
-                },
-                "created": "2026-10-08T07:51:55.774608Z",
-                "modified": "2026-10-08T07:51:55.774608Z",
-                "sourcePosition": "project:///__main__.py#185",
-                "stackTrace": [
-                    {
-                        "sourcePosition": "project:///__main__.py#185"
-                    },
-                    {},
-                    {},
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
-                    }
-                ]
-            },
-            {
-                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-b",
-                "custom": true,
-                "id": "subnet-04dc87d3316cf8bf7",
-                "type": "aws:ec2/subnet:Subnet",
-                "inputs": {
-                    "__defaults": [],
-                    "availabilityZone": "eu-west-1b",
-                    "cidrBlock": "10.102.2.0/24",
-                    "region": "eu-west-1",
-                    "tags": {
-                        "Name": "driftfinder-subnet-b-pulumi"
-                    },
-                    "tagsAll": {
-                        "Name": "driftfinder-subnet-b-pulumi"
-                    },
-                    "vpcId": "vpc-02045867b7330bbfd"
-                },
-                "outputs": {
-                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000,\"delete\":1200000000000},\"schema_version\":\"1\"}",
-                    "__pulumi_raw_state_delta": {
-                        "obj": {
-                            "ps": {
-                                "tags": {
-                                    "map": {}
-                                },
-                                "tagsAll": {
-                                    "map": {}
-                                }
-                            }
-                        }
-                    },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:subnet/subnet-04dc87d3316cf8bf7",
-                    "assignIpv6AddressOnCreation": false,
-                    "availabilityZone": "eu-west-1b",
-                    "availabilityZoneId": "euw1-az3",
-                    "cidrBlock": "10.102.2.0/24",
-                    "customerOwnedIpv4Pool": "",
-                    "enableDns64": false,
-                    "enableLniAtDeviceIndex": 0,
-                    "enableResourceNameDnsARecordOnLaunch": false,
-                    "enableResourceNameDnsAaaaRecordOnLaunch": false,
-                    "id": "subnet-04dc87d3316cf8bf7",
-                    "ipv4IpamPoolId": null,
-                    "ipv4NetmaskLength": null,
-                    "ipv6CidrBlock": "",
-                    "ipv6CidrBlockAssociationId": "",
-                    "ipv6IpamPoolId": null,
-                    "ipv6Native": false,
-                    "ipv6NetmaskLength": null,
-                    "mapCustomerOwnedIpOnLaunch": false,
-                    "mapPublicIpOnLaunch": false,
-                    "outpostArn": "",
-                    "ownerId": "575108919391",
-                    "privateDnsHostnameTypeOnLaunch": "ip-name",
-                    "region": "eu-west-1",
-                    "tags": {
-                        "Name": "driftfinder-subnet-b-pulumi"
-                    },
-                    "tagsAll": {
-                        "Name": "driftfinder-subnet-b-pulumi"
-                    },
-                    "vpcId": "vpc-02045867b7330bbfd"
-                },
-                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "dependencies": [
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
-                ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
-                "propertyDependencies": {
-                    "availabilityZone": [],
-                    "cidrBlock": [],
-                    "tags": [],
-                    "vpcId": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
-                    ]
-                },
-                "created": "2026-10-08T07:51:55.82059Z",
-                "modified": "2026-10-08T07:51:55.82059Z",
-                "sourcePosition": "project:///__main__.py#215",
-                "stackTrace": [
-                    {
-                        "sourcePosition": "project:///__main__.py#215"
-                    },
-                    {},
-                    {},
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
-                    }
-                ]
-            },
-            {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-a",
                 "custom": true,
-                "id": "subnet-003a6874c88518600",
+                "id": "subnet-098edc6a4eda45738",
                 "type": "aws:ec2/subnet:Subnet",
                 "inputs": {
                     "__defaults": [],
@@ -2061,7 +1853,7 @@
                     "tagsAll": {
                         "Name": "driftfinder-subnet-a-pulumi"
                     },
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "outputs": {
                     "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000,\"delete\":1200000000000},\"schema_version\":\"1\"}",
@@ -2077,7 +1869,7 @@
                             }
                         }
                     },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:subnet/subnet-003a6874c88518600",
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:subnet/subnet-098edc6a4eda45738",
                     "assignIpv6AddressOnCreation": false,
                     "availabilityZone": "eu-west-1a",
                     "availabilityZoneId": "euw1-az2",
@@ -2087,7 +1879,7 @@
                     "enableLniAtDeviceIndex": 0,
                     "enableResourceNameDnsARecordOnLaunch": false,
                     "enableResourceNameDnsAaaaRecordOnLaunch": false,
-                    "id": "subnet-003a6874c88518600",
+                    "id": "subnet-098edc6a4eda45738",
                     "ipv4IpamPoolId": null,
                     "ipv4NetmaskLength": null,
                     "ipv6CidrBlock": "",
@@ -2107,13 +1899,13 @@
                     "tagsAll": {
                         "Name": "driftfinder-subnet-a-pulumi"
                     },
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "availabilityZone": [],
                     "cidrBlock": [],
@@ -2122,8 +1914,8 @@
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                     ]
                 },
-                "created": "2026-10-08T07:51:55.821483Z",
-                "modified": "2026-10-08T07:51:55.821483Z",
+                "created": "2026-10-26T13:18:01.654197Z",
+                "modified": "2026-10-26T13:18:01.654197Z",
                 "sourcePosition": "project:///__main__.py#207",
                 "stackTrace": [
                     {
@@ -2164,13 +1956,131 @@
                 ]
             },
             {
+                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-b",
+                "custom": true,
+                "id": "subnet-0f8140eebb49bf973",
+                "type": "aws:ec2/subnet:Subnet",
+                "inputs": {
+                    "__defaults": [],
+                    "availabilityZone": "eu-west-1b",
+                    "cidrBlock": "10.102.2.0/24",
+                    "region": "eu-west-1",
+                    "tags": {
+                        "Name": "driftfinder-subnet-b-pulumi"
+                    },
+                    "tagsAll": {
+                        "Name": "driftfinder-subnet-b-pulumi"
+                    },
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000,\"delete\":1200000000000},\"schema_version\":\"1\"}",
+                    "__pulumi_raw_state_delta": {
+                        "obj": {
+                            "ps": {
+                                "tags": {
+                                    "map": {}
+                                },
+                                "tagsAll": {
+                                    "map": {}
+                                }
+                            }
+                        }
+                    },
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:subnet/subnet-0f8140eebb49bf973",
+                    "assignIpv6AddressOnCreation": false,
+                    "availabilityZone": "eu-west-1b",
+                    "availabilityZoneId": "euw1-az3",
+                    "cidrBlock": "10.102.2.0/24",
+                    "customerOwnedIpv4Pool": "",
+                    "enableDns64": false,
+                    "enableLniAtDeviceIndex": 0,
+                    "enableResourceNameDnsARecordOnLaunch": false,
+                    "enableResourceNameDnsAaaaRecordOnLaunch": false,
+                    "id": "subnet-0f8140eebb49bf973",
+                    "ipv4IpamPoolId": null,
+                    "ipv4NetmaskLength": null,
+                    "ipv6CidrBlock": "",
+                    "ipv6CidrBlockAssociationId": "",
+                    "ipv6IpamPoolId": null,
+                    "ipv6Native": false,
+                    "ipv6NetmaskLength": null,
+                    "mapCustomerOwnedIpOnLaunch": false,
+                    "mapPublicIpOnLaunch": false,
+                    "outpostArn": "",
+                    "ownerId": "575108919391",
+                    "privateDnsHostnameTypeOnLaunch": "ip-name",
+                    "region": "eu-west-1",
+                    "tags": {
+                        "Name": "driftfinder-subnet-b-pulumi"
+                    },
+                    "tagsAll": {
+                        "Name": "driftfinder-subnet-b-pulumi"
+                    },
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
+                },
+                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
+                "dependencies": [
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
+                ],
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
+                "propertyDependencies": {
+                    "availabilityZone": [],
+                    "cidrBlock": [],
+                    "tags": [],
+                    "vpcId": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
+                    ]
+                },
+                "created": "2026-10-26T13:18:01.660224Z",
+                "modified": "2026-10-26T13:18:01.660224Z",
+                "sourcePosition": "project:///__main__.py#215",
+                "stackTrace": [
+                    {
+                        "sourcePosition": "project:///__main__.py#215"
+                    },
+                    {},
+                    {},
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
+                    }
+                ]
+            },
+            {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/defaultNetworkAcl:DefaultNetworkAcl::driftfinder-default-nacl",
                 "custom": true,
-                "id": "acl-036af211d8573e382",
+                "id": "acl-0b2a56d61fd296835",
                 "type": "aws:ec2/defaultNetworkAcl:DefaultNetworkAcl",
                 "inputs": {
                     "__defaults": [],
-                    "defaultNetworkAclId": "acl-036af211d8573e382",
+                    "defaultNetworkAclId": "acl-0b2a56d61fd296835",
                     "egress": [
                         {
                             "__defaults": [],
@@ -2251,8 +2161,8 @@
                             }
                         }
                     },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:network-acl/acl-036af211d8573e382",
-                    "defaultNetworkAclId": "acl-036af211d8573e382",
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:network-acl/acl-0b2a56d61fd296835",
+                    "defaultNetworkAclId": "acl-0b2a56d61fd296835",
                     "egress": [
                         {
                             "action": "allow",
@@ -2266,7 +2176,7 @@
                             "toPort": 0
                         }
                     ],
-                    "id": "acl-036af211d8573e382",
+                    "id": "acl-0b2a56d61fd296835",
                     "ingress": [
                         {
                             "action": "allow",
@@ -2294,8 +2204,8 @@
                     "ownerId": "575108919391",
                     "region": "eu-west-1",
                     "subnetIds": [
-                        "subnet-003a6874c88518600",
-                        "subnet-04dc87d3316cf8bf7"
+                        "subnet-098edc6a4eda45738",
+                        "subnet-0f8140eebb49bf973"
                     ],
                     "tags": {
                         "Environment": "driftfinder-experiment",
@@ -2307,13 +2217,13 @@
                         "IaCTool": "pulumi",
                         "Name": "driftfinder-default-nacl-pulumi"
                     },
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "defaultNetworkAclId": [
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
@@ -2322,8 +2232,8 @@
                     "ingress": [],
                     "tags": []
                 },
-                "created": "2026-10-08T07:51:56.429146Z",
-                "modified": "2026-10-08T07:51:56.429146Z",
+                "created": "2026-10-26T13:18:01.813075Z",
+                "modified": "2026-10-26T13:18:01.813075Z",
                 "sourcePosition": "project:///__main__.py#282",
                 "stackTrace": [
                     {
@@ -2366,7 +2276,7 @@
             {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/defaultSecurityGroup:DefaultSecurityGroup::driftfinder-default-sg",
                 "custom": true,
-                "id": "sg-0f2412e13115ecc1e",
+                "id": "sg-025badfc256b39f92",
                 "type": "aws:ec2/defaultSecurityGroup:DefaultSecurityGroup",
                 "inputs": {
                     "__defaults": [],
@@ -2383,7 +2293,7 @@
                         "IaCTool": "pulumi",
                         "Name": "driftfinder-default-sg-pulumi"
                     },
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "outputs": {
                     "__meta": "{\"schema_version\":\"1\"}",
@@ -2405,10 +2315,10 @@
                             }
                         }
                     },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:security-group/sg-0f2412e13115ecc1e",
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:security-group/sg-025badfc256b39f92",
                     "description": "default VPC security group",
                     "egress": [],
-                    "id": "sg-0f2412e13115ecc1e",
+                    "id": "sg-025badfc256b39f92",
                     "ingress": [],
                     "name": "default",
                     "namePrefix": "",
@@ -2425,13 +2335,13 @@
                         "IaCTool": "pulumi",
                         "Name": "driftfinder-default-sg-pulumi"
                     },
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "egress": [],
                     "ingress": [],
@@ -2440,8 +2350,8 @@
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                     ]
                 },
-                "created": "2026-10-08T07:51:56.581708Z",
-                "modified": "2026-10-08T07:51:56.581708Z",
+                "created": "2026-10-26T13:18:02.126242Z",
+                "modified": "2026-10-26T13:18:02.126242Z",
                 "sourcePosition": "project:///__main__.py#273",
                 "stackTrace": [
                     {
@@ -2482,9 +2392,216 @@
                 ]
             },
             {
+                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucketVersioningV2:BucketVersioningV2::driftfinder-s3-versioning",
+                "custom": true,
+                "id": "driftfinder-s3-test-575108919391-pulumi",
+                "type": "aws:s3/bucketVersioningV2:BucketVersioningV2",
+                "inputs": {
+                    "__defaults": [],
+                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
+                    "region": "eu-west-1",
+                    "versioningConfiguration": {
+                        "__defaults": [],
+                        "status": "Enabled"
+                    }
+                },
+                "outputs": {
+                    "__pulumi_raw_state_delta": {
+                        "obj": {
+                            "ps": {
+                                "versioningConfiguration": {
+                                    "plu": {
+                                        "i": {
+                                            "obj": {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "bucket": "driftfinder-s3-test-575108919391-pulumi",
+                    "expectedBucketOwner": "",
+                    "id": "driftfinder-s3-test-575108919391-pulumi",
+                    "mfa": null,
+                    "region": "eu-west-1",
+                    "versioningConfiguration": {
+                        "mfaDelete": "Disabled",
+                        "status": "Enabled"
+                    }
+                },
+                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
+                "dependencies": [
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
+                ],
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
+                "propertyDependencies": {
+                    "bucket": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-s3-test"
+                    ],
+                    "versioningConfiguration": []
+                },
+                "created": "2026-10-26T13:18:02.16911Z",
+                "modified": "2026-10-26T13:18:02.16911Z",
+                "sourcePosition": "project:///__main__.py#185",
+                "stackTrace": [
+                    {
+                        "sourcePosition": "project:///__main__.py#185"
+                    },
+                    {},
+                    {},
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
+                    }
+                ]
+            },
+            {
+                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:rds/subnetGroup:SubnetGroup::driftfinder-rds-subnet-group",
+                "custom": true,
+                "id": "driftfinder-rds-subnet-pulumi",
+                "type": "aws:rds/subnetGroup:SubnetGroup",
+                "inputs": {
+                    "__defaults": [],
+                    "description": "Managed by Pulumi",
+                    "name": "driftfinder-rds-subnet-pulumi",
+                    "region": "eu-west-1",
+                    "subnetIds": [
+                        "subnet-098edc6a4eda45738",
+                        "subnet-0f8140eebb49bf973"
+                    ],
+                    "tags": {
+                        "Name": "driftfinder-rds-subnet-pulumi"
+                    },
+                    "tagsAll": {
+                        "Name": "driftfinder-rds-subnet-pulumi"
+                    }
+                },
+                "outputs": {
+                    "__pulumi_raw_state_delta": {
+                        "obj": {
+                            "ps": {
+                                "subnetIds": {
+                                    "arr": {}
+                                },
+                                "supportedNetworkTypes": {
+                                    "arr": {}
+                                },
+                                "tags": {
+                                    "map": {}
+                                },
+                                "tagsAll": {
+                                    "map": {}
+                                }
+                            }
+                        }
+                    },
+                    "arn": "arn:aws:rds:eu-west-1:575108919391:subgrp:driftfinder-rds-subnet-pulumi",
+                    "description": "Managed by Pulumi",
+                    "id": "driftfinder-rds-subnet-pulumi",
+                    "name": "driftfinder-rds-subnet-pulumi",
+                    "namePrefix": "",
+                    "region": "eu-west-1",
+                    "subnetIds": [
+                        "subnet-098edc6a4eda45738",
+                        "subnet-0f8140eebb49bf973"
+                    ],
+                    "supportedNetworkTypes": [
+                        "IPV4"
+                    ],
+                    "tags": {
+                        "Name": "driftfinder-rds-subnet-pulumi"
+                    },
+                    "tagsAll": {
+                        "Name": "driftfinder-rds-subnet-pulumi"
+                    },
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
+                },
+                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
+                "dependencies": [
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-a",
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-b"
+                ],
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
+                "propertyDependencies": {
+                    "description": [],
+                    "name": [],
+                    "subnetIds": [
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-a",
+                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-b"
+                    ],
+                    "tags": []
+                },
+                "created": "2026-10-26T13:18:03.119792Z",
+                "modified": "2026-10-26T13:18:03.119792Z",
+                "sourcePosition": "project:///__main__.py#368",
+                "stackTrace": [
+                    {
+                        "sourcePosition": "project:///__main__.py#368"
+                    },
+                    {},
+                    {},
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
+                    },
+                    {
+                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
+                    }
+                ]
+            },
+            {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/securityGroup:SecurityGroup::driftfinder-sg-test",
                 "custom": true,
-                "id": "sg-041aaea088015b950",
+                "id": "sg-0f0458a821d64f42e",
                 "type": "aws:ec2/securityGroup:SecurityGroup",
                 "inputs": {
                     "__defaults": [],
@@ -2525,7 +2642,7 @@
                         "IaCTool": "pulumi",
                         "Name": "driftfinder-sg-test-pulumi"
                     },
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "outputs": {
                     "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":600000000000,\"delete\":900000000000},\"schema_version\":\"1\"}",
@@ -2589,7 +2706,7 @@
                             }
                         }
                     },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:security-group/sg-041aaea088015b950",
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:security-group/sg-0f0458a821d64f42e",
                     "description": "DriftFinder experiment security group - compliant baseline",
                     "egress": [
                         {
@@ -2606,7 +2723,7 @@
                             "toPort": 443
                         }
                     ],
-                    "id": "sg-041aaea088015b950",
+                    "id": "sg-0f0458a821d64f42e",
                     "ingress": [
                         {
                             "cidrBlocks": [
@@ -2637,13 +2754,13 @@
                         "IaCTool": "pulumi",
                         "Name": "driftfinder-sg-test-pulumi"
                     },
-                    "vpcId": "vpc-02045867b7330bbfd"
+                    "vpcId": "vpc-08d033b6f2c27b0fb"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "description": [],
                     "egress": [],
@@ -2654,8 +2771,8 @@
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/vpc:Vpc::driftfinder-vpc-test"
                     ]
                 },
-                "created": "2026-10-08T07:51:57.231126Z",
-                "modified": "2026-10-08T07:51:57.231126Z",
+                "created": "2026-10-26T13:18:03.308347Z",
+                "modified": "2026-10-26T13:18:03.308347Z",
                 "sourcePosition": "project:///__main__.py#317",
                 "stackTrace": [
                     {
@@ -2696,126 +2813,9 @@
                 ]
             },
             {
-                "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:rds/subnetGroup:SubnetGroup::driftfinder-rds-subnet-group",
-                "custom": true,
-                "id": "driftfinder-rds-subnet-pulumi",
-                "type": "aws:rds/subnetGroup:SubnetGroup",
-                "inputs": {
-                    "__defaults": [],
-                    "description": "Managed by Pulumi",
-                    "name": "driftfinder-rds-subnet-pulumi",
-                    "region": "eu-west-1",
-                    "subnetIds": [
-                        "subnet-003a6874c88518600",
-                        "subnet-04dc87d3316cf8bf7"
-                    ],
-                    "tags": {
-                        "Name": "driftfinder-rds-subnet-pulumi"
-                    },
-                    "tagsAll": {
-                        "Name": "driftfinder-rds-subnet-pulumi"
-                    }
-                },
-                "outputs": {
-                    "__pulumi_raw_state_delta": {
-                        "obj": {
-                            "ps": {
-                                "subnetIds": {
-                                    "arr": {}
-                                },
-                                "supportedNetworkTypes": {
-                                    "arr": {}
-                                },
-                                "tags": {
-                                    "map": {}
-                                },
-                                "tagsAll": {
-                                    "map": {}
-                                }
-                            }
-                        }
-                    },
-                    "arn": "arn:aws:rds:eu-west-1:575108919391:subgrp:driftfinder-rds-subnet-pulumi",
-                    "description": "Managed by Pulumi",
-                    "id": "driftfinder-rds-subnet-pulumi",
-                    "name": "driftfinder-rds-subnet-pulumi",
-                    "namePrefix": "",
-                    "region": "eu-west-1",
-                    "subnetIds": [
-                        "subnet-003a6874c88518600",
-                        "subnet-04dc87d3316cf8bf7"
-                    ],
-                    "supportedNetworkTypes": [
-                        "IPV4"
-                    ],
-                    "tags": {
-                        "Name": "driftfinder-rds-subnet-pulumi"
-                    },
-                    "tagsAll": {
-                        "Name": "driftfinder-rds-subnet-pulumi"
-                    },
-                    "vpcId": "vpc-02045867b7330bbfd"
-                },
-                "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "dependencies": [
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-b",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-a"
-                ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
-                "propertyDependencies": {
-                    "description": [],
-                    "name": [],
-                    "subnetIds": [
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-b",
-                        "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/subnet:Subnet::driftfinder-subnet-a"
-                    ],
-                    "tags": []
-                },
-                "created": "2026-10-08T07:51:57.278107Z",
-                "modified": "2026-10-08T07:51:57.278107Z",
-                "sourcePosition": "project:///__main__.py#368",
-                "stackTrace": [
-                    {
-                        "sourcePosition": "project:///__main__.py#368"
-                    },
-                    {},
-                    {},
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#214"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#185"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#83"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../.venv/lib/python3.13/site-packages/pulumi/runtime/stack.py#188"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py#89"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#2050"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#683"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py#712"
-                    },
-                    {
-                        "sourcePosition": "project:///../../../../../../../usr/local/bin/pulumi-language-python-exec#232"
-                    }
-                ]
-            },
-            {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test",
                 "custom": true,
-                "id": "526893ee-1405-49c0-801b-cab14e743b04",
+                "id": "34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                 "type": "aws:kms/key:Key",
                 "inputs": {
                     "__defaults": [
@@ -2856,16 +2856,16 @@
                             }
                         }
                     },
-                    "arn": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
+                    "arn": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "bypassPolicyLockoutSafetyCheck": false,
                     "customKeyStoreId": "",
                     "customerMasterKeySpec": "SYMMETRIC_DEFAULT",
                     "deletionWindowInDays": 7,
                     "description": "DriftFinder experiment KMS key",
                     "enableKeyRotation": true,
-                    "id": "526893ee-1405-49c0-801b-cab14e743b04",
+                    "id": "34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "isEnabled": true,
-                    "keyId": "526893ee-1405-49c0-801b-cab14e743b04",
+                    "keyId": "34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "keyUsage": "ENCRYPT_DECRYPT",
                     "multiRegion": false,
                     "policy": "{\"Statement\":[{\"Action\":\"kms:*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::575108919391:root\"},\"Resource\":\"*\",\"Sid\":\"Enable IAM User Permissions\"},{\"Action\":[\"kms:GenerateDataKey*\",\"kms:DescribeKey\",\"kms:Decrypt\"],\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Resource\":\"*\",\"Sid\":\"Allow CloudTrail to use key\"}],\"Version\":\"2012-10-17\"}",
@@ -2884,7 +2884,7 @@
                     "xksKeyId": ""
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "deletionWindowInDays": [],
                     "description": [],
@@ -2892,8 +2892,8 @@
                     "policy": [],
                     "tags": []
                 },
-                "created": "2026-10-08T07:52:04.247737Z",
-                "modified": "2026-10-08T07:52:04.247737Z",
+                "created": "2026-10-26T13:18:11.546322Z",
+                "modified": "2026-10-26T13:18:11.546322Z",
                 "sourcePosition": "project:///__main__.py#22",
                 "stackTrace": [
                     {
@@ -2942,7 +2942,7 @@
                     "__defaults": [],
                     "name": "alias/driftfinder-test-pulumi",
                     "region": "eu-west-1",
-                    "targetKeyId": "526893ee-1405-49c0-801b-cab14e743b04"
+                    "targetKeyId": "34a78ecb-cd0a-488f-8eae-c328684fa5e4"
                 },
                 "outputs": {
                     "__pulumi_raw_state_delta": {
@@ -2953,22 +2953,22 @@
                     "name": "alias/driftfinder-test-pulumi",
                     "namePrefix": "",
                     "region": "eu-west-1",
-                    "targetKeyArn": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
-                    "targetKeyId": "526893ee-1405-49c0-801b-cab14e743b04"
+                    "targetKeyArn": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
+                    "targetKeyId": "34a78ecb-cd0a-488f-8eae-c328684fa5e4"
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "name": [],
                     "targetKeyId": [
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test"
                     ]
                 },
-                "created": "2026-10-08T07:52:04.359196Z",
-                "modified": "2026-10-08T07:52:04.359196Z",
+                "created": "2026-10-26T13:18:11.629886Z",
+                "modified": "2026-10-26T13:18:11.629886Z",
                 "sourcePosition": "project:///__main__.py#51",
                 "stackTrace": [
                     {
@@ -3023,7 +3023,7 @@
                     "enableLogging": true,
                     "includeGlobalServiceEvents": true,
                     "isMultiRegionTrail": true,
-                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
+                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "name": "driftfinder-trail-test-pulumi",
                     "region": "eu-west-1",
                     "s3BucketName": "driftfinder-ct-logs-575108919391-pulumi",
@@ -3079,7 +3079,7 @@
                     "insightSelectors": [],
                     "isMultiRegionTrail": true,
                     "isOrganizationTrail": false,
-                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
+                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "name": "driftfinder-trail-test-pulumi",
                     "region": "eu-west-1",
                     "s3BucketName": "driftfinder-ct-logs-575108919391-pulumi",
@@ -3099,13 +3099,13 @@
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs",
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:iam/role:Role::driftfinder-cloudtrail-cw-role",
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-cloudtrail-lg",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test",
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucketPolicy:BucketPolicy::ct-log-bucket-policy",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:s3/bucket:Bucket::driftfinder-ct-logs"
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "cloudWatchLogsGroupArn": [
                         "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:cloudwatch/logGroup:LogGroup::driftfinder-cloudtrail-lg"
@@ -3125,8 +3125,8 @@
                     ],
                     "tags": []
                 },
-                "created": "2026-10-08T07:52:05.027971Z",
-                "modified": "2026-10-08T07:52:05.027971Z",
+                "created": "2026-10-26T13:18:12.215989Z",
+                "modified": "2026-10-26T13:18:12.215989Z",
                 "sourcePosition": "project:///__main__.py#144",
                 "stackTrace": [
                     {
@@ -3169,13 +3169,13 @@
             {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ebs/volume:Volume::driftfinder-ebs-test",
                 "custom": true,
-                "id": "vol-0b58c56927f3042b8",
+                "id": "vol-06da7c6f38522e0ec",
                 "type": "aws:ebs/volume:Volume",
                 "inputs": {
                     "__defaults": [],
                     "availabilityZone": "eu-west-1a",
                     "encrypted": true,
-                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
+                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "region": "eu-west-1",
                     "size": 1,
                     "tags": {
@@ -3204,14 +3204,14 @@
                             }
                         }
                     },
-                    "arn": "arn:aws:ec2:eu-west-1:575108919391:volume/vol-0b58c56927f3042b8",
+                    "arn": "arn:aws:ec2:eu-west-1:575108919391:volume/vol-06da7c6f38522e0ec",
                     "availabilityZone": "eu-west-1a",
-                    "createTime": "2026-10-08T07:52:07Z",
+                    "createTime": "2026-10-26T13:18:11Z",
                     "encrypted": true,
                     "finalSnapshot": false,
-                    "id": "vol-0b58c56927f3042b8",
+                    "id": "vol-06da7c6f38522e0ec",
                     "iops": 100,
-                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
+                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "multiAttachEnabled": false,
                     "outpostArn": "",
                     "region": "eu-west-1",
@@ -3235,7 +3235,7 @@
                 "dependencies": [
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "availabilityZone": [],
                     "encrypted": [],
@@ -3246,8 +3246,8 @@
                     "tags": [],
                     "type": []
                 },
-                "created": "2026-10-08T07:52:14.995641Z",
-                "modified": "2026-10-08T07:52:14.995641Z",
+                "created": "2026-10-26T13:18:22.229697Z",
+                "modified": "2026-10-26T13:18:22.229697Z",
                 "sourcePosition": "project:///__main__.py#397",
                 "stackTrace": [
                     {
@@ -3290,7 +3290,7 @@
             {
                 "urn": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:rds/instance:Instance::driftfinder-rds-test",
                 "custom": true,
-                "id": "db-TPNLO3W3KIWJF2FN5AYQM4KSU4",
+                "id": "db-CIUZG3WCIKYHYVYX4CTQJR2RQY",
                 "type": "aws:rds/instance:Instance",
                 "inputs": {
                     "__defaults": [
@@ -3307,10 +3307,10 @@
                     "engineVersion": "8.4",
                     "identifier": "driftfinder-rds-test-pulumi",
                     "instanceClass": "db.t3.micro",
-                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
+                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
                     "password": {
                         "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
-                        "ciphertext": "v1:FgiRT3YucdqF6y/3:/ypKmv5rdnz0M0NF7xgrzTf5VeawHET6f57bVNWiWwc7Qnt08Ol701t1WQxPj71peg8="
+                        "ciphertext": "v1:i21nf3QjtGniRcsY:/YMYLV6dVm4c7KmTvjYlxh6XSTpoou+OZM4WwLXxhVMUrarVJA1qXwPZcIfHUpzv9JI="
                     },
                     "publiclyAccessible": false,
                     "region": "eu-west-1",
@@ -3328,7 +3328,7 @@
                     },
                     "username": "admin",
                     "vpcSecurityGroupIds": [
-                        "sg-041aaea088015b950"
+                        "sg-0f0458a821d64f42e"
                     ]
                 },
                 "outputs": {
@@ -3385,7 +3385,7 @@
                     "availabilityZone": "eu-west-1a",
                     "backupRetentionPeriod": 7,
                     "backupTarget": "region",
-                    "backupWindow": "02:36-03:06",
+                    "backupWindow": "00:50-01:20",
                     "blueGreenUpdate": null,
                     "caCertIdentifier": "rds-ca-rsa2048-g1",
                     "characterSetName": "",
@@ -3409,20 +3409,20 @@
                     "engine": "mysql",
                     "engineLifecycleSupport": "open-source-rds-extended-support",
                     "engineVersion": "8.4",
-                    "engineVersionActual": "8.4.9",
+                    "engineVersionActual": "8.4.11",
                     "finalSnapshotIdentifier": null,
                     "hostedZoneId": "Z29XKXDKYMONMX",
                     "iamDatabaseAuthenticationEnabled": false,
-                    "id": "db-TPNLO3W3KIWJF2FN5AYQM4KSU4",
+                    "id": "db-CIUZG3WCIKYHYVYX4CTQJR2RQY",
                     "identifier": "driftfinder-rds-test-pulumi",
                     "identifierPrefix": "",
                     "instanceClass": "db.t3.micro",
                     "iops": 0,
-                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/526893ee-1405-49c0-801b-cab14e743b04",
-                    "latestRestorableTime": "2026-10-08T07:57:06Z",
+                    "kmsKeyId": "arn:aws:kms:eu-west-1:575108919391:key/34a78ecb-cd0a-488f-8eae-c328684fa5e4",
+                    "latestRestorableTime": "2026-10-26T13:22:57Z",
                     "licenseModel": "general-public-license",
                     "listenerEndpoints": [],
-                    "maintenanceWindow": "thu:05:18-thu:05:48",
+                    "maintenanceWindow": "thu:04:36-thu:05:06",
                     "manageMasterUserPassword": null,
                     "masterUserSecretKmsKeyId": null,
                     "masterUserSecrets": [],
@@ -3436,11 +3436,11 @@
                     "parameterGroupName": "default.mysql8.4",
                     "password": {
                         "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
-                        "ciphertext": "v1:dAVJm7MiyfCSMhkh:M0PNeYjTzqy6xPg4Vj8ZP2dris8rDIscUxvO0itQ7FNAeyyEGPFieiVIk3XCa5MK2lc="
+                        "ciphertext": "v1:gwpB+lu1ocIp7A3B:le8vsNEhD7m73fOYnfRI0blhMy3Bug/qxIBW9ySkyob8qQnNPpY7NoCk9Vq/WVyx5Yo="
                     },
                     "passwordWo": {
                         "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
-                        "ciphertext": "v1:aew4v5rVCumc4h6I:JnP2xJIjjaYMawhEba7MfbGv8uE="
+                        "ciphertext": "v1:zpmZW+7f7Tn1j7kZ:aGBbyDh3h5s3MdlqMQSKWrwNsPQ="
                     },
                     "passwordWoVersion": null,
                     "performanceInsightsEnabled": false,
@@ -3452,7 +3452,7 @@
                     "replicaMode": "",
                     "replicas": [],
                     "replicateSourceDb": "",
-                    "resourceId": "db-TPNLO3W3KIWJF2FN5AYQM4KSU4",
+                    "resourceId": "db-CIUZG3WCIKYHYVYX4CTQJR2RQY",
                     "restoreToPointInTime": null,
                     "s3Import": null,
                     "skipFinalSnapshot": true,
@@ -3476,16 +3476,16 @@
                     "upgradeStorageConfig": null,
                     "username": "admin",
                     "vpcSecurityGroupIds": [
-                        "sg-041aaea088015b950"
+                        "sg-0f0458a821d64f42e"
                     ]
                 },
                 "parent": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:pulumi:Stack::driftfinder-experiment-driftfinder-experiment",
                 "dependencies": [
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/securityGroup:SecurityGroup::driftfinder-sg-test",
                     "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:rds/subnetGroup:SubnetGroup::driftfinder-rds-subnet-group",
-                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test"
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:kms/key:Key::driftfinder-kms-test",
+                    "urn:pulumi:driftfinder-experiment::driftfinder-experiment::aws:ec2/securityGroup:SecurityGroup::driftfinder-sg-test"
                 ],
-                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::7fd3bf57-0800-4460-b9cd-bc4ba5185df6",
+                "provider": "urn:pulumi:driftfinder-experiment::driftfinder-experiment::pulumi:providers:aws::default_7_35_0::835e866a-5d72-4cbc-8a02-d6aa88037161",
                 "propertyDependencies": {
                     "allocatedStorage": [],
                     "backupRetentionPeriod": [],
@@ -3514,8 +3514,8 @@
                     "password",
                     "passwordWo"
                 ],
-                "created": "2026-10-08T07:58:23.516663Z",
-                "modified": "2026-10-08T07:58:23.516663Z",
+                "created": "2026-10-26T13:25:47.975107Z",
+                "modified": "2026-10-26T13:25:47.975107Z",
                 "sourcePosition": "project:///__main__.py#376",
                 "stackTrace": [
                     {

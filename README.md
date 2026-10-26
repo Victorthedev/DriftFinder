@@ -356,10 +356,11 @@ Each run writes a folder under `experiment-runs/<run id>/` in your current direc
 | `resources_<env>.json` | IDs of the resources created in each environment |
 | `teardown.json` | Teardown result and any leftover resources |
 | `benchmark/` and `benchmark_summary.json` | Benchmark runs only: every timed scan, and the median, mean and range per environment |
+| `native/` | Each IaC tool's own drift check after every scenario, reset and control scan: `raw/` holds the tool output, the other files the parsed changes. Scored results are in `ground_truth.json` (`native_results`) and `results_summary.json` (`native_comparison`). |
 
 ### Published results
 
-The results reported in the paper are in [`results/`](results/): the complete output of one full run of the experiment runner, run natively on macOS from the United Kingdom against AWS eu-west-1. It contains the same files as any run folder (see [Output](#output)): 81 scans in `scans/` (3 baselines, 72 scenario scans and 6 control scans), 72 post-reset clean scans in `clean/`, the ground truth and the summary.
+The results reported in the paper are in [`results/`](results/): the complete output of one full run of the experiment runner, run natively on macOS from the United Kingdom against AWS eu-west-1. It contains the same files as any run folder (see [Output](#output)): 81 scans in `scans/` (3 baselines, 72 scenario scans and 6 control scans), 72 post-reset clean scans in `clean/`, the native drift checks in `native/`, the ground truth and the summary.
 
 The same experiment was also run in the Docker image on a GitHub-hosted Linux runner. All 78 scenario and control results were identical between the two runs.
 
@@ -371,10 +372,22 @@ The same experiment was also run in the Docker image on a GitHub-hosted Linux ru
 | **Overall** | **53** | **19** | **0** | **1.000** | **0.736** | **0.848** | **0.981** | **0.991** |
 
 - Zero false positives across all 72 scenario scans and 6 control scans.
-- Drift reached the account in 54 of the 72 scenario runs. DriftFinder detected 53 of them. The one miss is D20 on CloudFormation, where the CloudFormation parser does not read the implicit default security group.
+- Drift reached the account in 54 of the 72 scenario runs. DriftFinder detected 53 of them. The one miss is D20 on CloudFormation: CloudFormation cannot declare a VPC's default security group, so there is no declared state to compare.
 - The other 18 misses are runs where no drift reached the account: D1, D10, D11, D13, D14 and D15 in every environment (see `steps.txt`, Part 4).
 - All 53 detections reported the expected severity and CIS v3.0.0 control.
-- Every reset was verified by a clean scan on the first attempt.
+- Every reset was verified by a clean scan on the first attempt, and no scan had a resource that could not be checked.
+
+#### Comparison with each IaC tool's own drift check
+
+After every DriftFinder scan, the runner also ran the IaC tool's own drift check on the same environment, before the change was reversed: `terraform plan -refresh-only`, CloudFormation drift detection and `pulumi refresh --preview-only`. Each check was scored against the target resource and property listed in `experiment/native_mapping.json`, which was fixed before the run.
+
+| Environment | DriftFinder detected | Native check detected | Native missed | Native cannot see (not declared) |
+|---|---|---|---|---|
+| Terraform | 18 | 18 | 0 | D14, D15 |
+| CloudFormation | 17 | 15 | D24 (key policy reported in sync) | D14, D15, D20, D21 |
+| Pulumi | 18 | 18 | 0 | D14, D15 |
+
+The native checks reported no severity and no CIS control. Medians per check: Terraform 9.4 s, CloudFormation 10.6 s and Pulumi 6.4 s, against 3.8 s for a DriftFinder scan in the same run.
 
 **Scan performance** was measured separately with the `benchmark` command, so that timings are not affected by the waits and changes of the drift run. The benchmark is in [`results/scan-benchmark/`](results/scan-benchmark/): 26 clean scans per environment, run natively on a MacBook Pro (2017, Intel Core i5-7267U 3.1 GHz, 16 GB RAM, macOS 13.7.8) with Low Power Mode off, from the United Kingdom against AWS eu-west-1.
 
@@ -388,8 +401,6 @@ The same experiment was also run in the Docker image on a GitHub-hosted Linux ru
 Scan time depends on the computer and network as well as on DriftFinder. The drift run in `results/` was made on the same Mac with Low Power Mode on, which throttles the processor: its scans had a median of 19.5 s. The Docker run on a GitHub-hosted runner had a median of 6.3 s.
 
 The original manually executed run is kept in the git history of this repository.
-
-After the run, the descriptive `notes` text of D10, D13 and D15 in `results/ground_truth.json` and `results/results_summary.json` was corrected to state that these scenarios are not injectable and that no change request was sent to AWS. The earlier wording, left over from the manual protocol, wrongly described tests that were never performed. No measured value was changed, and `results/run.log` is as recorded.
 
 ---
 

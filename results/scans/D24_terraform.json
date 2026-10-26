@@ -2,7 +2,7 @@
   "findings": [
     {
       "resource_type": "NRMKMSKey",
-      "resource_id": "30bb257e-e6f7-420a-9644-c319d1cd69a0",
+      "resource_id": "3e10dccf-c9c2-45c3-884d-bf97b647e39c",
       "resource_name": "DriftFinder experiment KMS key",
       "iac_tool": "terraform",
       "property_path": "key_policy_allows_public_access",
@@ -12,16 +12,17 @@
       "severity": "HIGH",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: KMS key policy allows access to any principal",
-      "detected_at": "2026-10-08T10:05:06.479569Z"
+      "detected_at": "2026-10-26T15:02:36.488164Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T10:05:06.479714Z",
+  "scan_timestamp": "2026-10-26T15:02:36.488245Z",
   "iac_tool": "terraform",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/work/terraform/terraform.tfstate",
   "resources_scanned": 11,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 15.486,
+  "scan_duration_seconds": 3.835,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 1,
   "medium_count": 0,

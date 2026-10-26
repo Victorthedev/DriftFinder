@@ -14,7 +14,7 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)'",
-      "detected_at": "2026-10-08T08:17:36.950150Z"
+      "detected_at": "2026-10-26T13:32:25.140120Z"
     },
     {
       "resource_type": "NRMS3Bucket",
@@ -30,7 +30,7 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)' (BlockPublicAcls)",
-      "detected_at": "2026-10-08T08:17:36.950252Z"
+      "detected_at": "2026-10-26T13:32:25.140176Z"
     },
     {
       "resource_type": "NRMS3Bucket",
@@ -46,7 +46,7 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)' (BlockPublicPolicy)",
-      "detected_at": "2026-10-08T08:17:36.950280Z"
+      "detected_at": "2026-10-26T13:32:25.140188Z"
     },
     {
       "resource_type": "NRMS3Bucket",
@@ -62,16 +62,17 @@
         "2.1.4"
       ],
       "cis_description": "Ensure that S3 Buckets are configured with 'Block public access (bucket settings)' (RestrictPublicBuckets)",
-      "detected_at": "2026-10-08T08:17:36.950298Z"
+      "detected_at": "2026-10-26T13:32:25.140196Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:18:42.811522Z",
+  "scan_timestamp": "2026-10-26T13:32:28.729308Z",
   "iac_tool": "pulumi",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/pulumi_stack_export.json",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 82.227,
+  "scan_duration_seconds": 4.12,
+  "scan_errors": [],
   "critical_count": 4,
   "high_count": 0,
   "medium_count": 0,

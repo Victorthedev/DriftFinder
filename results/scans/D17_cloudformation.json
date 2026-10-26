@@ -14,16 +14,17 @@
         "3.2"
       ],
       "cis_description": "Ensure CloudTrail log file validation is enabled",
-      "detected_at": "2026-10-08T09:38:05.254707Z"
+      "detected_at": "2026-10-26T14:42:11.155792Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:38:30.960994Z",
+  "scan_timestamp": "2026-10-26T14:42:14.165918Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 49.205,
+  "scan_duration_seconds": 3.927,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 1,
   "medium_count": 0,

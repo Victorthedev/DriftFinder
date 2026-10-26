@@ -1,0 +1,93 @@
+{
+  "command": "terraform plan -refresh-only -input=false -no-color -lock=false -detailed-exitcode -out=native-D9.tfplan",
+  "changes": [
+    [
+      "aws_cloudwatch_log_group.cloudtrail",
+      "tags",
+      "44136fa355b3678a"
+    ],
+    [
+      "aws_cloudwatch_log_group.flow_logs",
+      "tags",
+      "44136fa355b3678a"
+    ],
+    [
+      "aws_db_instance.driftfinder_test",
+      "domain_dns_ips",
+      "4f53cda18c2baa0c"
+    ],
+    [
+      "aws_db_instance.driftfinder_test",
+      "enabled_cloudwatch_logs_exports",
+      "4f53cda18c2baa0c"
+    ],
+    [
+      "aws_db_instance.driftfinder_test",
+      "latest_restorable_time",
+      "3d2230859d107f63"
+    ],
+    [
+      "aws_default_network_acl.driftfinder_test",
+      "egress",
+      "0885715e42fac1e4"
+    ],
+    [
+      "aws_default_network_acl.driftfinder_test",
+      "ingress",
+      "583d3473aa4691c2"
+    ],
+    [
+      "aws_iam_policy.driftfinder_test",
+      "policy",
+      "8c6c2ea4648426d0"
+    ],
+    [
+      "aws_iam_role.cloudtrail_cw",
+      "inline_policy",
+      "138beca0591f8dd0"
+    ],
+    [
+      "aws_iam_role.cloudtrail_cw",
+      "tags",
+      "44136fa355b3678a"
+    ],
+    [
+      "aws_iam_role.flow_logs",
+      "inline_policy",
+      "e45993942b824475"
+    ],
+    [
+      "aws_iam_role.flow_logs",
+      "tags",
+      "44136fa355b3678a"
+    ],
+    [
+      "aws_s3_bucket.cloudtrail_logs",
+      "policy",
+      "612d3d03f1f23799"
+    ],
+    [
+      "aws_s3_bucket.driftfinder_test",
+      "logging",
+      "889275811407586f"
+    ],
+    [
+      "aws_s3_bucket.driftfinder_test",
+      "versioning",
+      "2f8c73667d8b1d27"
+    ],
+    [
+      "aws_s3_bucket_server_side_encryption_configuration.driftfinder_test",
+      "rule",
+      "061531075ed91583"
+    ]
+  ],
+  "exit_code": 2,
+  "attempts": 1,
+  "tool": "terraform",
+  "env": "terraform",
+  "label": "D9",
+  "checked_at": "2026-10-26T13:52:48.674815+00:00",
+  "duration_seconds": 12.52,
+  "ok": true
+}

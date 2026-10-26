@@ -2,7 +2,7 @@
   "findings": [
     {
       "resource_type": "NRMVPC",
-      "resource_id": "vpc-0ed54d33c379bac5c",
+      "resource_id": "vpc-0b0f81590a2b54cd6",
       "resource_name": "DriftFinderVPC",
       "iac_tool": "cloudformation",
       "property_path": "nacl_unrestricted_ingress",
@@ -14,16 +14,17 @@
         "5.1"
       ],
       "cis_description": "Ensure no Network ACLs allow ingress from 0.0.0.0/0 to remote server administration ports",
-      "detected_at": "2026-10-08T09:54:38.777949Z"
+      "detected_at": "2026-10-26T14:54:47.537609Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:54:49.385227Z",
+  "scan_timestamp": "2026-10-26T14:54:49.567864Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 28.362,
+  "scan_duration_seconds": 3.833,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,

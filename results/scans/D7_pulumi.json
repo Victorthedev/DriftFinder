@@ -14,7 +14,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:39:56.382413Z"
+      "detected_at": "2026-10-26T13:48:35.493396Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -30,7 +30,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:39:56.382482Z"
+      "detected_at": "2026-10-26T13:48:35.493510Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -46,7 +46,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:39:56.382497Z"
+      "detected_at": "2026-10-26T13:48:35.493541Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -60,7 +60,7 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-      "detected_at": "2026-10-08T08:39:56.382507Z"
+      "detected_at": "2026-10-26T13:48:35.493560Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -74,16 +74,17 @@
       "severity": "LOW",
       "cis_controls": [],
       "cis_description": null,
-      "detected_at": "2026-10-08T08:39:56.382518Z"
+      "detected_at": "2026-10-26T13:48:35.493589Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:40:06.592536Z",
+  "scan_timestamp": "2026-10-26T13:48:38.026437Z",
   "iac_tool": "pulumi",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/pulumi_stack_export.json",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 16.383,
+  "scan_duration_seconds": 3.812,
+  "scan_errors": [],
   "critical_count": 1,
   "high_count": 2,
   "medium_count": 1,

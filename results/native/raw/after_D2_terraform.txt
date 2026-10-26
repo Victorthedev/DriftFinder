@@ -1,0 +1,284 @@
+aws_kms_key.driftfinder_test: Refreshing state... [id=3e10dccf-c9c2-45c3-884d-bf97b647e39c]
+aws_cloudwatch_log_group.flow_logs: Refreshing state... [id=/driftfinder/vpc-flow-logs-tf]
+aws_s3_bucket.cloudtrail_logs: Refreshing state... [id=driftfinder-ct-logs-575108919391-tf]
+aws_iam_role.flow_logs: Refreshing state... [id=driftfinder-flow-logs-tf]
+aws_iam_policy.driftfinder_test: Refreshing state... [id=arn:aws:iam::575108919391:policy/driftfinder-iam-test]
+aws_cloudwatch_log_group.cloudtrail: Refreshing state... [id=/driftfinder/cloudtrail-tf]
+aws_iam_role.cloudtrail_cw: Refreshing state... [id=driftfinder-cloudtrail-cw-tf]
+aws_vpc.driftfinder_test: Refreshing state... [id=vpc-0002bf6a6276ac816]
+aws_s3_bucket.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_kms_alias.driftfinder_test: Refreshing state... [id=alias/driftfinder-test-terraform]
+aws_ebs_volume.driftfinder_test: Refreshing state... [id=vol-00a43b44559c73603]
+aws_s3_bucket_public_access_block.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_versioning.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_server_side_encryption_configuration.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_logging.driftfinder_test: Refreshing state... [id=driftfinder-s3-test-575108919391-tf]
+aws_s3_bucket_public_access_block.cloudtrail_logs: Refreshing state... [id=driftfinder-ct-logs-575108919391-tf]
+aws_s3_bucket_policy.cloudtrail_logs: Refreshing state... [id=driftfinder-ct-logs-575108919391-tf]
+aws_subnet.b: Refreshing state... [id=subnet-0af07e247ffac7c6a]
+aws_subnet.a: Refreshing state... [id=subnet-00df351debe20d855]
+aws_default_security_group.driftfinder_test: Refreshing state... [id=sg-0802f329a5f88ef8d]
+aws_security_group.driftfinder_test: Refreshing state... [id=sg-06ed35506fd6eb9a5]
+aws_default_network_acl.driftfinder_test: Refreshing state... [id=acl-0adb0ef972ab47aff]
+aws_db_subnet_group.driftfinder_test: Refreshing state... [id=driftfinder-rds-subnet-group-tf]
+aws_db_instance.driftfinder_test: Refreshing state... [id=db-26QLAW7QZ4IZHFUDO2ZXYXE3RM]
+aws_iam_role_policy.cloudtrail_cw: Refreshing state... [id=driftfinder-cloudtrail-cw-tf:driftfinder-cloudtrail-cw-policy-tf]
+aws_cloudtrail.driftfinder_test: Refreshing state... [id=arn:aws:cloudtrail:eu-west-1:575108919391:trail/driftfinder-trail-test]
+aws_iam_role_policy.flow_logs: Refreshing state... [id=driftfinder-flow-logs-tf:driftfinder-flow-logs-policy-tf]
+aws_flow_log.driftfinder_test: Refreshing state... [id=fl-017f585dcffe5cec7]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the
+last "terraform apply" which may have affected this plan:
+
+  # aws_cloudwatch_log_group.cloudtrail has changed
+  ~ resource "aws_cloudwatch_log_group" "cloudtrail" {
+        id                = "/driftfinder/cloudtrail-tf"
+        name              = "/driftfinder/cloudtrail-tf"
+      + tags              = {}
+        # (7 unchanged attributes hidden)
+    }
+
+  # aws_cloudwatch_log_group.flow_logs has changed
+  ~ resource "aws_cloudwatch_log_group" "flow_logs" {
+        id                = "/driftfinder/vpc-flow-logs-tf"
+        name              = "/driftfinder/vpc-flow-logs-tf"
+      + tags              = {}
+        # (7 unchanged attributes hidden)
+    }
+
+  # aws_db_instance.driftfinder_test has changed
+  ~ resource "aws_db_instance" "driftfinder_test" {
+      + domain_dns_ips                        = []
+      + enabled_cloudwatch_logs_exports       = []
+        id                                    = "db-26QLAW7QZ4IZHFUDO2ZXYXE3RM"
+      ~ latest_restorable_time                = "2026-10-26T13:05:58Z" -> "2026-10-26T13:25:43Z"
+        tags                                  = {
+            "Environment" = "driftfinder-experiment"
+            "IaCTool"     = "terraform"
+            "Name"        = "driftfinder-rds-test"
+        }
+        # (67 unchanged attributes hidden)
+    }
+
+  # aws_default_network_acl.driftfinder_test has changed
+  ~ resource "aws_default_network_acl" "driftfinder_test" {
+        id                     = "acl-0adb0ef972ab47aff"
+        tags                   = {
+            "Environment" = "driftfinder-experiment"
+            "IaCTool"     = "terraform"
+            "Name"        = "driftfinder-default-nacl-tf"
+        }
+        # (6 unchanged attributes hidden)
+
+      - egress {
+          - action          = "allow" -> null
+          - cidr_block      = "0.0.0.0/0" -> null
+          - from_port       = 0 -> null
+          - protocol        = "-1" -> null
+          - rule_no         = 100 -> null
+          - to_port         = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+      + egress {
+          + action          = "allow"
+          + cidr_block      = "0.0.0.0/0"
+          + from_port       = 0
+          + icmp_code       = 0
+          + icmp_type       = 0
+          + protocol        = "-1"
+          + rule_no         = 100
+          + to_port         = 0
+            # (1 unchanged attribute hidden)
+        }
+
+      - ingress {
+          - action          = "allow" -> null
+          - cidr_block      = "0.0.0.0/0" -> null
+          - from_port       = 1024 -> null
+          - protocol        = "6" -> null
+          - rule_no         = 200 -> null
+          - to_port         = 65535 -> null
+            # (1 unchanged attribute hidden)
+        }
+      - ingress {
+          - action          = "allow" -> null
+          - cidr_block      = "0.0.0.0/0" -> null
+          - from_port       = 443 -> null
+          - protocol        = "6" -> null
+          - rule_no         = 100 -> null
+          - to_port         = 443 -> null
+            # (1 unchanged attribute hidden)
+        }
+      + ingress {
+          + action          = "allow"
+          + cidr_block      = "0.0.0.0/0"
+          + from_port       = 1024
+          + icmp_code       = 0
+          + icmp_type       = 0
+          + protocol        = "6"
+          + rule_no         = 200
+          + to_port         = 65535
+            # (1 unchanged attribute hidden)
+        }
+      + ingress {
+          + action          = "allow"
+          + cidr_block      = "0.0.0.0/0"
+          + from_port       = 443
+          + icmp_code       = 0
+          + icmp_type       = 0
+          + protocol        = "6"
+          + rule_no         = 100
+          + to_port         = 443
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_iam_role.cloudtrail_cw has changed
+  ~ resource "aws_iam_role" "cloudtrail_cw" {
+        id                    = "driftfinder-cloudtrail-cw-tf"
+        name                  = "driftfinder-cloudtrail-cw-tf"
+      + tags                  = {}
+        # (12 unchanged attributes hidden)
+
+      + inline_policy {
+          + name   = "driftfinder-cloudtrail-cw-policy-tf"
+          + policy = jsonencode(
+                {
+                  + Statement = [
+                      + {
+                          + Action   = [
+                              + "logs:CreateLogStream",
+                              + "logs:PutLogEvents",
+                            ]
+                          + Effect   = "Allow"
+                          + Resource = "arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-tf:*"
+                        },
+                    ]
+                  + Version   = "2012-10-17"
+                }
+            )
+        }
+    }
+
+  # aws_iam_role.flow_logs has changed
+  ~ resource "aws_iam_role" "flow_logs" {
+        id                    = "driftfinder-flow-logs-tf"
+        name                  = "driftfinder-flow-logs-tf"
+      + tags                  = {}
+        # (12 unchanged attributes hidden)
+
+      + inline_policy {
+          + name   = "driftfinder-flow-logs-policy-tf"
+          + policy = jsonencode(
+                {
+                  + Statement = [
+                      + {
+                          + Action   = [
+                              + "logs:CreateLogGroup",
+                              + "logs:CreateLogStream",
+                              + "logs:PutLogEvents",
+                              + "logs:DescribeLogGroups",
+                              + "logs:DescribeLogStreams",
+                            ]
+                          + Effect   = "Allow"
+                          + Resource = "*"
+                        },
+                    ]
+                  + Version   = "2012-10-17"
+                }
+            )
+        }
+    }
+
+  # aws_s3_bucket.cloudtrail_logs has changed
+  ~ resource "aws_s3_bucket" "cloudtrail_logs" {
+        id                          = "driftfinder-ct-logs-575108919391-tf"
+      + policy                      = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "s3:GetBucketAcl"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "cloudtrail.amazonaws.com"
+                        }
+                      + Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf"
+                      + Sid       = "AWSCloudTrailAclCheck"
+                    },
+                  + {
+                      + Action    = "s3:PutObject"
+                      + Condition = {
+                          + StringEquals = {
+                              + "s3:x-amz-acl" = "bucket-owner-full-control"
+                            }
+                        }
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "cloudtrail.amazonaws.com"
+                        }
+                      + Resource  = "arn:aws:s3:::driftfinder-ct-logs-575108919391-tf/AWSLogs/575108919391/*"
+                      + Sid       = "AWSCloudTrailWrite"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+        tags                        = {
+            "Name" = "driftfinder-cloudtrail-logs-tf"
+        }
+        # (12 unchanged attributes hidden)
+
+        # (3 unchanged blocks hidden)
+    }
+
+  # aws_s3_bucket.driftfinder_test has changed
+  ~ resource "aws_s3_bucket" "driftfinder_test" {
+        id                          = "driftfinder-s3-test-575108919391-tf"
+        tags                        = {
+            "Environment" = "driftfinder-experiment"
+            "IaCTool"     = "terraform"
+            "Name"        = "driftfinder-s3-test"
+        }
+        # (13 unchanged attributes hidden)
+
+      + logging {
+          + target_bucket = "driftfinder-ct-logs-575108919391-tf"
+          + target_prefix = "s3-access-logs/"
+        }
+
+      ~ versioning {
+          ~ enabled    = false -> true
+            # (1 unchanged attribute hidden)
+        }
+
+        # (2 unchanged blocks hidden)
+    }
+
+  # aws_s3_bucket_server_side_encryption_configuration.driftfinder_test has changed
+  ~ resource "aws_s3_bucket_server_side_encryption_configuration" "driftfinder_test" {
+        id                    = "driftfinder-s3-test-575108919391-tf"
+        # (2 unchanged attributes hidden)
+
+      - rule {
+          - apply_server_side_encryption_by_default {
+              - sse_algorithm     = "AES256" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+      + rule {
+          + bucket_key_enabled = false
+
+          + apply_server_side_encryption_by_default {
+              + sse_algorithm     = "AES256"
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+
+This is a refresh-only plan, so Terraform will not take any actions to undo
+these. If you were expecting these changes then you can apply this plan to
+record the updated values in the Terraform state without changing any remote
+objects.

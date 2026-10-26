@@ -1,0 +1,250 @@
+{
+  "detection_status": {
+    "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+    "StackDriftDetectionId": "c0a56320-d14c-11f1-830e-02ffd4e2bc9f",
+    "StackDriftStatus": "DRIFTED",
+    "DetectionStatus": "DETECTION_COMPLETE",
+    "DriftedStackResourceCount": 2,
+    "Timestamp": "2026-10-26 14:51:40.498000+00:00",
+    "ResponseMetadata": {
+      "RequestId": "e2c8dafb-a015-4dc6-845e-eda2e4f60e6e",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "e2c8dafb-a015-4dc6-845e-eda2e4f60e6e",
+        "strict-transport-security": "max-age=47304000; includeSubDomains",
+        "cache-control": "no-store, no-cache",
+        "date": "Mon, 26 Oct 2026 14:51:50 GMT",
+        "content-type": "text/xml",
+        "content-length": "791",
+        "connection": "keep-alive"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "resource_drifts": [
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "CloudTrailCWRole",
+      "PhysicalResourceId": "driftfinder-cloudtrail-cw-cf",
+      "ResourceType": "AWS::IAM::Role",
+      "ExpectedProperties": "{\"RoleName\":\"driftfinder-cloudtrail-cw-cf\",\"Policies\":[{\"PolicyName\":\"CloudTrailCWPolicy\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Resource\":\"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-cf:*:*\"}]}}],\"AssumeRolePolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}}",
+      "ActualProperties": "{\"RoleName\":\"driftfinder-cloudtrail-cw-cf\",\"Policies\":[{\"PolicyName\":\"CloudTrailCWPolicy\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Resource\":\"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-cf:*:*\"}]}}],\"AssumeRolePolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:41.344000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "CloudTrailLogBucket",
+      "PhysicalResourceId": "driftfinder-ct-logs-575108919391-cf",
+      "ResourceType": "AWS::S3::Bucket",
+      "ExpectedProperties": "{\"PublicAccessBlockConfiguration\":{\"RestrictPublicBuckets\":true,\"BlockPublicPolicy\":true,\"BlockPublicAcls\":true,\"IgnorePublicAcls\":true},\"BucketName\":\"driftfinder-ct-logs-575108919391-cf\",\"Tags\":[{\"Value\":\"driftfinder-cloudtrail-logs-cf\",\"Key\":\"Name\"}]}",
+      "ActualProperties": "{\"PublicAccessBlockConfiguration\":{\"BlockPublicAcls\":true,\"BlockPublicPolicy\":true,\"IgnorePublicAcls\":true,\"RestrictPublicBuckets\":true},\"BucketName\":\"driftfinder-ct-logs-575108919391-cf\",\"Tags\":[{\"Key\":\"Name\",\"Value\":\"driftfinder-cloudtrail-logs-cf\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:42.122000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "CloudTrailLogGroup",
+      "PhysicalResourceId": "/driftfinder/cloudtrail-cf",
+      "ResourceType": "AWS::Logs::LogGroup",
+      "ExpectedProperties": "{\"RetentionInDays\":7,\"LogGroupName\":\"/driftfinder/cloudtrail-cf\"}",
+      "ActualProperties": "{\"RetentionInDays\":7,\"LogGroupName\":\"/driftfinder/cloudtrail-cf\"}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:41.018000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderEBS",
+      "PhysicalResourceId": "vol-02f6211e12a33ea76",
+      "ResourceType": "AWS::EC2::Volume",
+      "ExpectedProperties": "{\"VolumeType\":\"gp2\",\"KmsKeyId\":\"7b499e96-0730-47cc-9eb1-3ce76beecff0\",\"Size\":\"1\",\"Encrypted\":\"true\",\"AvailabilityZone\":\"eu-west-1a\",\"Tags\":[{\"Value\":\"driftfinder-ebs-test-cf\",\"Key\":\"Name\"},{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"}]}",
+      "ActualProperties": "{\"VolumeType\":\"gp2\",\"KmsKeyId\":\"arn:aws:kms:eu-west-1:575108919391:key/7b499e96-0730-47cc-9eb1-3ce76beecff0\",\"Encrypted\":true,\"Size\":1,\"AvailabilityZone\":\"eu-west-1a\",\"Tags\":[{\"Key\":\"Name\",\"Value\":\"driftfinder-ebs-test-cf\"},{\"Key\":\"IaCTool\",\"Value\":\"cloudformation\"},{\"Key\":\"Environment\",\"Value\":\"driftfinder-experiment\"}]}",
+      "PropertyDifferences": [
+        {
+          "PropertyPath": "/KmsKeyId",
+          "ExpectedValue": "7b499e96-0730-47cc-9eb1-3ce76beecff0",
+          "ActualValue": "arn:aws:kms:eu-west-1:575108919391:key/7b499e96-0730-47cc-9eb1-3ce76beecff0",
+          "DifferenceType": "NOT_EQUAL"
+        }
+      ],
+      "StackResourceDriftStatus": "MODIFIED",
+      "Timestamp": "2026-10-26 14:51:42.546000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderIAMPolicy",
+      "PhysicalResourceId": "arn:aws:iam::575108919391:policy/driftfinder-iam-test-cf",
+      "ResourceType": "AWS::IAM::ManagedPolicy",
+      "ExpectedProperties": "{\"ManagedPolicyName\":\"driftfinder-iam-test-cf\",\"PolicyDocument\":\"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Action\\\":[\\\"s3:GetObject\\\",\\\"s3:ListBucket\\\"],\\\"Resource\\\":[\\\"arn:aws:s3:::driftfinder-*\\\",\\\"arn:aws:s3:::driftfinder-*/*\\\"],\\\"Effect\\\":\\\"Allow\\\",\\\"Sid\\\":\\\"AllowS3ReadOnly\\\"},{\\\"Action\\\":[\\\"s3:DeleteObject\\\",\\\"s3:DeleteBucket\\\"],\\\"Resource\\\":\\\"*\\\",\\\"Effect\\\":\\\"Deny\\\",\\\"Sid\\\":\\\"ExplicitDenyDestructive\\\"}]}\",\"Description\":\"DriftFinder experiment IAM policy - compliant baseline\"}",
+      "ActualProperties": "{\"ManagedPolicyName\":\"driftfinder-iam-test-cf\",\"PolicyDocument\":\"{\\\"Version\\\":\\\"2012-10-17\\\",\\\"Statement\\\":[{\\\"Action\\\":[\\\"s3:GetObject\\\",\\\"s3:ListBucket\\\"],\\\"Resource\\\":[\\\"arn:aws:s3:::driftfinder-*\\\",\\\"arn:aws:s3:::driftfinder-*/*\\\"],\\\"Effect\\\":\\\"Allow\\\",\\\"Sid\\\":\\\"AllowS3ReadOnly\\\"},{\\\"Action\\\":[\\\"s3:DeleteObject\\\",\\\"s3:DeleteBucket\\\"],\\\"Resource\\\":\\\"*\\\",\\\"Effect\\\":\\\"Deny\\\",\\\"Sid\\\":\\\"ExplicitDenyDestructive\\\"}]}\",\"Description\":\"DriftFinder experiment IAM policy - compliant baseline\"}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:43.283000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderKMSKey",
+      "PhysicalResourceId": "7b499e96-0730-47cc-9eb1-3ce76beecff0",
+      "ResourceType": "AWS::KMS::Key",
+      "ExpectedProperties": "{\"Enabled\":true,\"EnableKeyRotation\":true,\"Description\":\"DriftFinder experiment KMS key\",\"KeyPolicy\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"kms:*\",\"Resource\":\"*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::575108919391:root\"},\"Sid\":\"Enable IAM User Permissions\"},{\"Action\":[\"kms:GenerateDataKey*\",\"kms:DescribeKey\",\"kms:Decrypt\"],\"Resource\":\"*\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Sid\":\"Allow CloudTrail to use key\"}]},\"Tags\":[{\"Value\":\"driftfinder-kms-test\",\"Key\":\"Name\"},{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"}]}",
+      "ActualProperties": "{\"Enabled\":true,\"EnableKeyRotation\":true,\"Description\":\"DriftFinder experiment KMS key\",\"KeyPolicy\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":\"kms:*\",\"Resource\":\"*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::575108919391:root\"},\"Sid\":\"Enable IAM User Permissions\"},{\"Action\":[\"kms:GenerateDataKey*\",\"kms:DescribeKey\",\"kms:Decrypt\"],\"Resource\":\"*\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"cloudtrail.amazonaws.com\"},\"Sid\":\"Allow CloudTrail to use key\"}]},\"Tags\":[{\"Key\":\"Environment\",\"Value\":\"driftfinder-experiment\"},{\"Key\":\"Name\",\"Value\":\"driftfinder-kms-test\"},{\"Key\":\"IaCTool\",\"Value\":\"cloudformation\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:42.431000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderNACL",
+      "PhysicalResourceId": "acl-0665c4e64a2165442",
+      "ResourceType": "AWS::EC2::NetworkAcl",
+      "ExpectedProperties": "{\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"Tags\":[{\"Value\":\"driftfinder-nacl-cf\",\"Key\":\"Name\"}]}",
+      "ActualProperties": "{\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"Tags\":[{\"Key\":\"Name\",\"Value\":\"driftfinder-nacl-cf\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:43.585000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderRDS",
+      "PhysicalResourceId": "driftfinder-rds-test-cf",
+      "ResourceType": "AWS::RDS::DBInstance",
+      "ExpectedProperties": "{\"StorageEncrypted\":true,\"EngineVersion\":\"8.4\",\"KmsKeyId\":\"7b499e96-0730-47cc-9eb1-3ce76beecff0\",\"DBInstanceClass\":\"db.t3.micro\",\"DeletionProtection\":false,\"DBSubnetGroupName\":\"driftfinder-rds-subnet-cf\",\"DBInstanceIdentifier\":\"driftfinder-rds-test-cf\",\"AllocatedStorage\":\"20\",\"MasterUserPassword\":\"****\",\"VPCSecurityGroups\":[\"sg-0e1a6f46a4b022023\"],\"MasterUsername\":\"admin\",\"PubliclyAccessible\":false,\"BackupRetentionPeriod\":7,\"Engine\":\"mysql\",\"Tags\":[{\"Value\":\"driftfinder-rds-test-cf\",\"Key\":\"Name\"},{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"}]}",
+      "ActualProperties": "{\"StorageEncrypted\":true,\"EngineVersion\":\"8.4.11\",\"KmsKeyId\":\"arn:aws:kms:eu-west-1:575108919391:key/7b499e96-0730-47cc-9eb1-3ce76beecff0\",\"DBInstanceClass\":\"db.t3.micro\",\"DBSubnetGroupName\":\"driftfinder-rds-subnet-cf\",\"DeletionProtection\":false,\"DBInstanceIdentifier\":\"driftfinder-rds-test-cf\",\"AllocatedStorage\":\"20\",\"MasterUserPassword\":\"****\",\"VPCSecurityGroups\":[\"sg-0e1a6f46a4b022023\"],\"MasterUsername\":\"admin\",\"PubliclyAccessible\":false,\"BackupRetentionPeriod\":7,\"Engine\":\"mysql\",\"Tags\":[{\"Key\":\"Environment\",\"Value\":\"driftfinder-experiment\"},{\"Key\":\"IaCTool\",\"Value\":\"cloudformation\"},{\"Key\":\"Name\",\"Value\":\"driftfinder-rds-test-cf\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:43.988000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderS3Bucket",
+      "PhysicalResourceId": "driftfinder-s3-test-575108919391-cf",
+      "ResourceType": "AWS::S3::Bucket",
+      "ExpectedProperties": "{\"PublicAccessBlockConfiguration\":{\"RestrictPublicBuckets\":true,\"BlockPublicPolicy\":true,\"BlockPublicAcls\":true,\"IgnorePublicAcls\":true},\"BucketName\":\"driftfinder-s3-test-575108919391-cf\",\"BucketEncryption\":{\"ServerSideEncryptionConfiguration\":[{\"ServerSideEncryptionByDefault\":{\"SSEAlgorithm\":\"AES256\"}}]},\"LoggingConfiguration\":{\"LogFilePrefix\":\"s3-access-logs/\",\"DestinationBucketName\":\"driftfinder-ct-logs-575108919391-cf\"},\"VersioningConfiguration\":{\"Status\":\"Enabled\"},\"Tags\":[{\"Value\":\"driftfinder-s3-test\",\"Key\":\"Name\"},{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"}]}",
+      "ActualProperties": "{\"PublicAccessBlockConfiguration\":{\"BlockPublicAcls\":true,\"BlockPublicPolicy\":true,\"IgnorePublicAcls\":true,\"RestrictPublicBuckets\":true},\"BucketName\":\"driftfinder-s3-test-575108919391-cf\",\"BucketEncryption\":{\"ServerSideEncryptionConfiguration\":[{\"ServerSideEncryptionByDefault\":{\"SSEAlgorithm\":\"AES256\"}}]},\"LoggingConfiguration\":{\"DestinationBucketName\":\"driftfinder-ct-logs-575108919391-cf\",\"LogFilePrefix\":\"s3-access-logs/\"},\"VersioningConfiguration\":{\"Status\":\"Enabled\"},\"Tags\":[{\"Key\":\"Environment\",\"Value\":\"driftfinder-experiment\"},{\"Key\":\"IaCTool\",\"Value\":\"cloudformation\"},{\"Key\":\"Name\",\"Value\":\"driftfinder-s3-test\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:44.079000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderSG",
+      "PhysicalResourceId": "sg-0e1a6f46a4b022023",
+      "ResourceType": "AWS::EC2::SecurityGroup",
+      "ExpectedProperties": "{\"GroupName\":\"driftfinder-sg-test-cf\",\"GroupDescription\":\"DriftFinder experiment security group - compliant baseline\",\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"SecurityGroupIngress\":[{\"CidrIp\":\"10.0.0.0/8\",\"Description\":\"HTTPS from internal only\",\"FromPort\":443,\"IpProtocol\":\"tcp\",\"ToPort\":443}],\"SecurityGroupEgress\":[{\"CidrIp\":\"0.0.0.0/0\",\"Description\":\"HTTPS outbound only\",\"FromPort\":443,\"IpProtocol\":\"tcp\",\"ToPort\":443}],\"Tags\":[{\"Value\":\"driftfinder-sg-test-cf\",\"Key\":\"Name\"},{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"}]}",
+      "ActualProperties": "{\"GroupDescription\":\"DriftFinder experiment security group - compliant baseline\",\"GroupName\":\"driftfinder-sg-test-cf\",\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"SecurityGroupIngress\":[{\"CidrIp\":\"10.0.0.0/8\",\"Description\":\"HTTPS from internal only\",\"FromPort\":443,\"IpProtocol\":\"tcp\",\"ToPort\":443}],\"SecurityGroupEgress\":[{\"CidrIp\":\"0.0.0.0/0\",\"Description\":\"HTTPS outbound only\",\"FromPort\":443,\"IpProtocol\":\"tcp\",\"ToPort\":443}],\"Tags\":[{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"},{\"Value\":\"driftfinder-sg-test-cf\",\"Key\":\"Name\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:44.329000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderTrail",
+      "PhysicalResourceId": "driftfinder-trail-test-cf",
+      "ResourceType": "AWS::CloudTrail::Trail",
+      "ExpectedProperties": "{\"CloudWatchLogsLogGroupArn\":\"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-cf:*\",\"IncludeGlobalServiceEvents\":true,\"KMSKeyId\":\"7b499e96-0730-47cc-9eb1-3ce76beecff0\",\"CloudWatchLogsRoleArn\":\"arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-cf\",\"IsMultiRegionTrail\":true,\"TrailName\":\"driftfinder-trail-test-cf\",\"S3BucketName\":\"driftfinder-ct-logs-575108919391-cf\",\"EnableLogFileValidation\":true,\"Tags\":[{\"Value\":\"driftfinder-trail-test-cf\",\"Key\":\"Name\"},{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"}],\"IsLogging\":true}",
+      "ActualProperties": "{\"CloudWatchLogsLogGroupArn\":\"arn:aws:logs:eu-west-1:575108919391:log-group:/driftfinder/cloudtrail-cf:*\",\"IncludeGlobalServiceEvents\":true,\"KMSKeyId\":\"arn:aws:kms:eu-west-1:575108919391:key/7b499e96-0730-47cc-9eb1-3ce76beecff0\",\"CloudWatchLogsRoleArn\":\"arn:aws:iam::575108919391:role/driftfinder-cloudtrail-cw-cf\",\"IsMultiRegionTrail\":true,\"TrailName\":\"driftfinder-trail-test-cf\",\"S3BucketName\":\"driftfinder-ct-logs-575108919391-cf\",\"EnableLogFileValidation\":true,\"Tags\":[{\"Key\":\"IaCTool\",\"Value\":\"cloudformation\"},{\"Key\":\"Environment\",\"Value\":\"driftfinder-experiment\"},{\"Key\":\"Name\",\"Value\":\"driftfinder-trail-test-cf\"}],\"IsLogging\":true}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:44.440000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "DriftFinderVPC",
+      "PhysicalResourceId": "vpc-0b0f81590a2b54cd6",
+      "ResourceType": "AWS::EC2::VPC",
+      "ExpectedProperties": "{\"CidrBlock\":\"10.101.0.0/16\",\"EnableDnsSupport\":true,\"EnableDnsHostnames\":true,\"Tags\":[{\"Value\":\"driftfinder-vpc-test\",\"Key\":\"Name\"},{\"Value\":\"driftfinder-experiment\",\"Key\":\"Environment\"},{\"Value\":\"cloudformation\",\"Key\":\"IaCTool\"}]}",
+      "ActualProperties": "{\"CidrBlock\":\"10.101.0.0/16\",\"EnableDnsSupport\":true,\"EnableDnsHostnames\":true,\"Tags\":[{\"Key\":\"Environment\",\"Value\":\"driftfinder-experiment\"},{\"Key\":\"Name\",\"Value\":\"driftfinder-vpc-test\"},{\"Key\":\"IaCTool\",\"Value\":\"cloudformation\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:44.978000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "FlowLogGroup",
+      "PhysicalResourceId": "/driftfinder/vpc-flow-logs-cf",
+      "ResourceType": "AWS::Logs::LogGroup",
+      "ExpectedProperties": "{\"RetentionInDays\":7,\"LogGroupName\":\"/driftfinder/vpc-flow-logs-cf\"}",
+      "ActualProperties": "{\"RetentionInDays\":7,\"LogGroupName\":\"/driftfinder/vpc-flow-logs-cf\"}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:44.599000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "FlowLogRole",
+      "PhysicalResourceId": "driftfinder-flow-logs-cf",
+      "ResourceType": "AWS::IAM::Role",
+      "ExpectedProperties": "{\"RoleName\":\"driftfinder-flow-logs-cf\",\"Policies\":[{\"PolicyName\":\"FlowLogPolicy\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\",\"logs:DescribeLogGroups\",\"logs:DescribeLogStreams\"],\"Resource\":\"*\"}]}}],\"AssumeRolePolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"vpc-flow-logs.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}}",
+      "ActualProperties": "{\"RoleName\":\"driftfinder-flow-logs-cf\",\"Policies\":[{\"PolicyName\":\"FlowLogPolicy\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\",\"logs:DescribeLogGroups\",\"logs:DescribeLogStreams\"],\"Resource\":\"*\"}]}}],\"AssumeRolePolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"vpc-flow-logs.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:45.157000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "RDSSubnetGroup",
+      "PhysicalResourceId": "driftfinder-rds-subnet-cf",
+      "ResourceType": "AWS::RDS::DBSubnetGroup",
+      "ExpectedProperties": "{\"DBSubnetGroupName\":\"driftfinder-rds-subnet-cf\",\"DBSubnetGroupDescription\":\"DriftFinder RDS subnet group CF\",\"SubnetIds\":[\"subnet-06a6bd25d45ce95cd\",\"subnet-0643944db07464804\"],\"Tags\":[{\"Value\":\"driftfinder-rds-subnet-cf\",\"Key\":\"Name\"}]}",
+      "ActualProperties": "{\"DBSubnetGroupName\":\"driftfinder-rds-subnet-cf\",\"DBSubnetGroupDescription\":\"DriftFinder RDS subnet group CF\",\"SubnetIds\":[\"subnet-0643944db07464804\",\"subnet-06a6bd25d45ce95cd\"],\"Tags\":[{\"Key\":\"Name\",\"Value\":\"driftfinder-rds-subnet-cf\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:45.610000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "SubnetA",
+      "PhysicalResourceId": "subnet-06a6bd25d45ce95cd",
+      "ResourceType": "AWS::EC2::Subnet",
+      "ExpectedProperties": "{\"CidrBlock\":\"10.101.1.0/24\",\"AvailabilityZone\":\"eu-west-1a\",\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"Tags\":[{\"Value\":\"driftfinder-subnet-a-cf\",\"Key\":\"Name\"}]}",
+      "ActualProperties": "{\"AvailabilityZone\":\"eu-west-1a\",\"CidrBlock\":\"10.101.1.0/24\",\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"Tags\":[{\"Value\":\"driftfinder-subnet-a-cf\",\"Key\":\"Name\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:45.530000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "SubnetANACLAssoc",
+      "PhysicalResourceId": "aclassoc-094825c22a3c394ab",
+      "ResourceType": "AWS::EC2::SubnetNetworkAclAssociation",
+      "ExpectedProperties": "{\"NetworkAclId\":\"acl-0665c4e64a2165442\",\"SubnetId\":\"subnet-06a6bd25d45ce95cd\"}",
+      "ActualProperties": "{\"NetworkAclId\":\"acl-0665c4e64a2165442\",\"SubnetId\":\"subnet-06a6bd25d45ce95cd\"}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:45.814000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "SubnetB",
+      "PhysicalResourceId": "subnet-0643944db07464804",
+      "ResourceType": "AWS::EC2::Subnet",
+      "ExpectedProperties": "{\"CidrBlock\":\"10.101.2.0/24\",\"AvailabilityZone\":\"eu-west-1b\",\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"Tags\":[{\"Value\":\"driftfinder-subnet-b-cf\",\"Key\":\"Name\"}]}",
+      "ActualProperties": "{\"AvailabilityZone\":\"eu-west-1b\",\"CidrBlock\":\"10.101.2.0/24\",\"VpcId\":\"vpc-0b0f81590a2b54cd6\",\"Tags\":[{\"Value\":\"driftfinder-subnet-b-cf\",\"Key\":\"Name\"}]}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:46.003000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "SubnetBNACLAssoc",
+      "PhysicalResourceId": "aclassoc-071b75de025deb70c",
+      "ResourceType": "AWS::EC2::SubnetNetworkAclAssociation",
+      "ExpectedProperties": "{\"NetworkAclId\":\"acl-0665c4e64a2165442\",\"SubnetId\":\"subnet-0643944db07464804\"}",
+      "ActualProperties": "{\"NetworkAclId\":\"acl-0665c4e64a2165442\",\"SubnetId\":\"subnet-0643944db07464804\"}",
+      "PropertyDifferences": [],
+      "StackResourceDriftStatus": "IN_SYNC",
+      "Timestamp": "2026-10-26 14:51:46.275000+00:00"
+    },
+    {
+      "StackId": "arn:aws:cloudformation:eu-west-1:575108919391:stack/driftfinder-experiment-cf/682f8bc0-d13e-11f1-9c83-0a4e56bd9d8b",
+      "LogicalResourceId": "VPCFlowLog",
+      "PhysicalResourceId": "fl-0711caef0dd158109",
+      "ResourceType": "AWS::EC2::FlowLog",
+      "StackResourceDriftStatus": "DELETED",
+      "Timestamp": "2026-10-26 14:51:46.060000+00:00"
+    }
+  ]
+}

@@ -2,4 +2,4 @@ iac_tool: pulumi
 aws_region: eu-west-1
 fail_on: LOW
 output_format: json
-pulumi_stack: /Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json
+pulumi_stack: /Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/pulumi_stack_export.json

@@ -1,0 +1,23 @@
+{
+  "command": "pulumi refresh --preview-only --json --non-interactive --stack driftfinder-experiment",
+  "changes": [
+    [
+      "driftfinder-default-nacl",
+      "subnetIds",
+      "0ecebeefe2263cb9"
+    ],
+    [
+      "driftfinder-trail-test",
+      "enableLogFileValidation",
+      "fcbcf165908dd18a"
+    ]
+  ],
+  "exit_code": 0,
+  "attempts": 1,
+  "tool": "pulumi",
+  "env": "pulumi",
+  "label": "D17",
+  "checked_at": "2026-10-26T14:43:31.131682+00:00",
+  "duration_seconds": 14.17,
+  "ok": true
+}

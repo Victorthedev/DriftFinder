@@ -1,0 +1,28 @@
+{
+  "command": "detect_stack_drift(StackName=driftfinder-experiment-cf) and describe_stack_resource_drifts",
+  "changes": [
+    [
+      "DriftFinderEBS",
+      "KmsKeyId",
+      "98ae2130d99214a7"
+    ],
+    [
+      "DriftFinderKMSKey",
+      "EnableKeyRotation",
+      "0614fd042336e4a6"
+    ],
+    [
+      "VPCFlowLog",
+      "deleted",
+      "deleted"
+    ]
+  ],
+  "not_checked": [],
+  "attempts": 1,
+  "tool": "cloudformation",
+  "env": "cloudformation",
+  "label": "D22",
+  "checked_at": "2026-10-26T14:57:54.582664+00:00",
+  "duration_seconds": 10.62,
+  "ok": true
+}

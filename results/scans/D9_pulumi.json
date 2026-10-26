@@ -12,7 +12,7 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-      "detected_at": "2026-10-08T08:48:13.023746Z"
+      "detected_at": "2026-10-26T13:54:44.530884Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -26,16 +26,17 @@
       "severity": "LOW",
       "cis_controls": [],
       "cis_description": null,
-      "detected_at": "2026-10-08T08:48:13.027256Z"
+      "detected_at": "2026-10-26T13:54:44.530953Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:48:27.934915Z",
+  "scan_timestamp": "2026-10-26T13:54:46.711501Z",
   "iac_tool": "pulumi",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/pulumi_stack_export.json",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 20.768,
+  "scan_duration_seconds": 3.426,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,

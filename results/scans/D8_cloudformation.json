@@ -14,7 +14,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:42:33.831027Z"
+      "detected_at": "2026-10-26T13:50:29.098362Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -30,7 +30,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:42:33.831093Z"
+      "detected_at": "2026-10-26T13:50:29.098475Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -46,7 +46,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:42:33.831107Z"
+      "detected_at": "2026-10-26T13:50:29.098506Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -60,7 +60,7 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-      "detected_at": "2026-10-08T08:42:33.831117Z"
+      "detected_at": "2026-10-26T13:50:29.098526Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -74,16 +74,17 @@
       "severity": "LOW",
       "cis_controls": [],
       "cis_description": null,
-      "detected_at": "2026-10-08T08:42:33.831128Z"
+      "detected_at": "2026-10-26T13:50:29.098546Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:42:38.740323Z",
+  "scan_timestamp": "2026-10-26T13:50:30.334418Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 25.61,
+  "scan_duration_seconds": 3.607,
+  "scan_errors": [],
   "critical_count": 1,
   "high_count": 2,
   "medium_count": 1,

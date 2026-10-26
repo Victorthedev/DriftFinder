@@ -12,16 +12,17 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
-      "detected_at": "2026-10-08T09:41:44.048291Z"
+      "detected_at": "2026-10-26T14:44:17.128294Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:41:48.596682Z",
+  "scan_timestamp": "2026-10-26T14:44:17.806922Z",
   "iac_tool": "terraform",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/work/terraform/terraform.tfstate",
   "resources_scanned": 11,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 19.453,
+  "scan_duration_seconds": 3.635,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,
