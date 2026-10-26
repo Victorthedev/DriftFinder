@@ -150,8 +150,8 @@ git clone https://github.com/Victorthedev/driftfinder
 cd driftfinder
 python3.13 -m venv .venv
 source .venv/bin/activate
-pip install --require-hashes --no-deps -r requirements.lock
-pip install --no-deps -e .
+python -m pip install --require-hashes --no-deps -r requirements.lock
+python -m pip install --no-deps -e .
 ```
 
 **Windows (PowerShell):**
@@ -160,13 +160,13 @@ git clone https://github.com/Victorthedev/driftfinder
 cd driftfinder
 py -3.13 -m venv .venv
 .venv\Scripts\activate
-pip install --require-hashes --no-deps -r requirements.lock
-pip install --no-deps -e .
+python -m pip install --require-hashes --no-deps -r requirements.lock
+python -m pip install --no-deps -e .
 ```
 
 After activating the virtual environment, `python` refers to the right version, so the remaining commands in this README use plain `python`.
 
-`requirements.lock` installs the exact package versions used in the experiment, including Pulumi's Python SDK and the test tools. For scanning only, `pip install -e .` is enough and accepts newer compatible versions.
+`requirements.lock` installs the exact package versions used in the experiment, including Pulumi's Python SDK and the test tools. For scanning only, `python -m pip install -e .` is enough and accepts newer compatible versions.
 
 Verify:
 
