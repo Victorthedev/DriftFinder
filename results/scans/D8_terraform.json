@@ -14,7 +14,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:41:06.561927Z"
+      "detected_at": "2026-10-26T13:49:27.530605Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -30,7 +30,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:41:06.562011Z"
+      "detected_at": "2026-10-26T13:49:27.530717Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -46,7 +46,7 @@
         "1.16"
       ],
       "cis_description": "Ensure IAM policies that allow full \"*:*\" administrative privileges are not attached",
-      "detected_at": "2026-10-08T08:41:06.562030Z"
+      "detected_at": "2026-10-26T13:49:27.530748Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -60,7 +60,7 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-      "detected_at": "2026-10-08T08:41:06.562043Z"
+      "detected_at": "2026-10-26T13:49:27.530767Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -74,16 +74,17 @@
       "severity": "LOW",
       "cis_controls": [],
       "cis_description": null,
-      "detected_at": "2026-10-08T08:41:06.562057Z"
+      "detected_at": "2026-10-26T13:49:27.530787Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:41:17.156853Z",
+  "scan_timestamp": "2026-10-26T13:49:30.217674Z",
   "iac_tool": "terraform",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/work/terraform/terraform.tfstate",
   "resources_scanned": 11,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 15.446,
+  "scan_duration_seconds": 4.098,
+  "scan_errors": [],
   "critical_count": 1,
   "high_count": 2,
   "medium_count": 1,

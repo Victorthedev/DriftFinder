@@ -1,0 +1,23 @@
+{
+  "command": "pulumi refresh --preview-only --json --non-interactive --stack driftfinder-experiment",
+  "changes": [
+    [
+      "driftfinder-default-nacl",
+      "subnetIds",
+      "0ecebeefe2263cb9"
+    ],
+    [
+      "driftfinder-sg-test",
+      "egress",
+      "575f05598e06e303"
+    ]
+  ],
+  "exit_code": 0,
+  "attempts": 2,
+  "tool": "pulumi",
+  "env": "pulumi",
+  "label": "D6",
+  "checked_at": "2026-10-26T13:45:47.501524+00:00",
+  "duration_seconds": 5.22,
+  "ok": true
+}

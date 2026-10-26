@@ -12,16 +12,17 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: RDS automated backup retention changed",
-      "detected_at": "2026-10-08T09:00:40.640666Z"
+      "detected_at": "2026-10-26T14:03:41.746034Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:00:46.212016Z",
+  "scan_timestamp": "2026-10-26T14:03:44.261878Z",
   "iac_tool": "terraform",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/work/terraform/terraform.tfstate",
   "resources_scanned": 11,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 14.697,
+  "scan_duration_seconds": 4.323,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,

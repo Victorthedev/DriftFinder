@@ -1,6 +1,6 @@
 {
-  "run_id": "20261008T073703Z",
-  "started_at": "2026-10-08T07:37:22.184512+00:00",
+  "run_id": "20261026T125748Z",
+  "started_at": "2026-10-26T12:57:53.940176+00:00",
   "region": "eu-west-1",
   "envs": [
     "terraform",
@@ -34,6 +34,16 @@
     "D24"
   ],
   "settle_seconds": 30,
+  "native": true,
+  "native_mapping": {
+    "path": "experiment/native_mapping.json",
+    "sha256": "6ae80ea544d3174ec2c83c3522bc8c887d54fa9f468332b9083010e59c27b85f"
+  },
+  "native_commands": {
+    "terraform": "terraform plan -refresh-only -lock=false -detailed-exitcode, then terraform show -json",
+    "cloudformation": "detect_stack_drift, then describe_stack_resource_drifts (all statuses)",
+    "pulumi": "pulumi refresh --preview-only --json --non-interactive --stack driftfinder-experiment"
+  },
   "clean_attempts": 5,
   "clean_delay_seconds": 30,
   "results_bucket": "driftfinder-results-575108919391",
@@ -161,5 +171,8 @@
       "limit": 5
     }
   },
-  "completed_at": "2026-10-08T10:10:16.767696+00:00"
+  "power": {
+    "low_power_mode": false
+  },
+  "completed_at": "2026-10-26T15:08:58.085017+00:00"
 }

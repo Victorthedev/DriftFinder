@@ -12,16 +12,17 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: S3 server access logging is disabled",
-      "detected_at": "2026-10-08T08:21:03.751382Z"
+      "detected_at": "2026-10-26T13:33:25.528178Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:21:16.949963Z",
+  "scan_timestamp": "2026-10-26T13:33:28.941728Z",
   "iac_tool": "terraform",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/work/terraform/terraform.tfstate",
   "resources_scanned": 11,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 18.469,
+  "scan_duration_seconds": 3.954,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,

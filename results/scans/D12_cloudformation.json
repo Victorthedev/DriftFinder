@@ -12,16 +12,17 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: RDS automated backup retention changed",
-      "detected_at": "2026-10-08T09:07:30.254972Z"
+      "detected_at": "2026-10-26T14:11:22.121666Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:07:32.374235Z",
+  "scan_timestamp": "2026-10-26T14:11:23.247233Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 26.381,
+  "scan_duration_seconds": 3.894,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,

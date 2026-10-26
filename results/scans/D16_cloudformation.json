@@ -14,16 +14,17 @@
         "3.1"
       ],
       "cis_description": "Ensure CloudTrail is enabled in all regions",
-      "detected_at": "2026-10-08T09:33:58.774741Z"
+      "detected_at": "2026-10-26T14:39:01.500825Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:34:12.706703Z",
+  "scan_timestamp": "2026-10-26T14:39:04.628839Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 27.864,
+  "scan_duration_seconds": 4.061,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 1,
   "medium_count": 0,

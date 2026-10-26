@@ -12,7 +12,7 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-      "detected_at": "2026-10-08T08:45:18.389281Z"
+      "detected_at": "2026-10-26T13:52:33.623849Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -26,16 +26,17 @@
       "severity": "LOW",
       "cis_controls": [],
       "cis_description": null,
-      "detected_at": "2026-10-08T08:45:18.391960Z"
+      "detected_at": "2026-10-26T13:52:33.624511Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:45:31.561524Z",
+  "scan_timestamp": "2026-10-26T13:52:35.975584Z",
   "iac_tool": "terraform",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/work/terraform/terraform.tfstate",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/work/terraform/terraform.tfstate",
   "resources_scanned": 11,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 22.358,
+  "scan_duration_seconds": 3.602,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,

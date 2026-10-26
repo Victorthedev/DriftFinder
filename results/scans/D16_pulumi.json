@@ -14,16 +14,17 @@
         "3.1"
       ],
       "cis_description": "Ensure CloudTrail is enabled in all regions",
-      "detected_at": "2026-10-08T09:35:30.687434Z"
+      "detected_at": "2026-10-26T14:40:06.717010Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:35:33.610004Z",
+  "scan_timestamp": "2026-10-26T14:40:07.396527Z",
   "iac_tool": "pulumi",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/pulumi_stack_export.json",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 15.097,
+  "scan_duration_seconds": 3.59,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 1,
   "medium_count": 0,

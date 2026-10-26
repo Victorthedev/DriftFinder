@@ -12,7 +12,7 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: IAM policy no longer contains an explicit deny statement",
-      "detected_at": "2026-10-08T08:46:48.426197Z"
+      "detected_at": "2026-10-26T13:53:41.477993Z"
     },
     {
       "resource_type": "NRMIAMPolicy",
@@ -26,16 +26,17 @@
       "severity": "LOW",
       "cis_controls": [],
       "cis_description": null,
-      "detected_at": "2026-10-08T08:46:48.426313Z"
+      "detected_at": "2026-10-26T13:53:41.478364Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:46:55.244925Z",
+  "scan_timestamp": "2026-10-26T13:53:43.086517Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 24.811,
+  "scan_duration_seconds": 4.164,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,

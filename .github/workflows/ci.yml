@@ -52,8 +52,8 @@ jobs:
       - uses: pulumi/actions@v7
         with:
           pulumi-version: "3.250.0"
-      - run: pip install --require-hashes --no-deps -r requirements.lock
-      - run: pip install --no-deps -e .
+      - run: python -m pip install --require-hashes --no-deps -r requirements.lock
+      - run: python -m pip install --no-deps -e .
       - run: driftfinder --version
       - run: python experiment/run.py --help
       - name: Check installed versions match the pinned versions

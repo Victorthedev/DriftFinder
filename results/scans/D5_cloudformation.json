@@ -2,7 +2,7 @@
   "findings": [
     {
       "resource_type": "NRMSecurityGroup",
-      "resource_id": "sg-0d6ebc31a26a76c20",
+      "resource_id": "sg-0e1a6f46a4b022023",
       "resource_name": "DriftFinderSG",
       "iac_tool": "cloudformation",
       "property_path": "unrestricted_rdp_ingress",
@@ -14,16 +14,17 @@
         "5.2"
       ],
       "cis_description": "Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports",
-      "detected_at": "2026-10-08T08:30:38.262676Z"
+      "detected_at": "2026-10-26T13:40:50.583456Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T08:30:44.790276Z",
+  "scan_timestamp": "2026-10-26T13:40:52.413431Z",
   "iac_tool": "cloudformation",
   "state_source": "driftfinder-experiment-cf",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 19.586,
+  "scan_duration_seconds": 3.882,
+  "scan_errors": [],
   "critical_count": 1,
   "high_count": 0,
   "medium_count": 0,

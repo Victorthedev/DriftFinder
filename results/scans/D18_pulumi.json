@@ -12,16 +12,17 @@
       "severity": "MEDIUM",
       "cis_controls": [],
       "cis_description": "No CIS v3.0.0 control: CloudTrail is no longer integrated with CloudWatch Logs (removed from CIS after v1.4.0)",
-      "detected_at": "2026-10-08T09:44:19.942311Z"
+      "detected_at": "2026-10-26T14:46:22.869662Z"
     }
   ],
-  "scan_timestamp": "2026-10-08T09:44:21.739927Z",
+  "scan_timestamp": "2026-10-26T14:46:23.633216Z",
   "iac_tool": "pulumi",
-  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261008T073703Z/pulumi_stack_export.json",
+  "state_source": "/Users/wikiwoo/DriftFinder/experiment-runs/20261026T125748Z/pulumi_stack_export.json",
   "resources_scanned": 9,
   "resources_with_drift": 1,
   "compliant": false,
-  "scan_duration_seconds": 13.351,
+  "scan_duration_seconds": 4.155,
+  "scan_errors": [],
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 1,
