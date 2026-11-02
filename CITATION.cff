@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use DriftFinder, please cite it using the metadata below."
+title: "DriftFinder: open source multi-IaC security drift detection for AWS with CIS benchmark mapping"
+type: software
+version: 1.0.0
+license: Apache-2.0
+repository-code: "https://github.com/Victorthedev/driftfinder"
+authors:
+  - family-names: Ubahakwe
+    given-names: Emeka Victor
+    affiliation: Wrexham University
+  - family-names: Knowles
+    given-names: Adam
+    affiliation: Wrexham University
+  - family-names: Kuka
+    given-names: Colin
+    affiliation: Wrexham University
+keywords:
+  - Infrastructure as Code
+  - configuration drift
+  - cloud security
+  - CIS benchmark
+  - AWS

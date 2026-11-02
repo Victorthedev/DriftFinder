@@ -39,6 +39,41 @@ def _fingerprint(value) -> str:
     return hashlib.sha256(json.dumps(value, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
 
+REDACTED = "[redacted]"
+
+
+def _mask(value, sensitive):
+    if sensitive is True:
+        return REDACTED
+    if isinstance(sensitive, dict) and isinstance(value, dict):
+        return {k: _mask(v, sensitive.get(k)) for k, v in value.items()}
+    if isinstance(sensitive, list) and isinstance(value, list):
+        return [_mask(v, sensitive[i] if i < len(sensitive) else None) for i, v in enumerate(value)]
+    return value
+
+
+def redact_terraform(plan: dict) -> dict:
+    def walk(node):
+        if isinstance(node, dict):
+            if "values" in node and "sensitive_values" in node:
+                node["values"] = _mask(node["values"], node["sensitive_values"])
+            for side in ("before", "after"):
+                if side in node and f"{side}_sensitive" in node:
+                    node[side] = _mask(node[side], node[f"{side}_sensitive"])
+            for child in node.values():
+                walk(child)
+        elif isinstance(node, list):
+            for child in node:
+                walk(child)
+
+    walk(plan)
+    declared = plan.get("configuration", {}).get("root_module", {}).get("variables", {})
+    for name, variable in plan.get("variables", {}).items():
+        if declared.get(name, {}).get("sensitive"):
+            variable["value"] = REDACTED
+    return plan
+
+
 def parse_terraform(show_text: str) -> dict:
     changes = []
     for entry in json.loads(show_text).get("resource_drift", []) or []:
@@ -112,8 +147,9 @@ def _terraform(run, label: str, raw_dir: Path) -> dict:
     plan.unlink(missing_ok=True)
     if show.returncode != 0:
         return {"command": " ".join(commands[0]), "error": f"terraform show exit code {show.returncode}: {show.stderr}"}
-    _write(raw_dir / f"{label}_terraform.json", show.stdout)
-    return {"command": " ".join(commands[0]), **parse_terraform(show.stdout), "exit_code": plan_run.returncode}
+    redacted = json.dumps(redact_terraform(json.loads(show.stdout)))
+    _write(raw_dir / f"{label}_terraform.json", redacted)
+    return {"command": " ".join(commands[0]), **parse_terraform(redacted), "exit_code": plan_run.returncode}
 
 
 def _cloudformation(run, label: str, raw_dir: Path, stack: str) -> dict:
