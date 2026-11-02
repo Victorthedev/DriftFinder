@@ -68,7 +68,7 @@ The experiment was run with these exact versions. The Docker image contains them
 | Pulumi AWS provider | 7.35.0 (installed automatically by the `pulumi-aws` package) |
 | Python packages | Exact versions with hashes in `requirements.lock` |
 
-After the reported run finished, `requirements.lock` was updated to fix known vulnerabilities. black and filelock (development tools), certifi (the certificate bundle) and eight opentelemetry packages that Pulumi uses for telemetry were updated, and one opentelemetry package was added. Python, Terraform, the AWS provider, Pulumi, pulumi-aws and boto3 are unchanged, so no package that affects scan or scoring results changed.
+After the reported run finished, `requirements.lock` was updated to fix known vulnerabilities. black and filelock (development tools), msgpack (used by pip-audit), certifi (the certificate bundle) and eight opentelemetry packages that Pulumi uses for telemetry were updated, and one opentelemetry package was added. Python, Terraform, the AWS provider, Pulumi, pulumi-aws and boto3 are unchanged, so no package that affects scan or scoring results changed.
 
 Using DriftFinder only as a scanning tool (no experiment) needs Python 3.11 or later and no Terraform or Pulumi.
 
