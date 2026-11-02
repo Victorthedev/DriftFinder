@@ -68,6 +68,8 @@ The experiment was run with these exact versions. The Docker image contains them
 | Pulumi AWS provider | 7.35.0 (installed automatically by the `pulumi-aws` package) |
 | Python packages | Exact versions with hashes in `requirements.lock` |
 
+After the reported run finished, `requirements.lock` was updated to fix known vulnerabilities. black and filelock (development tools), certifi (the certificate bundle) and eight opentelemetry packages that Pulumi uses for telemetry were updated, and one opentelemetry package was added. Python, Terraform, the AWS provider, Pulumi, pulumi-aws and boto3 are unchanged, so no package that affects scan or scoring results changed.
+
 Using DriftFinder only as a scanning tool (no experiment) needs Python 3.11 or later and no Terraform or Pulumi.
 
 ---
@@ -166,7 +168,7 @@ python -m pip install --no-deps -e .
 
 After activating the virtual environment, `python` refers to the right version, so the remaining commands in this README use plain `python`.
 
-`requirements.lock` installs the exact package versions used in the experiment, including Pulumi's Python SDK and the test tools. For scanning only, `python -m pip install -e .` is enough and accepts newer compatible versions.
+`requirements.lock` installs the package versions used in the experiment, apart from the updates noted under [Pinned versions](#pinned-versions), including Pulumi's Python SDK and the test tools. For scanning only, `python -m pip install -e .` is enough and accepts newer compatible versions.
 
 Verify:
 
@@ -388,6 +390,8 @@ After every DriftFinder scan, the runner also ran the IaC tool's own drift check
 | Pulumi | 18 | 18 | 0 | D14, D15 |
 
 The native checks reported no severity and no CIS control. Medians per check: Terraform 9.4 s, CloudFormation 10.6 s and Pulumi 6.4 s, against 3.8 s for a DriftFinder scan in the same run.
+
+In the Terraform raw output in `results/native/raw/`, the RDS master password is replaced with `[redacted]`. Terraform prints sensitive values unmasked in its JSON plan output. The password was generated randomly for the run and the database was deleted at teardown, and redacting it changes no result. The runner now masks every value Terraform marks as sensitive before saving its output.
 
 **Scan performance** was measured separately with the `benchmark` command, so that timings are not affected by the waits and changes of the drift run. The benchmark is in [`results/scan-benchmark/`](results/scan-benchmark/): 26 clean scans per environment, run natively on a MacBook Pro (2017, Intel Core i5-7267U 3.1 GHz, 16 GB RAM, macOS 13.7.8) with Low Power Mode off, from the United Kingdom against AWS eu-west-1.
 
