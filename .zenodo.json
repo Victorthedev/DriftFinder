@@ -1,7 +1,7 @@
 {
-  "title": "DriftFinder: open source multi-IaC security drift detection for AWS with CIS benchmark mapping (software and experiment package)",
+  "title": "DriftFinder, One Tool to Find Them All: Open Source, Security-Aware Drift Detection Across Multiple IaC Tools (software and experiment package)",
   "upload_type": "software",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "Apache-2.0",
   "description": "<p>DriftFinder is an open source, read-only tool that parses declared state from Terraform, AWS CloudFormation (including the AWS CDK) and Pulumi, queries live AWS state, detects property-level security drift in IaC-declared resources through a Normalised Resource Model (NRM) and maps findings to CIS AWS Foundations Benchmark v3.0.0 controls where one exists.</p><p>This archive also contains the complete experiment package used in the accompanying paper: the environment code for all three IaC tools, the automated experiment runner, the Docker image definition and lock file, the native drift check mapping, the ground truth log and the complete output of the reported drift run (20261026T125748Z) and the scan benchmark.</p>",
   "creators": [

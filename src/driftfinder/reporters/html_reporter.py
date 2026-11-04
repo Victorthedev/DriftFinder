@@ -29,4 +29,4 @@ def write_html(result: ScanResult, output_path: str) -> None:
 def render_html(result: ScanResult) -> str:
     env = _get_env()
     template = env.get_template(_TEMPLATE_NAME)
-    return template.render(result=result, version="1.0.0")
+    return template.render(result=result, version="1.0.1")

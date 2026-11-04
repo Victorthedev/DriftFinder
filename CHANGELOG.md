@@ -4,6 +4,14 @@ All notable changes to DriftFinder are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-11-04
+
+Documentation and version number only. No other code changes and no data changes. The published results were produced with 1.0.0.
+
+### Changed
+- README corrected to match the paper: removed an out-of-date scan timing note, updated the planned next steps and added how to cite the release.
+- Release title changed to match the paper, and the citation metadata now includes the Zenodo DOI.
+
 ## [1.0.0] - 2026-11-02
 
 First release, accompanying the paper and its experiment package.

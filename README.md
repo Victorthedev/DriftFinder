@@ -1,6 +1,8 @@
 # DriftFinder
 
-A multi-IaC security drift detection tool for AWS, with findings mapped to CIS AWS Foundations Benchmark v3.0.0 controls where one exists.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23875775.svg)](https://doi.org/10.5281/zenodo.23875775)
+
+Open source, security-aware drift detection across Terraform, CloudFormation and Pulumi, with findings mapped to CIS AWS Foundations Benchmark v3.0.0 controls where one exists.
 
 DriftFinder is developed as part of an MSc dissertation in Data Science and Big Data Analytics at Wrexham University. It detects when live AWS infrastructure has diverged from what Terraform, CloudFormation or Pulumi declares, rates every divergence by severity and maps it to the matching CIS control when the benchmark has one.
 
@@ -402,9 +404,7 @@ In the Terraform raw output in `results/native/raw/`, the RDS master password is
 | Pulumi | 26 | 9 | 2.56 s | 2.43 to 4.66 s |
 | **All** | **78** | **9 to 11** | **2.77 s** | **2.43 to 4.66 s** |
 
-Scan time depends on the computer and network as well as on DriftFinder. The drift run in `results/` was made on the same Mac with Low Power Mode on, which throttles the processor: its scans had a median of 19.5 s. The Docker run on a GitHub-hosted runner had a median of 6.3 s.
-
-The original manually executed run is kept in the git history of this repository.
+Scan time depends on the computer and network as well as on DriftFinder.
 
 ---
 
@@ -483,7 +483,17 @@ Running the experiment needs broader permissions. See [Permissions](#permissions
 
 ## What comes next
 
-Phase 2 (post-dissertation) plans include: async concurrent scanning, all 58 CIS controls, a TypeScript SDK, AI-assisted fix suggestions, an MCP server and a remediation command.
+Planned next: a second study running DriftFinder in scheduled, read-only mode on AWS accounts that teams use day to day, checking each finding against CloudTrail and change records; an inventory check for resources created outside IaC; tests with changes DriftFinder should ignore; scaling tests on larger estates and support for Azure and Google Cloud.
+
+---
+
+## How to cite
+
+If you use DriftFinder, please cite the archived release:
+
+Ubahakwe EV, Knowles A, Kuka C (2026) DriftFinder, One Tool to Find Them All: Open Source, Security-Aware Drift Detection Across Multiple IaC Tools (software and experiment package). Zenodo. https://doi.org/10.5281/zenodo.23875775
+
+GitHub also shows a "Cite this repository" button, generated from `CITATION.cff`.
 
 ---
 
