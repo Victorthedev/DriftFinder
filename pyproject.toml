@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "driftfinder"
-version = "1.0.0"
+version = "1.0.1"
 description = "Open source IaC compliance drift detection for AWS"
 readme = "README.md"
 license = { text = "Apache-2.0" }
